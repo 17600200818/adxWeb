@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>媒体管理</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+	<style type="text/css">
+				.selectbox{width:500px;height:220px;margin:0px auto;}
+				.selectbox div{float:left;}
+				.selectbox .select-bar{padding:0 9px;}
+				.selectbox .select-bar select{width:150px;height:200px;border:1px #A0A0A4 solid;padding:4px;font-size:14px;font-family:"microsoft yahei";}
+				.btn-bar{}
+				.btn-bar p{margin-top:10px;}
+				.btn-bar p .btn{width:40px;height:33px;cursor:pointer;font-family:simsun;font-size:10px;}
+	</style>
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+<!-- 内容区域 -->
+		<div class="main-container" id="main-container">
+			<!-- 				导航条 -->
+			<include file="Common/navigation"/>
+			<!-- 				导航条 -->	
+			
+			<div class="main-content">
+				<!-- #section:basics/content.breadcrumbs -->
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">卖方用户</a>
+						</li>
+						<li>
+							<a href="#">路由管理</a>
+						</li>
+						<li class="active">路由修改</li>
+					</ul>
+				</div>
+				
+				<div class="page-content" style="margin-left: 200px;margin-top: 20px;">
+					<include file="Common/settings.box"/>
+						<div class="row">
+								<div class="col-xs-12">
+									<!-- PAGE CONTENT BEGINS -->
+									<form class="form-horizontal" onsubmit="return validate_form(this)" action="/placeRoute/edit" method="post"  role="form">
+										<input type="hidden" value="{$result['id_seller']}" name="idSeller"/>
+										<input type="hidden" value="{$result['id']}" name="id"/>
+										<input type="hidden" value="{$result['id_media']}" name="idMedia"/>
+                                                                                <input type="hidden" value="{$result['id_place']}" name="idPlace"/>
+                                                                           
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">卖方名称<font style="color:red;">*</font></label>
+	
+											<div class="col-sm-9">
+												<input type="text"  value="{$result['company']}" disabled="disabled" class="col-xs-10 col-sm-5" />
+												<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</div>
+										</div>
+										
+										<!-- /section:elements.form -->
+										<div class="space-4"></div>
+                                                                                <div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">媒体名称<font style="color:red;">*</font></label>
+	
+											<div class="col-sm-9">
+												<input type="text"  value="{$result['medianame']}" disabled="disabled" class="col-xs-10 col-sm-5" />
+												<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</div>
+										</div>
+                                                                                <div class="space-4"></div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">广告名称<font style="color:red;">*</font></label>
+	
+											<div class="col-sm-9">
+												<input type="text"  value="{$result['placename']}" disabled="disabled" class="col-xs-10 col-sm-5" />
+												<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</div>
+										</div>
+
+										<!-- /section:elements.form -->
+										<div class="space-4"></div>
+	
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">路由名称<font style="color:red;">*</font></label>
+	
+											<div class="col-sm-9">
+												<input type="text"  name="name" value="{$result['name']}" placeholder="请输入路由名称" class="col-xs-10 col-sm-5" />
+												<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</div>
+										</div>
+										
+										<div class="space-4"></div>
+										
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">级别<font style="color:red;">*</font></label>
+											<div class="col-sm-9">
+												<select class="form-text" style="width: 168px;" name="level">
+												  <for start="1" end="11">
+												  	<if condition="$result['level'] eq $i">
+													  	<option value="{$i}" selected="selected">{$i}</option>
+													<else/>
+														<option value="{$i}">{$i}</option>	
+												  	</if>
+												  </for>
+												</select>
+											</div>
+										</div>
+										<div class="space-4"></div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="form-field-1">rtb</label>
+											<div class="tools_box">
+	                                                        <!--效果html开始-->
+															<div class="selectbox">
+																<div class="select-bar">
+																    <select multiple="multiple" id="select1">
+																    	<volist name="result.buyers" id="buyer">
+																    		<if condition="$buyer['buytype'] eq '1'">
+																    			<option value="{$buyer.id}">{$buyer.company}</option>
+																    		</if>
+																    	</volist>
+																    </select>
+																</div>
+																
+																<div class="btn-bar">
+																    <p><span id="add"><input type="button" class="btn" value=">" title="移动选择项到右侧"/></span></p>
+																    <p><span id="add_all"><input type="button" class="btn" value=">>" title="全部移到右侧"/></span></p>
+																    <p><span id="remove"><input type="button" class="btn" value="<" title="移动选择项到左侧"/></span></p>
+																    <p><span id="remove_all"><input type="button" class="btn" value="<<" title="全部移到左侧"/></span></p>
+																</div>
+																<div class="select-bar">
+																	<input  type="hidden" value="" name="dspIds" id="dspIds"/>
+																    <select multiple="multiple" id="select2">
+																    	<volist name="result.dsps" id="dsp">
+																    		<option value="{$dsp.id}">{$dsp.company}</option>
+																    	</volist>
+																    </select>
+																</div>	
+															</div>
+															<!--效果html结束-->
+										</div>
+										<div class="space-4"></div>
+										
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="form-field-1">adn</label>
+											<div class="tools_box">
+	                                                        <!--效果html开始-->
+															<div class="selectbox" style="padding-left: 13px;">
+																<div class="select-bar">
+																    <select multiple="multiple" id="select12">
+																        <volist name="result.buyers" id="buyer">
+																    		<if condition="$buyer['buytype'] eq '2'">
+																    			<option value="{$buyer.id}">{$buyer.company}</option>
+																    		</if>
+																    	</volist>
+																    </select>
+																</div>
+																<div class="btn-bar">
+																    <p><span id="add2"><input type="button" class="btn" value=">" title="移动选择项到右侧"/></span></p>
+																    <p><span id="add_all2"><input type="button" class="btn" value=">>" title="全部移到右侧"/></span></p>
+																    <p><span id="remove2"><input type="button" class="btn" value="<" title="移动选择项到左侧"/></span></p>
+																    <p><span id="remove_all2"><input type="button" class="btn" value="<<" title="全部移到左侧"/></span></p>
+																</div>
+																<div class="select-bar">
+																	<input  type="hidden" value="" name="adnIds" id="adnIds"/>
+																    <select multiple="multiple" id="select22" class="select22" name="">
+																    	<volist name="result.adns" id="adn">
+																    		<option value="{$adn.id}" selected="selected">{$adn.company}</option>
+																    	</volist>
+																    </select>
+																</div>	
+															</div>
+															<!--效果html结束-->
+										</div>
+                                                                                            <div class="form-group" id='isAllowGainTypeMsg' style="">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利模式 </label>
+                <div class="col-sm-3">
+                  <input type="radio" id="dijia" name="gainType"  value="1" /> 底价上浮
+                  <input type="radio" id="chengjiao" name="gainType"  value="2" /> 成交量扣量
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="gainTypeMsg"></span>
+											</span>
+                </div>
+              </div>
+                                                                                         <script type="text/javascript"> 
+                          
+                   if({$result['gaintype']} == 1){
+                                                     document.getElementById("dijia").checked=true;
+                                                    
+                                                }
+                                          if({$result['gaintype']} == 2)       {
+                                                     document.getElementById("chengjiao").checked=true;
+                                                    
+                                                    
+                                                }
+                      
+                      </script>
+										<div class="form-group" id='isAllowGainRate' style="">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利比例 </label>
+                <div class="col-sm-9">
+                  <input type="text" id="yingli" name="gainRate" value="{$result['gainrate']}" placeholder="盈利比例" id="GainRate" class="col-xs-10 col-sm-5" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" />
+                  <span class="help-inline col-xs-11 col-sm-6"  style="padding: 0;">
+                  <span style="font-size: 16px;display:block;margin-top:4px">%</span>
+												<span class="middle" style="color: red;" id="GainRateMsg"></span>
+											</span>
+                </div>
+              </div>
+                 <script>
+                         var isAllowGainTypeMsg=document.getElementById("isAllowGainTypeMsg");
+                         var isAllowGainRate=document.getElementById("isAllowGainRate");                    
+
+                                              if({$isAllowGain} == 0){
+                                                     isAllowGainTypeMsg.style.display="none";
+                                                     isAllowGainRate.style.display="none";
+                                           }
+
+
+                                                </script>
+										<div class="space-4"></div>
+										<div class="clearfix" style="margin-top:50px;">
+											<div class="col-md-offset-3 col-md-9">
+												<button class="btn btn-info" type="submit">
+													<i class="ace-icon fa fa-check bigger-110"></i>
+													确定
+												</button>
+	
+												&nbsp; &nbsp; &nbsp;
+												<button class="btn" type="reset" onclick="history.go(-1)">
+													<i class="ace-icon fa fa-undo bigger-110"></i>
+													取消
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>			
+					</div>
+				</div>	
+			</div>
+			
+			<!-- 				底部 -->
+			<include file="Index/bottom"/>
+		</div>
+</body>
+</html>
+
+	<script type="text/javascript">
+		$(function(){	
+			//第一个
+			//移到右边
+			$('#add').click(function(){
+				//先判断是否有选中
+				if(!$("#select1 option").is(":selected")){			
+					alert("请选择需要移动的选项")
+				}
+				//获取选中的选项，删除并追加给对方
+				else{
+					$('#select1 option:selected').appendTo('#select2');
+				}	
+			});
+			
+			//移到左边
+			$('#remove').click(function(){
+				//先判断是否有选中
+				if(!$("#select2 option").is(":selected")){			
+					alert("请选择需要移动的选项")
+				}
+				else{
+					$('#select2 option:selected').appendTo('#select1');
+				}
+			});
+			
+			//全部移到右边
+			$('#add_all').click(function(){
+				//获取全部的选项,删除并追加给对方
+				$('#select1 option').appendTo('#select2');
+			});
+			
+			//全部移到左边
+			$('#remove_all').click(function(){
+				$('#select2 option').appendTo('#select1');
+			});
+			
+			//双击选项
+			$('#select1').dblclick(function(){ //绑定双击事件
+				//获取全部的选项,删除并追加给对方
+				$("option:selected",this).appendTo('#select2'); //追加给对方
+			});
+			
+			//双击选项
+			$('#select2').dblclick(function(){
+				$("option:selected",this).appendTo('#select1');
+			});
+			
+			
+			
+			
+			
+			
+			//第二个
+			
+			//移到右边
+			$('#add2').click(function(){
+				//先判断是否有选中
+				if(!$("#select12 option").is(":selected")){			
+					alert("请选择需要移动的选项")
+				}
+				//获取选中的选项，删除并追加给对方
+				else{
+					$('#select12 option:selected').appendTo('#select22');
+				}	
+			});
+			
+			//移到左边
+			$('#remove2').click(function(){
+				//先判断是否有选中
+				if(!$("#select22 option").is(":selected")){			
+					alert("请选择需要移动的选项")
+				}
+				else{
+					$('#select22 option:selected').appendTo('#select12');
+				}
+			});
+			
+			//全部移到右边
+			$('#add_all2').click(function(){
+				//获取全部的选项,删除并追加给对方
+				$('#select12 option').appendTo('#select22');
+			});
+			
+			//全部移到左边
+			$('#remove_all2').click(function(){
+				$('#select22 option').appendTo('#select12');
+			});
+			
+			//双击选项
+			$('#select12').dblclick(function(){ //绑定双击事件
+				//获取全部的选项,删除并追加给对方
+				$("option:selected",this).appendTo('#select22'); //追加给对方
+			});
+			
+			//双击选项
+			$('#select22').dblclick(function(){
+				$("option:selected",this).appendTo('#select12');
+			});
+		});
+		
+		
+		function validate_form(thisform)
+		{
+			with (thisform)
+		    {
+				  if (validate_required(name,"请输入路由名称!")==false)
+				  {
+					  name.focus();
+					  return false
+				  }
+		    }
+			
+			  var all1 = ""; //定义变量全部保存
+	          $("#select2 option").each(function () {
+	             var val = $(this).val(); //获取单个value
+	             all1 += val+",";
+	          });
+	          $("#dspIds").val(all1);
+	          
+	          
+	          var all2 = ""; //定义变量全部保存
+	          $("#select22 option").each(function () {
+	             var val = $(this).val(); //获取单个value
+	             all2 += val+",";
+	          });
+	          $("#adnIds").val(all2);
+	          
+	          if(all1 == "" && all2==""){
+	        	  alert("dsp或者adn必须选择一项!");
+	        	  return false;
+	          }
+	          
+		}
+		
+		function validate_required(field,alerttxt)
+		{
+			with (field)
+		    {
+				  if (value==null||value=="")
+				  {
+					  alert(alerttxt);return false
+				  }
+				  else {
+					  return true
+				  }
+		    }
+		}
+		if("{$_GET['status']}" == "300"){
+			alert("路由名字已存在！");
+			name.focus();
+			throw SyntaxError();
+		}
+		
+	</script>

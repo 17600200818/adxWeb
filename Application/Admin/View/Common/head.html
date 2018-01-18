@@ -1,0 +1,210 @@
+<div class="navbar-container" id="navbar-container">
+    <!-- #section:basics/sidebar.mobile.toggle -->
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+        <span class="sr-only">Toggle sidebar</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+    <!-- /section:basics/sidebar.mobile.toggle -->
+    <div class="navbar-header pull-left">
+        <!-- #section:basics/navbar.layout.brand -->
+        <a href="#" class="navbar-brand">
+            <small>
+                <i class="fa fa-leaf"></i>
+                	AdExchange
+            </small>
+        </a>
+
+        <!-- /section:basics/navbar.layout.brand -->
+
+        <!-- #section:basics/navbar.toggle -->
+
+        <!-- /section:basics/navbar.toggle -->
+    </div>
+
+    <!-- #section:basics/navbar.dropdown -->
+    <div class="navbar-buttons navbar-header pull-right" role="navigation">
+        <ul class="nav ace-nav">
+            <li class="grey">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <i class="ace-icon fa fa-tasks"></i>
+                </a>
+            </li>
+
+            <li class="purple">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <i class="ace-icon fa fa-bell"></i>
+                </a>
+            </li>
+
+            <li class="green">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <i class="ace-icon fa fa-envelope"></i>
+                </a>
+            </li>
+
+            <!-- #section:basics/navbar.user_menu -->
+            <li class="light-blue">
+                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    <img class="nav-user-photo" src="__PUBLIC__/assets/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small id="userName">{$__USER__["name"]}</small>
+									{$__USER__["email"]}
+								</span>
+
+                    <i class="ace-icon fa fa-caret-down"></i>
+                </a>
+
+                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                    <li>
+                        <a href="#" data-toggle="modal"  data-target="#pwdResetHead">
+                            <i class="ace-icon fa fa-cog"></i>
+                            修改密码
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal"  data-target="#userInfoHead">
+                            <i class="ace-icon fa fa-user"></i>
+                            个人信息
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li>
+                        <a href="/index/logout">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            退出
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- /section:basics/navbar.user_menu -->
+        </ul>
+    </div>
+    <!--密码重置弹窗-->
+    <div class="modal fade" id="pwdResetHead" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        重置密码
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <!-- #section:elements.form -->
+                        <input type="hidden" id="userId">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 原密码 </label>
+
+                            <div class="col-sm-9">
+                                <input type="password" id="pwd" placeholder="原密码" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 新密码 </label>
+
+                            <div class="col-sm-9">
+                                <input type="password" id="newPwd" placeholder="新密码" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 确认新密码 </label>
+
+                            <div class="col-sm-9">
+                                <input type="password" id="confirmNewPwd" placeholder="确认新密码" class="form-control" />
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal" id="subPwdHead">修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- /section:basics/navbar.dropdown -->
+
+    <!--个人信息弹窗-->
+    <div class="modal fade" id="userInfoHead" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="">
+                        个人信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <!-- #section:elements.form -->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 邮箱 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="email" value="{$_SESSION['userInfo']['email']}" placeholder="邮箱" class="form-control" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 账户名称 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" id="name" placeholder="账户名称" class="form-control" value="{$_SESSION['userInfo']['name']}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" > 手机号码 </label>
+
+                            <div class="col-sm-9">
+                                <input type="text" value="{$_SESSION['userInfo']['mobiletel']}" id="mobileTel" placeholder="手机号码" class="form-control" />
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal" id="profile">修改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <script>
+        $('#subPwdHead').click(function () {
+            var pwd = $('#pwd').val();
+            var newPwd = $('#newPwd').val();
+            var confirmNewPwd = $('#confirmNewPwd').val();
+            $.post('/self/setPwd', {'pwd' : pwd, 'newPwd' : newPwd, 'confirmNewPwd' : confirmNewPwd}, function (result) {
+                alert(result.msg);
+            })
+        });
+
+        $('#profile').click(function () {
+            var name = $('#name').val();
+            var mobileTel = $('#mobileTel').val();
+            $.post('/self/profile', {'name' : name, 'mobileTel' : mobileTel}, function (result) {
+                alert(result.msg);
+                if(result.status == 'ok') {
+                    $('#userName').html(result.name);
+                }
+            })
+        });
+    </script>
+</div>

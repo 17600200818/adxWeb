@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>广告审核</title>
+
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+	<!-- page specific plugin styles -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/chosen.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/jquery-ui.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/datepicker.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ui.jqgrid.css" />
+	<!-- text fonts -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+	<!-- ace styles -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/page.css" />
+	<!-- ace settings handler -->
+	<script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+	<!--<script type="text/javascript">-->
+		<!--window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");-->
+	<!--</script>-->
+	<script type="text/javascript" src="__PUBLIC__/assets/js/jquery-1.7.1.min.js"></script>
+	<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+	<!-- page specific plugin scripts -->
+	<script src="__PUBLIC__/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+	<!-- ace scripts -->
+	<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+	<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/lightbox.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/reveal.css">
+
+	<style>
+		hr{
+			margin: 10px 0;
+		}
+	</style>
+</head>
+
+<body class="no-skin">
+
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+	<script type="text/javascript">
+		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+	</script>
+
+	<!-- /.navbar-container -->
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+	<script type="text/javascript">
+		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+	</script>
+
+	<!-- #section:basics/sidebar -->
+	<!-- 导航条 -->
+	<include file="Common/navigation"/>
+	<!-- /section:basics/sidebar -->
+
+	<!-- 正文 -->
+	<div class="main-content">
+		<!-- #section:basics/content.breadcrumbs -->
+		<div class="breadcrumbs" id="breadcrumbs">
+			<script type="text/javascript">
+				try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+			</script>
+
+			<ul class="breadcrumb">
+				<li>
+					<i class="ace-icon fa fa-home home-icon"></i>
+					<a href="#">广告审核</a>
+				</li>
+
+				<li>
+					<a href="#">素材信息</a>
+				</li>
+			</ul><!-- /.breadcrumb -->
+
+			<!-- #section:basics/content.searchbox -->
+			<!--<div class="nav-search" id="nav-search">
+				<form class="form-search">
+							<span class="input-icon">
+								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
+				</form>
+			</div>--><!-- /.nav-search -->
+
+			<!-- /section:basics/content.searchbox -->
+		</div>
+
+		<!-- 				搜索区域 start-->
+		<div class="page-content" style="padding-bottom: 0;">
+			<div class="widget-box" style="margin-bottom: 20px;height:206px;">
+				<div class="widget-header widget-header-small">
+					<h5 class="widget-title lighter">素材查询</h5>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main" style="height: 190px">
+						<div class="row">
+							买方名称:  <select style="width: 168px;" id="idBuyer">
+							<option value="">选择买方名称</option>
+							<volist name="dspList" id="vo">
+								<option value="{$vo.id}">{$vo.company}</option>
+							</volist>
+							</select>
+								广告主名称:<select style="width: 168px;" id="idAdvertiser" class="chzn-select" data-placeholder="全部广告主">
+								<option value="">选择广告主名称</option>
+							</select>
+							<span class="search-title">广告主素材ID:</span><input style="width:70px" type="text"  class="" id="buyerCrid">
+							<span class="search-title">汇选素材ID:</span><input style="width:70px" type="text"  class="" id="creativeId">
+							<span class="search-title">审核状态:</span><select class="" style="width: 168px;" id="status">
+							<option value="">全部审核状态</option>
+							<option value="1">待审核</option>
+							<option value="2">审核通过</option>
+							<option value="3">审核不通过</option>
+						</select>
+							<br><hr>
+							<span class="search-title">尺寸:</span><input type="text" style="width:70px"  class="" id="width"  placeholder="宽">
+							<input type="text"  class="form-text" id="height" style="width:70px" placeholder="高">
+							<span class="search-title">行业分类:</span>
+							<select class="" style="width: 120px;" id="category1">
+								<option value="">行业分类</option>
+								<volist name="category" id="vo">
+									<option value="{$vo.c1}">{$vo.n1}</option>
+								</volist>
+							</select>
+							<select class="" style="width: 120px;" id="category2">
+								<option value="">行业子分类</option>
+							</select>
+							<span class="search-title">日期:</span><input style="width: 120px;" class="date-picker " value="{$startTime}" id="start_time" type="text" data-date-format="yyyy-mm-dd" />
+								<span class="" style="width: 18px;">
+									<i class="fa fa-exchange"></i>
+								</span>
+							<input style="width: 120px;" class="date-picker" id="end_time" type="text" value="{$endTime}" data-date-format="yyyy-mm-dd" />
+							素材地址:
+							<input type="text" id="CreativeUrl">
+							<br><hr>
+
+							<span class="search-title">文件类型:</span>
+							<?php foreach($fileTypes as $k => $v){  ?>
+								<label style="margin-left: 10px">
+									<input name="fileType" class="ace ace-checkbox-2" type="checkbox" value="{$k}" />
+									<span class="lbl">{$v|strtoupper}</span>
+								</label>
+							<?php } ?>
+
+							<button class="btn btn-info" style="border-radius: 5px;width: 110px;height:40px;margin-left: 20px" id="search">
+								<i class="ace-icon glyphicon glyphicon-search"></i>
+								查询
+							</button>
+
+							<button class="btn btn-info" attr="all" style="width: 80px;height:40px;margin-left: 15px;border-radius: 5px"    id="checkAll">
+								全选
+							</button>
+							<if condition="$isMulitAudit">
+							<button class="btn btn-success checkCreative"  attr="pass" style="width: 80px;height:40px;margin-left: 20px;border-radius: 5px" >
+								通过
+							</button>
+							<button class="btn btn-danger checkCreative" attr="refuse" style="width: 80px;height:40px;margin-left: 20px;border-radius: 5px;">
+								拒绝
+							</button>
+							</if>
+							<if condition="$isAuditStatuses">
+								<button class="btn btn-warning" style="height:40px;margin-left: 20px;border-radius: 5px;"  data-toggle="modal" data-target="#creativeAuditModal" id="setAudit">
+									批量设置媒体审核状态
+								</button>
+							</if>
+							<hr>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+		<!-- 				搜索区域 end-->
+
+		<!-- /section:basics/content.breadcrumbs -->
+		<div class="page-content">
+			<!-- #section:settings.box -->
+			<div class="ace-settings-container" id="ace-settings-container">
+				<div class="ace-settings-box clearfix" id="ace-settings-box">
+					<div class="pull-left width-50">
+						<!-- #section:settings.skins -->
+						<div class="ace-settings-item">
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">
+									<option data-skin="no-skin" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>&nbsp; Choose Skin</span>
+						</div>
+
+						<!-- /section:settings.skins -->
+
+						<!-- #section:settings.navbar -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+							<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+						</div>
+
+						<!-- /section:settings.navbar -->
+
+						<!-- #section:settings.sidebar -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+							<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+						</div>
+
+						<!-- /section:settings.sidebar -->
+
+						<!-- #section:settings.breadcrumbs -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+							<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+						</div>
+
+						<!-- /section:settings.breadcrumbs -->
+
+						<!-- #section:settings.rtl -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+						</div>
+
+						<!-- /section:settings.rtl -->
+
+						<!-- #section:settings.container -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+							<label class="lbl" for="ace-settings-add-container">
+								Inside
+								<b>.container</b>
+							</label>
+						</div>
+
+						<!-- /section:settings.container -->
+					</div><!-- /.pull-left -->
+
+					<div class="pull-left width-50">
+						<!-- #section:basics/sidebar.options -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+							<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+						</div>
+
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+							<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+						</div>
+
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+							<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+						</div>
+
+						<!-- /section:basics/sidebar.options -->
+					</div><!-- /.pull-left -->
+				</div><!-- /.ace-settings-box -->
+			</div><!-- /.ace-settings-container -->
+
+			<!-- /section:settings.box -->
+			<div class="page-content-area">
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<div>
+							<ul class="ace-thumbnails clearfix" id="creativeList">
+								<!-- #section:pages/gallery.caption -->
+								<!--<li style="border: none;margin-left: 20px">-->
+								<!--<div class="widget-box widget-color-blue">-->
+								<!--<div class="widget-header">-->
+								<!--<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>-->
+								<!--</div>-->
+
+								<!--<div class="widget-body">-->
+								<!--<div class="widget-main" style="padding:0px;" >-->
+								<!--<a class="example-image-link" href="http://v.behe.com/2014/11/13/a640b256fba23fd23693ee5fc3946eee.jpg" data-lightbox="example-2" data-title="Optional caption."><img width="100%" height="170" alt="150x150" class="example-image" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" /></a>-->
+								<!--</div>-->
+
+								<!--<div style="padding:0px;margin:0px">-->
+								<!--<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">-->
+								<!--<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>-->
+								<!--<span>通过</span>-->
+								<!--</a>-->
+								<!--<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:126px;margin:-3px;padding:0px;border-left: 1px solid white">-->
+								<!--<i class="ace-icon fa fa-shopping-cart bigger-110"></i>-->
+								<!--<span>拒绝</span>-->
+								<!--</a>-->
+								<!--</div>-->
+								<!--</div>-->
+								<!--</div>-->
+
+								<!--</li>-->
+								<!--<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name" style="background: #EDF3F4;color:#336199"> DSP名称: </div>
+
+												<div class="profile-info-value">
+													<span class="editable">北京汇选网络科技有限公司</span>
+												</div>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name" style="background: #EDF3F4;color:#336199"> 买方素材ID: </div>
+
+												<div class="profile-info-value">
+													<span class="editable">11111</span>
+												</div>
+											</div>
+											<div class="profile-info-row">
+												<div class="profile-info-name" style="background: #EDF3F4;color:#336199"> 尺寸/文件类型: </div>
+												<div class="profile-info-value" style="padding: 0;line-height: 30px">
+													<span class="editable" style="padding-left: 5px">
+														300*250
+													</span>
+													<span>JPG</span>
+												</div>
+											</div>
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:146px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:146px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>-->
+<!--
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>
+
+								<li style="border: none;margin-left: 20px">
+									<div class="widget-box widget-color-blue">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter btn btn-primary btn-lg creative" data-toggle="modal" data-target="#myModal">查看素材詳情</h5>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main" style="padding:0px;" >
+												<a href="__PUBLIC__/bs/assets/images/gallery/image-1.jpg" data-rel="colorbox" >
+													<img width="100%" height="170" alt="150x150" src="__PUBLIC__/bs/assets/images/gallery/thumb-1.jpg" />
+												</a>
+											</div>
+
+											<div style="padding:0px;margin:0px">
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:0px;padding:0px">
+													<i class="ace-icon fa fa-shopping-cart bigger-110" ></i>
+													<span>通过</span>
+												</a>
+												<a href="javascript:;" class="btn btn-block btn-primary bootbox-confirm" style="width:124px;margin:-3px;padding:0px;border-left: 1px solid white">
+													<i class="ace-icon fa fa-shopping-cart bigger-110"></i>
+													<span>拒绝</span>
+												</a>
+											</div>
+										</div>
+									</div>
+
+								</li>-->
+								<!-- /section:pages/gallery.caption -->
+							</ul>
+						</div><!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.page-content-area -->
+		</div><!-- /.page-content -->
+
+		<div class="tcdPageCode" id="tcdPageCode"></div>
+
+	</div><!-- /.main-content -->
+	<!-- 正文结束 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" style="width: 1200px;height: 570px;">
+			<div class="modal-content" style="height: 570px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						素材详情-<span id="creative" class="id"></span>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="profile-user-info profile-user-info-striped" style="width: 300px;text-align: left;margin: 0px;position: relative;top:25px;left: 40px">
+						<div class="profile-info-row">
+							<div class="profile-info-name"> ID </div>
+
+							<div class="profile-info-value">
+								<span class="editable id"></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 买方账户 </div>
+
+							<div class="profile-info-value">
+								<span class="editable" id="buyer"></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 广告主名称 </div>
+
+							<div class="profile-info-value">
+								<span class="editable" id="advertiserName"></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 买方素材ID </div>
+
+							<div class="profile-info-value" style="background-color: #F5F5F5;">
+								<!--<span class="editable" id="buyerCrid1"></span>-->
+                              <input type="text" style="border: none;" readonly id="buyerCrid1">
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 素材地址 </div>
+
+							<div class="profile-info-value">
+								<span class="editable btn-sm" id="url" data-rel="popover" title="素材地址 url" data-content=""></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 点击地址 </div>
+
+							<div class="profile-info-value">
+								<span class="editable btn-sm" id="clickurl" data-rel="popover" title="点击地址 clickUrl" data-content=""></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 落地页 </div>
+
+							<div class="profile-info-value">
+								<span class="editable btn-sm" id="loadingpage" data-rel="popover" title="落地页 LoadingPage" data-content=""></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 行业分类 </div>
+
+							<div class="profile-info-value">
+								<i class="fa fa-map-marker light-orange bigger-110"></i>
+								<span class="editable" id="category"></span>
+								<span class="editable" id="subcategory"></span>
+							</div>
+						</div>
+						<!--<span class="btn btn-sm" data-rel="popover" title="Default" data-content="Heads up! This alert needs your attention, but it's not super important.">Default</span>-->
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 曝光监测 </div>
+
+							<div class="profile-info-value">
+								<span class="editable btn-sm" id="monitor" data-rel="popover" title="曝光监测 impTrackers" data-content=""></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 点击监测 </div>
+
+							<div class="profile-info-value">
+								<span class="editable btn-sm" id="clk" data-rel="popover" title="点击监测 clkTrackers" data-content=""></span>
+							</div>
+						</div>
+
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 上传时间 </div>
+
+							<div class="profile-info-value">
+								<span class="editable" id="ctime"></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 审核时间 </div>
+
+							<div class="profile-info-value">
+								<span class="editable" id="mtime"></span>
+							</div>
+						</div>
+
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 审核状态 </div>
+
+							<div class="profile-info-value">
+								<span class="editable" id="state"></span>
+							</div>
+						</div>
+					</div >
+
+					<div style="<?php echo $isStatusInfo ? '' : 'display:none;'; ?>height: 430px;width: 700px;text-align: left;margin: 0px;position: relative;top:-405px;left: 390px;overflow: scroll">
+						<table id="sample-table-1" class="table table-striped table-bordered table-hover" >
+							<thead>
+							<tr>
+								<th>媒体账户名称</th>
+								<th>媒体素材ID</th>
+								<th>媒体审核状态</th>
+								<th>汇选审核状态</th>
+								<th class="hidden-480">操作</th>
+							</tr>
+							</thead>
+							<tbody id="creative_upload">
+
+							</tbody>
+						</table>
+						<input type="hidden" value="{$isAudit}" id="IsAudit">
+						<!-- /section:pages/profile.info -->
+						<div class="space-20"></div>
+					</div>
+
+				</div>
+				<!--<div class="modal-footer" style="position: relative;bottom: 0px;left: 0px;">
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal">关闭
+					</button>
+				</div>-->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div class="modal fade" id="creativeAuditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" style="width: 1200px;height: 570px;">
+			<div class="modal-content" style="height: 570px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×
+					</button>
+					<h4 class="modal-title">
+						批量审核
+					</h4>
+				</div>
+				<input type="hidden" name="auditCreatives" id="auditCreatives">
+				<div class="modal-body">
+					<div class="" style="width: 300px;height: 430px;text-align: left;margin: 0px;position: relative;top:25px;left: 40px;overflow: scroll" id="creativeIds">
+
+					</div >
+
+					<div style="<?php echo $isStatusInfo ? '' : 'display:none;'; ?>height: 430px;width: 700px;text-align: left;margin: 0px;position: relative;top:-405px;left: 390px;overflow: scroll">
+						<table id="sample-table-2" class="table table-striped table-bordered table-hover" >
+							<thead>
+							<tr>
+								<th>媒体账户名称</th>
+								<th class="hidden-480">操作</th>
+							</tr>
+							</thead>
+							<tbody id="">
+							<volist name="sellers" id="v">
+								<tr>
+									<td class="hidden-480">
+										{$v.company}
+									</td>
+									<td class="hidden-480">
+										<button type="button" class="btn btn-success btn-xs" onclick='mulitSetSellerAuditStatus({$v.id}, 1)' style="margin-right: 20px;">允许</button>
+										<button type="button" class="btn btn-danger btn-xs" onclick='mulitSetSellerAuditStatus({$v.id}, 2)'>拒绝</button></td>
+								</tr>
+							</volist>
+							</tbody>
+						</table>
+						<!-- /section:pages/profile.info -->
+						<div class="space-20"></div>
+					</div>
+
+				</div>
+				<!--<div class="modal-footer" style="position: relative;bottom: 0px;left: 0px;">
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal">关闭
+					</button>
+				</div>-->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- 尾部 -->
+	<include file="Common/footer"/>
+	<input type="hidden" id="nowpage" value="1" />
+	<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+		<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+	</a>
+</div><!-- /.main-container -->
+<div id="myModalVideo" class="reveal-modal" style="width:680px;height: 500px;">
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+
+
+<!--<script src="__PUBLIC__/bs/assets/js/excanvas.min.js"></script>-->
+
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.colorbox-min.js"></script>
+
+<script src="__PUBLIC__/assets/js/BeAlert.js"></script>
+<!--[if lte IE 8]>
+<script src="__PUBLIC__/assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="__PUBLIC__/assets/js/jquery-ui.custom.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootbox.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.easypiechart.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.gritter.min.js"></script>
+<script src="__PUBLIC__/assets/js/spin.min.js"></script>
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/chosen.jquery.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+	$("#idAdvertiser").chosen();
+
+	jQuery(function($) {
+
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+
+		$('[data-rel=popover]').popover({
+			html:true
+		});
+	});
+
+	getcretaivelist();
+
+	$("#search").click(function(){
+		getcretaivelist('search');
+	});
+
+	function showVideo(url){
+//		$("#swf").stop();
+		var media1 = '<a class="media" href="'+url+'"></a>';
+		$('#myModalVideo').prepend(media1);
+		$('.media').media({ width:600, height:450});
+
+	}
+
+	function getcreative(id){
+		$.ajax({
+			type: "POST",
+			url: '/Creative/info',
+			dataType: "json",
+			data: {"id": id},
+			success: function (a) {
+				if (a.status == "ok") {
+					var obj = a.data.creative_info;
+					var status;
+					switch(obj.status)
+					{
+						case "2":
+							status = '通过';
+							break;
+						case "1":
+							status = '待审核';
+							break;
+						case "3":
+							status = '审核未通过';
+							break;
+					}
+					$(".id").html('<a href="'+obj.loadingpage+'" target="_blank">'+obj.id+'</a>');
+					$('#buyer').html(obj.idbuyer);
+					$("#advertiserName").html(obj.idadvertiser);
+					$("#buyerCrid1").val(obj.buyercrid);
+					$("#category").html("汽车");
+					$('#subcategory').html("高端汽车");
+					if(obj.url) {
+						$("#url").html(cutString(obj.url,20));
+					}else {
+						$("#url").html('');
+					}
+					$("#url").attr('data-content',obj.url);
+					if(obj.clickurl) {
+						$("#clickurl").html(cutString(obj.clickurl,20));
+					}else {
+						$("#clickurl").html('');
+					}
+					$("#clickurl").attr('data-content',obj.clickurl);
+					if(obj.loadingpage) {
+						$("#loadingpage").html(cutString(obj.loadingpage,20));
+					}else {
+						$("#loadingpage").html('');
+					}
+					$("#loadingpage").attr('data-content',obj.loadingpage);
+					if(obj.clktrackers) {
+						$("#clk").html(cutString(obj.clktrackers,20));
+					}else {
+						$("#clk").html('');
+					}
+					$("#clk").attr('data-content',obj.clktrackers);
+					if(obj.imptrackers) {
+						$("#monitor").html(cutString(obj.imptrackers,20));
+					}else {
+						$("#monitor").html('');
+					}
+					$("#monitor").attr('data-content',obj.imptrackers);
+					$("#ctime").html(obj.ctime);
+					$("#mtime").html(obj.mtime);
+					$("#state").html(status);
+					var str = '';
+					if(a.data.creative_upload != ''){
+						$.each(a.data.creative_upload, function (i, items) {
+							str +=	"<tr><td>"+ items.company +"</td><td>"+ items.mediacrid +"</td><td class=\"hidden-480\">"+ items.status +"</td><td>"+items.allow +"</td>";
+							if (items.allow == '<span class="label label-success arrowed-in arrowed-in-right">通过</span>') {
+								str += "<td class=\"hidden-480\"><button type=\"button\" class=\"btn btn-danger btn-xs\" onclick='setHuiXuan("+ items.id +",2)'>拒绝</button></td></tr>";
+							}else {
+								str += "<td class=\"hidden-480\"><button type=\"button\" class=\"btn btn-success btn-xs\" onclick='setHuiXuan("+ items.id +",1)'>通过</button></td></tr>";
+							}
+
+						});
+					}else{
+						str +=	"<tr colspan=\"4\" ><td>无数据</td><td></td><td></td><td></td><td></td></tr>";					}
+
+					$("#creative_upload").html();
+					$("#creative_upload").html(str);
+					$('[data-rel=popover]').popover({
+						html:true
+					});
+				} else {
+
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	}
+
+
+	function setHuiXuan(id,status){
+		//alert(id);
+		var creativeId = $(".id").html();
+		$.ajax({
+			type: "POST",
+			url: '/Creative/setAuditStatus',
+			dataType: "json",
+			data: {"id": id,"status":status},
+			success: function (a) {
+				if (a.status == "ok") {
+					alert("成功!");
+					getcreative(creativeId);
+				} else {
+					alert("修改失败!");
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	}
+
+	function cutString(str, len) {
+		//length属性读出来的汉字长度为1
+		if(str.length*2 <= len) {
+			return str;
+		}
+		var strlen = 0;
+		var s = "";
+		for(var i = 0;i < str.length; i++) {
+			s = s + str.charAt(i);
+			if (str.charCodeAt(i) > 128) {
+				strlen = strlen + 2;
+				if(strlen >= len){
+					return s.substring(0,s.length-1) + "...";
+				}
+			} else {
+				strlen = strlen + 1;
+				if(strlen >= len){
+					return s.substring(0,s.length-2) + "...";
+				}
+			}
+		}
+		return s;
+	}
+
+
+	$("#idBuyer").change(function(){
+		var idBuyer = $("#idBuyer").val();
+		$.ajax({
+			type: "POST",
+			url: '/Common/getAdvertiserList',
+			dataType: "json",
+			data: {
+				idBuyer:idBuyer
+			},
+			success: function (a) {
+				if (a.status == "ok") {
+					var str = "<option value=\"\">选择广告主名称</option>";
+					var data = eval(a.data);
+					$.each(data, function (i, items) {
+						str +=	"<option value="+ items.id +">"+ items.name +"</option>";
+					});
+					$("#idAdvertiser").html();
+					$("#idAdvertiser").chosen("destroy");
+					$("#idAdvertiser").html(str);
+					$("#idAdvertiser").chosen();
+				} else {
+
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	});
+
+	$("#category1").change(function(){
+		var category1 = $("#category1").val();
+		$.ajax({
+			type: "POST",
+			url: '/Common/getIndustryCategory2',
+			dataType: "json",
+			data: {
+				category1:category1
+			},
+			success: function (a) {
+				if (a.status == "ok") {
+					var str = "<option value=\"\">行业子分类</option>";
+					var data = eval(a.data);
+					$.each(data, function (i, items) {
+						str +=	"<option value="+ items.c2 +">"+ items.n2 +"</option>";
+					});
+					$("#category2").html();
+					$("#category2").html(str);
+				} else {
+
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	});
+
+	function getcretaivelist(flag){
+		var filetype = [];
+		var buyerCrid = $("#buyerCrid").val();
+		var idAdvertiser = $("#idAdvertiser").val();
+		var idBuyer = $("#idBuyer").val();
+		var status = $("#status").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		$('input[name="fileType"]:checked').each(function(item){
+			filetype.push($(this).val());
+		});
+		var filetype_str = filetype.join(",");
+		var width = $("#width").val();
+		var height = $("#height").val();
+		var category1 = $("#category1").val();
+		var category2 = $("#category2").val();
+		var creativeId = $("#creativeId").val();
+		var nowpage = $("#nowpage").val();
+		var creativeUrl = $("#CreativeUrl").val();
+		$.ajax({
+			type: "POST",
+			url: '/Creative/index',
+			dataType: "json",
+			data: {
+				page:nowpage,
+				creativeId:creativeId,
+				width:width,
+				height:height,
+				start_time:start_time,
+				end_time:end_time,
+				status:status,
+				idAdvertiser:idAdvertiser,
+				buyerCrid: buyerCrid,
+				idBuyer:idBuyer,
+				filetype_str:filetype_str,
+				category:category1 + "-" +category2,
+				creativeUrl: creativeUrl,
+				flag:flag
+			},
+			success: function (a) {
+				if (a.status == "ok") {
+					var data = eval(a.data);
+					var str = '';
+					var checkstate;
+					var fileext;
+					$.each(data, function (i, items) {
+						switch (items.status) {
+							case "通过":
+								checkstate = 'green';
+								break;
+							case "未通过":
+								checkstate = 'red';
+								break;
+							case "待审核":
+								checkstate = 'orange';
+								break;
+						}
+						switch (items.fileext) {
+							case '1':
+								fileext = 'jpg';
+								break;
+							case '2':
+								fileext = 'png';
+								break;
+							case '3':
+								fileext = 'gif';
+								break;
+							case '4':
+								fileext = 'swf';
+								break;
+							case '5':
+								fileext = 'flv';
+								break;
+							case '6':
+								fileext = 'mp4';
+								break;
+							case '7':
+								fileext = '动态素材';
+								break;
+						}
+						str += "<li style=\"border: none;margin-left: 20px;width:300px;height:370px\">";
+						str += "<div class=\"widget-box widget-color-" + checkstate + "\">";
+						str += "<div class=\"widget-header\"><label>";
+						str += "<input name=\"check\" class=\"ace ace-checkbox-2\" type=\"checkbox\" value=\"" + items.id + "\"/>";
+						str += "<span class=\"lbl widget-color-" + checkstate + "\"></span></label>";
+						str += "<h5 class=\"widget-title bigger widget-color-" + checkstate + " lighter creative\" onclick=\"getcreative(" + items.id + ")\" data-toggle=\"modal\" data-target=\"#myModal\">素材ID:" + items.id + "&nbsp;&nbsp;" + items.ctime + "</h5></div>";
+						str += "<div class=\"widget-body\">";
+						str += "<div class=\"widget-main\" style=\"padding:0;width:300px;height:270px;overflow: hidden\"><div style='height: 170px'>";
+						if (fileext == 'mp4') {
+							str += "<a href=\"javascript:;\" data-reveal-id=\"myModalVideo\" onclick=\"showVideo('" + items.url + "')\"><img src=\"/Public/images/link.gif\" width=\"195\" height=\"155\" style=\"position: absolute; cursor:pointer;\" /><video width=\"300px\" height=\"170px\" alt=\"150x150\" src=\"" + items.url + "\"/></video>";
+						} else if (fileext == 'swf') {
+							str += "<a href=\"javascript:;\" data-reveal-id=\"myModalVideo\"><img src=\"/Public/images/link.gif\" width=\"195\" height=\"155\" style=\"position: absolute; cursor:pointer;\" onclick=\"showVideo('" + items.url + "')\" /><embed width=\"289px\" height=\"170px\"  src='" + items.url + "'  loop=\"false\">";
+						} else if (fileext == 'flv'){
+							str += "<a class=\"example-image-link\" href=\""+items.url+"\"><img width=\"289px\" height=\"170px\" alt=\"150x150\" class=\"example-image\" src=\"/Public/uploads/creative/2fdda3cc7cd98d1025686c3b203fb80e7bec907f.jpg\"  onload=\"javascript:resizeimg(this,298,170)\"/>";
+
+						}else{
+							str += "<a class=\"example-image-link\" href=\""+items.url+"\" data-lightbox=\"example-2\" data-title=\"Optional caption.\"><img width=\"289px\" height=\"170px\" alt=\"150x150\" class=\"example-image\" src=\""+items.url+"\"  onload=\"javascript:resizeimg(this,298,170)\"/>";
+						}
+						str += "</a></div>";
+						str += "<div class=\"profile-info-row\" style='width:100%'> <div class=\"profile-info-name\" style=\"background: #EDF3F4;color:#336199\"> 买方名称: </div> <div style='background-color: #f2f9f8' class=\"profile-info-value\" style='width:168px'> <span class=\"editable\">"+ items.buyerName+"</span> </div> </div> <div class=\"profile-info-row\"> <div class=\"profile-info-name\" style=\"background: #EDF3F4;color:#336199\"> 买方素材ID: </div>";
+						str += "<div class=\"profile-info-value\" style='background-color: #f5f5f5;width:63%;'>" +
+								"<input type='text' style='border:none;height: 24px;padding: 0;' readonly value='"+ items.buyercrid +"'></div> </div>";
+						str += "<div class=\"profile-info-row\" style='width:100%'> <div class=\"profile-info-name\" style=\"background: #EDF3F4;color:#336199\"> 尺寸/文件类型: </div> <div style='background-color: #f2f9f8' class=\"profile-info-value\" style=\"padding: 0;line-height: 30px\"> <span class=\"editable\" style=\"padding-left: 5px\">"+ items.size +"</span> <span>"+ fileext+"</span> </div> </div>";
+						var isAudit = $('#IsAudit').val();
+						if(items.status == '通过'){
+							str += "</div>";
+							if (isAudit){
+								str += "<div style=\"padding:0px;margin:0px\"> <a href=\"javascript:;\" class=\"btn disabled\" style=\"width:154px;margin:0px;padding:0px\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>通过1</span> </a><a href=\"javascript:;\" class=\"btn btn-block btn-primary bootbox-confirm\" onclick=\"setStatus(3,"+items.id+")\" style=\"width:147px;margin:-3px;padding:0px;border-left: 1px solid white\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>拒绝</span> </a> </div> ";
+							}
+							str += "</div> </div> </li>";
+						}else if(items.status == '未通过'){
+							str += "</div>";
+							if (isAudit){
+								str += "<div style=\"padding:0px;margin:0px\"> <a href=\"javascript:;\" class=\"btn btn-block btn-primary bootbox-confirm\" onclick=\"setStatus(2,"+items.id+")\"style=\"width:154px;margin:0px;padding:0px\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>通过</span> </a><a href=\"javascript:;\" class=\"btn disabled\"  style=\"width:147px;margin:-3px;padding:0px;border-left: 1px solid white;cursor: none;\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>拒绝</span> </a> </div>"
+							}
+							str += " </div> </div> </li>";
+						}else{
+							str += "</div>";
+							if (isAudit){
+								str += "<div style=\"padding:0px;margin:0px\"> <a href=\"javascript:;\" class=\"btn btn-block btn-primary bootbox-confirm\" onclick=\"setStatus(2,"+items.id+")\"style=\"width:154px;margin:0px;padding:0px\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>通过</span> </a><a href=\"javascript:;\" class=\"btn btn-block btn-primary bootbox-confirm\" onclick=\"setStatus(3,"+items.id+")\" style=\"width:147px;margin:-3px;padding:0px;border-left: 1px solid white\"> <i class=\"ace-icon fa fa-shopping-cart bigger-110\"></i> <span>拒绝</span> </a> </div>"
+							}
+							str += " </div> </div> </li>";
+						}
+
+					});
+					$("#creativeList").html();
+					$("#creativeList").html(str);
+
+					$.fn.pageHtml(a.nowPage, a.page, 'pageId', 'tcdPageCode', 'nowpage', 'creativeList');
+
+				} else {
+
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	}
+
+	function setStatus(status,id){
+		bootbox.confirm("确定要执行此操作吗?", function(result) {
+			if(result) {
+				$.ajax({
+					type: "POST",
+					url: '/Creative/audit',
+					dataType: "json",
+					data: {'id': id,'status':status},
+					success: function (a) {
+						if (a.status == "ok") {
+							alert('success');
+							getcretaivelist(1,0);
+						} else {
+
+						}
+					},
+					error: function (a, b, c) {
+
+					}
+				});
+			}
+		});
+	}
+	//按比例缩放图片   第一种缩放图片
+	function resizeimg(ImgD, iwidth, iheight) {
+		var image = new Image();
+
+		image.src = ImgD.src;
+
+		if (image.width > 0 && image.height > 0) {
+			//用图片原大小  和现在显示的大小进行比较
+			if (image.width / image.height >= iwidth / iheight) {
+
+				if (image.width > iwidth) {
+
+					ImgD.width = iwidth;
+
+					ImgD.height = (image.height * iwidth) / image.width;
+
+				} else {
+
+					ImgD.width = image.width;
+
+					ImgD.height = image.height;
+
+				}
+
+				ImgD.alt = image.width + "×" + image.height;
+
+			}
+
+			else {
+
+				if (image.height > iheight) {
+
+					ImgD.height = iheight;
+
+					ImgD.width = (image.width * iheight) / image.height;
+
+				} else {
+
+					ImgD.width = image.width;
+
+					ImgD.height = image.height;
+
+				}
+
+				ImgD.alt = image.width + "×" + image.height;
+
+			}
+
+			ImgD.style.cursor = "pointer"; //改变鼠标指针
+			/*
+			 ImgD.onclick = function () {
+			 window.open(this.src);
+			 } //点击打开大图片
+
+			 if (navigator.userAgent.toLowerCase().indexOf("ie") > -1) { //判断浏览器，如果是IE
+
+			 ImgD.title = "请使用鼠标滚轮缩放图片，点击图片可在新窗口打开";
+
+			 ImgD.onmousewheel = function img_zoom() //滚轮缩放
+
+			 {
+
+			 var zoom = parseInt(this.style.zoom, 10) || 100;
+
+			 zoom += event.wheelDelta / 12;
+
+			 if (zoom > 0)　
+			 this.style.zoom = zoom + "%";
+
+			 return false;
+
+			 }
+
+			 } else { //如果不是IE
+
+			 ImgD.title = "点击图片可在新窗口打开";
+
+			 }
+			 */
+
+		}
+
+		//<img src="'+items.creativeUrl+'" style="width:195px;height:155px;" onload="javascript:resizeimg(this,195,155)" />
+	}
+
+	$("#checkAll").click(function(){
+		var ch=document.getElementsByName("check");
+		var state = $("#checkAll").attr('attr');
+		if(state == 'all')
+		{
+			for(var i=0;i<ch.length;i++)
+			{
+				ch[i].checked=true;
+			}
+			$("#checkAll").attr('attr','no');
+		}else{
+			for(var i=0;i<ch.length;i++)
+			{
+				ch[i].checked=false;
+			}
+			$("#checkAll").attr('attr','all');
+		}
+	})
+
+	$(".checkCreative").click(function(){
+		var checkStatus = [];
+		var status;
+		var state = $(this).attr('attr');
+		$('input[name="check"]:checked').each(function(item){
+			checkStatus.push($(this).val());
+		});
+		var checkStatus_str = checkStatus.join(",");
+		if(state == 'pass'){
+			status = 2;
+		}else if(state == 'refuse'){
+			status = 3;
+		}
+		setStatus(status,checkStatus_str);
+
+	})
+
+	$('#setAudit').click(function () {
+		var ids = '';
+		var creatives = '';
+		$('input[name="check"]:checked').each(function(item){
+			ids += $(this).val() + '<br>';
+			creatives += $(this).val() + ',';
+		});
+		if(creatives == '') {
+			bootbox.confirm("请选择素材", function(result) {});
+			return false;
+		}
+
+		$('#creativeIds').html(ids);
+		$('#auditCreatives').val(creatives);
+	});
+
+	function mulitSetSellerAuditStatus(sellerId, allow) {
+		var creatives = $('#auditCreatives').val();
+
+		$.post('/creative/mulitSetSellerAuditStatus', {sellerId: sellerId, allow: allow, creatives: creatives}, function (data) {
+			alert(data.msg);
+		});
+	}
+
+</script>
+
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+<link rel="stylesheet" href="__PUBLIC__/assets/js/themes/sunburst.css" />
+
+<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+<script src="__PUBLIC__/assets/js/ace/elements.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/ace/ace.onpage-help.js"></script>
+<script src="__PUBLIC__/docs/assets/js/rainbow.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/generic.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/html.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/css.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/javascript.js"></script>
+<!--<script src="__PUBLIC__/assets/js/lightbox-plus-jquery.js"></script>-->
+
+
+<script type="text/javascript" src="__PUBLIC__/assets/js/jquery.reveal.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/js/jquery.metadata.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/js/jquery.media.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.page.js"></script>
+</body>
+</html>

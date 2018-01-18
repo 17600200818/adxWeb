@@ -1,0 +1,88 @@
+<div id="sidebar" class="sidebar responsive">
+    <script type="text/javascript">
+        try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            <button class="btn btn-success">
+                <i class="ace-icon fa fa-signal"></i>
+            </button>
+
+            <button class="btn btn-info">
+                <i class="ace-icon fa fa-pencil"></i>
+            </button>
+
+            <!-- #section:basics/sidebar.layout.shortcuts -->
+            <button class="btn btn-warning">
+                <i class="ace-icon fa fa-users"></i>
+            </button>
+
+            <button class="btn btn-danger">
+                <i class="ace-icon fa fa-cogs"></i>
+            </button>
+
+            <!-- /section:basics/sidebar.layout.shortcuts -->
+        </div>
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+            <span class="btn btn-info"></span>
+            <span class="btn btn-warning"></span>
+            <span class="btn btn-danger"></span>
+        </div>
+    </div><!-- /.sidebar-shortcuts -->
+
+    <ul class="nav nav-list">
+        <foreach name="__NAV__" item="powerItem" key="powerIndex">
+                <if condition="$powerItem.active eq true">
+                <li class="active open">
+                    <else/>
+                <li class="">
+                </if>
+            <a href="#" class="dropdown-toggle">
+                <switch name="powerIndex">
+                    <case value="1"><i class="menu-icon ace-icon fa fa-user"></i></case>
+                    <case value="7"><i class="menu-icon fa fa-list"></i></case>
+                    <case value="15"><i class="menu-icon fa fa-pencil-square-o"></i></case>
+                    <case value="19"><i class="menu-icon fa fa-list-alt"></i></case>
+                    <case value="21"><i class="menu-icon fa fa-calendar"></i></case>
+                    <case value="22"><i class="menu-icon ace-icon fa fa-cog"></i></case>
+                    <default /><i class="menu-icon fa fa-caret-right"></i>
+                </switch>
+                <span class="menu-text"> {$powerItem.poweritemname} </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <volist name="powerItem['subItem']" id="subItem">
+                    <if condition="$subItem.active eq true">
+                        <li class="active">
+                            <else/>
+                        <li class="">
+                    </if>
+                    <a href="/seller.php/{$subItem.controller}/{$subItem.action}">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        {$subItem.poweritemname}
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                </volist>
+            </ul>
+        </li>
+        </foreach>
+    </ul><!-- /.nav-list -->
+
+    <!-- #section:basics/sidebar.layout.minimize -->
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+    <!-- /section:basics/sidebar.layout.minimize -->
+    <script type="text/javascript">
+        try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+    </script>
+</div>

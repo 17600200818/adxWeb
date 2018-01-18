@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <title>权限管理</title>
+
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+
+  <!-- page specific plugin styles -->
+
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-part2.min.css" />
+  <![endif]-->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-ie.min.css" />
+  <![endif]-->
+
+  <!-- inline styles related to this page -->
+
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+
+  <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+  <!--[if lte IE 8]>
+  <script src="__PUBLIC__/assets/js/html5shiv.min.js"></script>
+  <script src="__PUBLIC__/assets/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- /.navbar-container -->
+  <!-- 头部 -->
+  <include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- #section:basics/sidebar -->
+  <!-- 导航条 -->
+  <include file="Common/navigation"/>
+  <!-- /section:basics/sidebar -->
+
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- #section:basics/content.breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+      <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+      </script>
+
+      <ul class="breadcrumb">
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="#">系统设置</a>
+        </li>
+
+        <li>
+          <a href="#">权限项列表</a>
+        </li>
+
+        <li class="active">添加权限项</li>
+      </ul><!-- /.breadcrumb -->
+    </div>
+    <!-- /section:basics/content.breadcrumbs -->
+    <div class="page-content">
+
+      <!-- /section:settings.box -->
+      <div class="page-content-area">
+        <include file="Common/settings.box"/>
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form class="form-horizontal" id="Form">
+              <!-- #section:elements.form -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 名称 </label>
+
+                <div class="col-sm-7">
+                  <input type="text" id="Name" name="name" placeholder="名称" class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" id="NameMsg" style="color:red;"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 平台类型 </label>
+
+                <div class="col-sm-3">
+
+                  <if condition="$displaySel eq 1">
+                    <select id="Platform" style="width: 100%;" name="platform" data-placeholder="请选择平台类型">
+                      <option value="">  </option>
+                      <foreach name="platForms" item="v">
+                        <option value="{$v.id}">{$v.name}</option>
+                      </foreach>
+                    </select>
+                    <else/>
+                    <input type="hidden" name="platform" value="{$platForm.id}">
+                    <input type="text" readonly="readonly" value="{$platForm.name}" style="width: 100%">
+                  </if>
+
+                </div>
+                <span class="help-inline col-xs-12 col-sm-9">
+												<span class="middle" style="color: red;" id="PlatformMsg"></span>
+											</span>
+              </div>
+
+              <if condition="$displaySel eq 1">
+                <input type="hidden" name="parentId" value="{$powerItems.id}">
+                <else/>
+                <div class="form-group" style="{$display}">
+                  <label class="col-sm-3 control-label no-padding-right" > 上级 </label>
+                  <div class="col-sm-3">
+                      <input type="hidden" name="parentId" value="{$powerItems.id}">
+                      <input type="text" readonly="readonly" value="{$powerItems.name}" style="width: 100%">
+                  </div>
+                  <span class="help-inline col-xs-12 col-sm-9">
+                                                  <span class="middle" style="color: red;" id="PlatformMsg"></span>
+                                              </span>
+                </div>
+              </if>
+
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 控制器 </label>
+
+                <div class="col-sm-7">
+                  <input type="text" name="controller" placeholder="控制器" id='Controller' class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="ControllerMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 功能 </label>
+
+                <div class="col-sm-7">
+                  <input type="text" name="action" id="Action" placeholder="功能" id="MobileTel" class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="ActionMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 是否菜单显示 </label>
+
+                <div class="col-sm-3">
+                  <input name="displayFlag" id="gritter-light" checked="" type="checkbox" class="ace ace-switch ace-switch-5" />
+                  <span class="lbl middle"></span>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 排序 </label>
+
+                <div class="col-sm-7">
+                  <input type="text" name="itemOrder" placeholder="排序" class="col-xs-10 col-sm-5"  value="1000"/>
+                </div>
+              </div>
+
+              <div class="form-group" style="display:none">
+                <label class="col-sm-3 control-label no-padding-right" > 状态 </label>
+
+                <div class="col-sm-3">
+                  <input name="status" checked="" type="checkbox" class="ace ace-switch ace-switch-5" />
+                  <span class="lbl middle"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 备注 </label>
+
+                <div class="col-sm-9">
+                  <textarea name="remark" cols="50" rows="5"></textarea>
+                </div>
+              </div>
+
+              <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                  <button class="btn btn-info" id="Submit" type="button">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    确定
+                  </button>
+
+                  &nbsp; &nbsp; &nbsp;
+                  <button class="btn" type="reset" id="return">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    返回
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div><!-- /.col -->
+        </div>
+
+      </div><!-- /.page-content-area -->
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+
+  <!-- 尾部 -->
+  <include file="Common/footer"/>
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+  if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.dataTables.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+  jQuery(function($) {
+    var oTable1 =
+        $('#sample-table-2')
+        //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+            .dataTable( {
+              bAutoWidth: false,
+              "aoColumns": [
+                { "bSortable": false },
+                null, null,null, null, null,
+                { "bSortable": false }
+              ],
+              "aaSorting": [],
+            } );
+
+    $(document).on('click', 'th input:checkbox' , function(){
+      var that = this;
+      $(this).closest('table').find('tr > td:first-child input:checkbox')
+          .each(function(){
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+          });
+    });
+
+
+    $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+    function tooltip_placement(context, source) {
+      var $source = $(source);
+      var $parent = $source.closest('table')
+      var off1 = $parent.offset();
+      var w1 = $parent.width();
+
+      var off2 = $source.offset();
+      //var w2 = $source.width();
+
+      if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+      return 'left';
+    }
+
+    //    表单验证
+
+    $('#Name').blur(function () {
+      var val = $(this).val();
+      if(val == "") {
+        $('#NameMsg').html('不能为空');
+      }else{
+        $('#NameMsg').html('');
+      }
+    });
+
+    $('#Platform').change(function () {
+      var val = $('#Platform').val();
+      if(val == "") {
+        $('#PlatformMsg').html('请选择平台');
+        return false;
+      }else{
+        $('#PlatformMsg').html('');
+      }
+    });
+
+
+    $('#Submit').click(function () {
+      var val = $('#Platform').val();
+      if(val == "") {
+        $('#PlatformMsg').html('请选择平台');
+        return false;
+      }else{
+        $('#PlatformMsg').html('');
+      }
+
+      if($('#Name').val() == '' || $('#NameMsg').val()) {
+        return false;
+      }
+
+//      $('#Form').submit();
+
+      var formData = new FormData($( "#Form" )[0]);
+      $.ajax({
+        url: '/powerItem/add',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+          if(result.status == 'ok'){
+            location.href = '/powerItem/index';
+          }else {
+            alert(result.msg);
+          }
+        },
+        error: function (returndata) {
+          alert(returndata);
+        }
+      });
+
+    });
+  })
+
+  $('#return').click(function () {
+    location.href = '/powerItem/index'
+  });
+</script>
+
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+<link rel="stylesheet" href="__PUBLIC__/assets/js/themes/sunburst.css" />
+
+<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+<script src="__PUBLIC__/assets/js/ace/elements.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/ace/ace.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/rainbow.js"></script>
+<script src="__PUBLIC__/assets/js/language/generic.js"></script>
+<script src="__PUBLIC__/assets/js/language/html.js"></script>
+<script src="__PUBLIC__/assets/js/language/css.js"></script>
+<script src="__PUBLIC__/assets/js/language/javascript.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>首页</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+        <script src="__PUBLIC__/assets/js/jquery-ui.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	
+	<include file="Common/head"/>
+</div>
+
+<div class="main-container" id="main-container">
+	
+        
+	<include file="Common/navigation"/>
+	
+
+
+	<div class="main-content">
+
+			<div class="main-content" id="gound">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">首页</a>
+						</li>
+						
+					</ul>
+				</div>
+<!--			<img src="/Public/images/admin/welcome.png" alt="welcome" height="100%" weight="100%" />-->
+                                    <div id="welcome">
+                                        
+                                    </div>
+			</div>
+			
+
+	</div>
+        
+            
+	<include file="Common/footer"/>
+</div>
+
+</body>
+<style>
+
+#welcome {
+    weight:1200px;
+    height:410px;
+    background-image: url(/Public/images/admin/welcome.png);
+   background-position:center;
+    background-repeat: no-repeat, repeat;
+  background-origin:content-box;  padding: 15px;
+}
+</style>
+</html>

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>广告位管理</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+	<script src="__PUBLIC__/assets/js/jquery-ui.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+</head>
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+
+<div class="main-container" id="main-container">
+	<!-- #section:basics/sidebar -->
+	<!-- 导航条 -->
+	<include file="Common/navigation"/>
+	<!-- /section:basics/sidebar -->
+
+	<!-- 正文 -->
+	<div class="main-content">
+		<!-- 内容块 -->
+			<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">媒体管理</a>
+						</li>
+						<li class="active">广告位信息</li>
+					</ul>
+				</div>
+				<!-- 				搜索区域 start-->
+				<div class="page-content">
+						
+						<input type="text"  class="form-text" style="height: 33px;" name="name_media"  id="name_media" placeholder="媒体名称">		
+						<input type="text"  class="form-text"  style="height: 33px;" name="domain_media" id="domain_media" placeholder="域名">
+						<input type="text"  class="form-text" name="id_place" style="height: 33px; width: 120px;" id="id_place" placeholder="广告位id">
+						<input type="text"  class="form-text" name="width_place" style="height: 33px; width: 120px;" id="width_place" placeholder="宽度">
+						<input type="text"  class="form-text" name="height_place" style="height: 33px; width: 120px;" id="height_place" placeholder="高度">
+						<button class="btn btn-info" style="width: 80px;height:33px;border-radius: 5px;    padding-top: 1px;" id="search">
+										<i class="ace-icon glyphicon glyphicon-search"></i>
+										查询
+						</button>
+						<a href="/seller.php/Place/add">
+<button type="button" class="btn btn-sm btn-success" id="addallow" style="width: 80px;height:30px;border-radius: 5px;    padding-top: 1px;">
+                                                        新增
+                                                        <i class="glyphicon glyphicon-plus"></i>
+                                                    </button>
+						</a>
+						<br/>
+                                                 <script>
+                         var addallow=document.getElementById("addallow");
+                                             
+
+                                              if({$isAddAllow} == 0){
+                                                     addallow.style.display="none"
+                                           }
+
+
+                                                </script>
+						<div style="margin-top: 5px;"></div>
+						<select class="form-text" style="height: 33px;width: 168px;" name="type_place" id="type_place">
+						  <option value="">广告位类型</option>
+						  <option value="1">{$Think.config.PLACE_TYPE.1}</option>
+						  <option value="2">{$Think.config.PLACE_TYPE.2}</option>
+						  <option value="3">{$Think.config.PLACE_TYPE.3}</option>
+						</select>
+						<select class="form-text" style="height: 33px; width: 168px;" name="instl_place" id="instl_place">
+						  <option value="">展现形式</option>
+						  <volist name="instls" id="instl">
+								<option value="{$key}">{$instl}</option>
+						  </volist>
+						</select>
+						<select class="form-text" style="height: 33px; width: 168px;" name="device_type_place" id="device_type_place">
+						  <option value="">设备类型</option>
+						  <option value="1">{$Think.config.DEVICE_TYPE.1}</option>
+						  <option value="2">{$Think.config.DEVICE_TYPE.2}</option>
+						  <option value="3">{$Think.config.DEVICE_TYPE.3}</option>
+						  <option value="4">{$Think.config.DEVICE_TYPE.4}</option>
+						</select>
+                                                <select class="form-text" style="height: 33px; width: 168px;" name="os_type" id="os_type">
+						  <option value="">移动端操作系统</option>
+						  <option value="1">{$Think.config.OS_TYPE.1}</option>
+						  <option value="2">{$Think.config.OS_TYPE.2}</option>
+						  
+						</select>
+						<select class="form-text" style="height: 33px; width: 120px;" name="status_place" id="status_place">
+						  <option value="">状态</option>
+						  <option value="1">正常</option>
+						  <option value="2">停用</option>
+						</select>
+				</div>
+				
+				<!-- 				搜索区域 end-->
+				
+				<!-- 				表格/列表 -->
+				<div class="page-content">
+					<div class="page-content-area">
+						<div class="row">
+							<div class="col-xs-12">
+								<table id="grid-table"></table>
+								<div id="grid-pager"></div>
+								<script type="text/javascript">
+									var $path_base = "..";//in Ace demo this will be used for editurl parameter
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+
+			</div>
+			
+	</div>
+     
+	<!-- 正文结束 -->
+
+	<include file="Common/footer"/>
+	<!-- 尾部 -->
+	
+	<!-- 	提取代码 -->
+	<div id="dialog-message" class="hide">
+		<p class="dialog-message-p">
+			<span>广告位名称:<i class="dialog-message-p-i">haohoa</i></span>
+			<textarea name="" id="fe_text" class="code_site" rows="15" cols="68" readonly="readonly" disabled="disabled"></textarea>
+		</p>
+	</div>
+</div><!-- /.main-container -->
+<!-- basic scripts -->
+<script type="text/javascript">
+			var subgrid_data =""; 
+			[
+			 {id:"1", name:"sub grid item 1", qty: 11},
+			 {id:"2", name:"sub grid item 2", qty: 3},
+			 {id:"3", name:"sub grid item 3", qty: 12},
+			 {id:"4", name:"sub grid item 4", qty: 5},
+			 {id:"5", name:"sub grid item 5", qty: 2},
+			 {id:"6", name:"sub grid item 6", qty: 9},
+			 {id:"7", name:"sub grid item 7", qty: 3},
+			 {id:"8", name:"sub grid item 8", qty: 8}
+			];
+			
+			jQuery(function($) {
+				var grid_selector = "#grid-table";
+				var pager_selector = "#grid-pager";
+				
+				//resize to fit page size
+				$(window).on('resize.jqGrid', function () {
+					$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+			    })
+				//resize on sidebar collapse/expand
+				var parent_column = $(grid_selector).closest('[class*="col-"]');
+				$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
+					if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+						//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+						setTimeout(function() {
+							$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+						}, 0);
+					}
+			    })
+			
+			    
+			    //操作自定义操作a标签
+			    function cLink(cellvalue, options, rowObject){
+					var id=rowObject.id;
+					var edit = '<a href="/seller.php/Place/edit?id='+id+'" id="edit_'+id+'"  ><button type="button" class="btn btn-xs btn-success">修改</button></a>&nbsp;&nbsp;&nbsp;';
+					if(rowObject.placetype == "图片"){
+						var extractCode = '<a href="javascript:;" class="id-btn-dialog1" id="extract_code_'+id+'" extractcode="'+id+'" ><button type="button" class="btn btn-xs btn-info">提取代码</button></a>&nbsp;&nbsp;&nbsp;';
+						return edit+extractCode;
+					}
+					
+					return edit;
+				}
+				
+				//操作状态效果
+			    function statusButton(cellvalue, options, rowObject){
+					var id=rowObject.id;
+					var statusButton="";
+                                        if({$isSetStatus} == 1) {
+        var edit = '';
+      }else {
+        var edit = 'onclick="return false;"';
+    }
+					if(rowObject.status == 1){
+						statusButton = '<div class="col-xs-3" style="top: 5px;"><label style="margin-left: -15px;"><input checked name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" '+edit+' onchange="set_status('+id+')" type="checkbox"><span class="lbl"></span></label></div>';
+					}else{
+						statusButton = '<div class="col-xs-3" style="top: 5px;"><label style="margin-left: -15px;"><input name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" '+edit+' onchange="set_status('+id+')" type="checkbox"><span class="lbl"></span></label></div>';
+					}
+					return statusButton;
+				}
+				jQuery(grid_selector).jqGrid({
+					subGridRowExpanded: function (subgridDivId, rowId) {
+						var subgridTableId = subgridDivId + "_t";
+						$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+						$("#" + subgridTableId).jqGrid({
+							datatype: 'local',
+							data: subgrid_data,
+							colNames: ['No','Item Name','Qty'],
+							colModel: [
+								{ name: 'id', width: 50 },
+								{ name: 'name', width: 150 },
+								{ name: 'qty', width: 50 }
+							]
+						});
+					},
+					url:"/seller.php/Place/index",
+					mtype: 'POST',
+					datatype: "json",
+					height: 310,
+					colNames:['序号','媒体名称','广告位id','广告位名称','广告位类型','设备类型','展现形式','尺寸','状态','操作'],
+					colModel:[
+						{name:'num',index:'num',width:70, sortable:false,edittype:"textarea",},
+//						{name:'sellername',index:'sellername', width:150,sortable:false,edittype:"textarea"},
+//						{name:'agentname',index:'agentname', width:100,sortable:false,edittype:"textarea"},
+//						{name:'mediaid',index:'mediaid', width:110, sorttype:"int", editable: true},
+						{name:'namemedia',index:'namemedia', width:160, sortable:false,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
+						{name:'id',index:'id', width:110, sorttype:"int", editable: true},
+						{name:'name',index:'name', width:200,  sortable:false,edittype:"textarea"},
+						{name:'placetype',index:'placetype', width:150,  sortable:false,edittype:"textarea"},
+						
+						{name:'devicetype',index:'devicetype',width:180, sortable:false,edittype:"textarea"},
+						{name:'instl',index:'instl',width:120,  sortable:false,edittype:"textarea"},
+						{name:'size',index:'size',width:100,  sortable:false,edittype:"textarea"},
+//						{name:'bidfloor',index:'bidfloor',width:90, editable:true, sorttype:"date",unformat: pickDate},
+                                                {name:'status',index:'placetype', width:90,  sortable:false,edittype:"textarea"},
+//						{name:'status', width : 110, index : 'status',  align: 'center', sortable:false,edittype:"textarea",formatter:statusButton},
+						{name:'saf', width : 240, index : 'saf',  align: 'center', sortable:false,edittype:"textarea",formatter:
+                  function (value, grid, rows, state) {
+                      var extractCode = '';
+                            if({$isAllow} == 1) {
+var edit = '<a href="/seller.php/Place/edit?id='+rows.id+'" id="edit_'+rows.id+'"  ><button type="button" class="btn btn-xs btn-success">修改</button></a>&nbsp;&nbsp;&nbsp;';
+        }else {
+              var edit = '';
+            }
+            
+//          if(rows.placetype == '<span class="badge badge-grey">图片</span>'){
+//              if({$isGetCode} == 1){
+//						var extractCode = '<a href="javascript:;" class="id-btn-dialog1" id="extract_code_'+rows.id+'" extractcode="'+rows.id+'" ><button type="button" class="btn btn-xs btn-info">提取代码</button></a>&nbsp;&nbsp;&nbsp;';       
+//                                                }
+//					}
+//                 if({$placeRoute} == 1) {
+//                     var route='<a href="/placeRoute/index/id/'+rows.id+'"><button type="button" class="btn btn-minier">路由管理</button></a>';
+//                 }else {
+//              var route = '';
+//            }                       
+					
+			 return edit;		}
+        }
+					], 
+					      viewrecords : true,
+      rowNum:10,
+      rowList:[10,20,30],
+      pager : pager_selector,
+      altRows: true,
+      //toppager: true,
+
+      multiselect: false,
+      //multikey: "ctrlKey",
+      multiboxonly: true,
+
+					loadComplete : function() {
+						var table = this;
+						setTimeout(function(){
+							styleCheckbox(table);
+							updateActionIcons(table);
+							updatePagerIcons(table);
+							enableTooltips(table);
+						}, 0);
+					},
+					editurl: "/dummy.html",//nothing is saved
+					caption: "",
+					jsonReader: {
+						repeatitems : false,
+						root:"data"
+					}
+				});
+				$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+				//switch element when editing inline
+				function aceSwitch( cellvalue, options, cell ) {
+					setTimeout(function(){
+						$(cell) .find('input[type=checkbox]')
+							.addClass('ace ace-switch ace-switch-5')
+							.after('<span class="lbl"></span>');
+					}, 0);
+				}
+				//enable datepicker
+				function pickDate( cellvalue, options, cell ) {
+					setTimeout(function(){
+						$(cell) .find('input[type=text]')
+								.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+					}, 0);
+				}
+				//navButtons
+                            jqnav =	jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+					{ 	//navbar options
+						edit: false,
+						editicon : 'ace-icon fa fa-pencil blue',
+						add: false,
+						addicon : 'ace-icon fa fa-plus-circle purple',
+						del: false,
+						delicon : 'ace-icon fa fa-trash-o red',
+						search: false,
+						searchicon : 'ace-icon fa fa-search orange',
+						refresh: false,
+						refreshicon : 'ace-icon fa fa-refresh green',
+						view: false,
+						viewicon : 'ace-icon fa fa-search-plus grey',
+					},
+					{
+						//edit record form
+						closeAfterEdit: true,
+						width: 700,
+						recreateForm: true,
+						beforeShowForm : function(e) {
+// 							alert(1);
+// 							var form = $(e[0]);
+// 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+// 							style_edit_form(form);
+						}
+					},
+					{
+						//new record form
+						//width: 700,
+						closeAfterAdd: true,
+						recreateForm: true,
+						viewPagerButtons: false,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+							.wrapInner('<div class="widget-header" />')
+							style_edit_form(form);
+						}
+					},
+					{
+						//delete record form
+						recreateForm: true,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							if(form.data('styled')) return false;
+							
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							style_delete_form(form);
+							
+							form.data('styled', true);
+						},
+						onClick : function(e) {
+							alert(1);
+						}
+					},
+					{
+						//search form
+						recreateForm: true,
+						afterShowSearch: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							style_search_form(form);
+						},
+						afterRedraw: function(){
+							style_search_filters($(this));
+						}
+						,
+						multipleSearch: true,
+						/**
+						multipleGroup:true,
+						showQuery: true
+						*/
+					},
+					{
+						//view record form
+						recreateForm: true,
+						beforeShowForm: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+						}
+					}
+				)
+                          jqnav.navButtonAdd(pager_selector, {
+      caption: "",
+      title:"导出",
+      buttonicon: "ace-icon fa fa-download blue",
+      onClickButton: function () {
+                                var name_seller = $("#name_seller").val();
+				var name_media = $("#name_media").val();
+				var domain_media = $("#domain_media").val();
+				var id_place = $("#id_place").val();
+				var width_place = $("#width_place").val();
+				var height_place = $("#height_place").val();
+				var type_place = $("#type_place").val();
+				var instl_place = $("#instl_place").val();
+				var device_type_place = $("#device_type_place").val();
+				var status_place = $("#status_place").val();
+
+       
+
+		window.location.href = "/seller.php/Place/placeExport?name_seller="+name_seller+"&name_media="+name_media+"&domain_media="+domain_media+"&id_place="+id_place+"&width_place="+width_place+"&height_place="+height_place+"&type_place="+type_place+"&instl_place="+instl_place+"&device_type_place="+device_type_place+"&status_place="+status_place;
+		    },
+      position: "last"
+    });
+   
+				function style_edit_form(form) {
+					//enable datepicker on "sdate" field and switches for "stock" field
+					form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+						.end().find('input[name=stock]')
+							.addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+							   //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+							  //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+			
+					//update buttons classes
+					var buttons = form.next().find('.EditButton .fm-button');
+					buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+					buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+					buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+					
+					buttons = form.next().find('.navButton a');
+					buttons.find('.ui-icon').hide();
+					buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+					buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');		
+				}
+			
+				function style_delete_form(form) {
+					var buttons = form.next().find('.EditButton .fm-button');
+					buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+					buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+					buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+				}
+				
+				function style_search_filters(form) {
+					form.find('.delete-rule').val('X');
+					form.find('.add-rule').addClass('btn btn-xs btn-primary');
+					form.find('.add-group').addClass('btn btn-xs btn-success');
+					form.find('.delete-group').addClass('btn btn-xs btn-danger');
+				}
+				function style_search_form(form) {
+					var dialog = form.closest('.ui-jqdialog');
+					var buttons = dialog.find('.EditTable')
+					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+				}
+				
+				function beforeDeleteCallback(e) {
+					var form = $(e[0]);
+					if(form.data('styled')) return false;
+					
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					style_delete_form(form);
+					
+					form.data('styled', true);
+				}
+				
+				function beforeEditCallback(e) {
+					var form = $(e[0]);
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					style_edit_form(form);
+				}
+			
+			
+			
+				//it causes some flicker when reloading or navigating grid
+				//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+				//or go back to default browser checkbox styles for the grid
+				function styleCheckbox(table) {
+				/**
+					$(table).find('input:checkbox').addClass('ace')
+					.wrap('<label />')
+					.after('<span class="lbl align-top" />')
+			
+			
+					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+					.find('input.cbox[type=checkbox]').addClass('ace')
+					.wrap('<label />').after('<span class="lbl align-top" />');
+				*/
+				}
+				
+			
+				//unlike navButtons icons, action icons in rows seem to be hard-coded
+				//you can change them like this in here if you want
+				function updateActionIcons(table) {
+					/**
+					var replacement = 
+					{
+						'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+						'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+						'ui-icon-disk' : 'ace-icon fa fa-check green',
+						'ui-icon-cancel' : 'ace-icon fa fa-times red'
+					};
+					$(table).find('.ui-pg-div span.ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+					*/
+				}
+				
+				//replace icons with FontAwesome icons like above
+				function updatePagerIcons(table) {
+					var replacement = 
+					{
+						'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+						'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+						'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+						'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+					};
+					$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+				}
+			
+				function enableTooltips(table) {
+					$('.navtable .ui-pg-button').tooltip({container:'body'});
+					$(table).find('.ui-pg-div').tooltip({container:'body'});
+				}
+			
+				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+			
+				$(document).on('ajaxloadstart', function(e) {
+					$(grid_selector).jqGrid('GridUnload');
+					$('.ui-jqdialog').remove();
+				});
+				
+				//搜索
+				$("#search").click(function(){
+					
+					var name_media = $("#name_media").val();
+					var domain_media = $("#domain_media").val();
+					var id_place = $("#id_place").val();
+					var width_place = $("#width_place").val();
+					var height_place = $("#height_place").val();
+					var type_place = $("#type_place").val();
+					var instl_place = $("#instl_place").val();
+					var device_type_place = $("#device_type_place").val();
+					var status_place = $("#status_place").val();
+					var os_type = $("#os_type").val();
+					
+					jQuery(grid_selector).jqGrid('setGridParam',{
+						datatype:'json',
+						postData: {
+							
+							'name_media':name_media,
+							'domain_media':domain_media,
+							'id_place':id_place,
+							'width_place':width_place,
+							'height_place':height_place,
+							'type_place':type_place,
+							'instl_place':instl_place,
+							'device_type_place':device_type_place,
+							'status_place':status_place,
+                                                        'os_type':os_type
+						}, //发送数据
+                                                
+						page:1
+					}).trigger("reloadGrid"); //重新载入
+				});
+			});
+			
+			//修改跳转
+			function editor(id){
+				window.location.href = "/seller.php/Place/edit?id="+id;
+			}
+			
+			//定向跳转
+			function directional(id){
+				window.location.href = "/seller.php/Place/setDirect?id="+id;
+			}
+			
+			//修改状态
+			function set_status(id){
+				$.ajax( {    
+			   		url:"/seller.php/Place/setStatus?type=2&id="+id,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   			if(data.status != "200"){
+			   				alert("网络异常!");
+			   			}
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！");    
+			   		}
+			   	});
+			}
+			function search(){
+				$(".search").submit();
+			}
+			
+			$(document).on('click','.id-btn-dialog1',function(e){
+				e.preventDefault();
+				var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
+					modal: true,
+					title_html: true,
+					buttons: [ 
+						{
+							text: "复制",
+							"class" : "btn btn-xs",
+							click: function() {
+								var fe_text=document.getElementById("fe_text");
+								fe_text.select(); // 选择对象
+								document.execCommand("Copy");
+								alert("已经复制到剪切板");
+								$( this ).dialog( "close" );
+							} 
+						},
+						{
+							text: "关闭",
+							"class" : "btn btn-primary btn-xs",
+							click: function() {
+								$( this ).dialog( "close" ); 
+							} 
+						}
+					]
+				});
+				
+				
+				var pid = $(this).attr("extractcode");
+				$.ajax( {    
+			   		url:"/seller.php/Place/getCode?id="+pid,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   		   $(".code_site").html("");
+			   		   var str = '&lt;div id="sadv_'+data[pid]['id']+'"&gt;&lt;/div&gt;&#13;&#10;&lt;script type="text/javascript"'
+			   					+'&gt;&#13;&#10;(window.adshxsoq = []).push({'
+			   					+'&#13;&#10;	ad_type: 1,'
+			   					+'&#13;&#10;	slot_id: '+data[pid]['id']+','
+			   					+'&#13;&#10;	width: '+data[pid]['width']+','
+			   					+'&#13;&#10;	height: '+data[pid]['height']
+			   					+'&#13;&#10;});'
+			   					+'&#13;&#10;&lt;/script&gt;'
+			   					+'&#13;&#10;&lt;script src="http://d.test.rtbs.cn/bhx.js"&gt;&lt;/script&gt;';
+			   					$(".dialog-message-p-i").html(data[pid]['name']);
+			   					$(".code_site").html(str);
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！");    
+			   		}
+			   	});
+				$(".ui-resizable").css("width","600px");
+				$(".ui-resizable").css("left","400px");
+				$(".ui-dialog-title").html('<div class="widget-header widget-header-small"><h4 class="smaller"><i class="ace-icon fa fa-check"></i>提取代码</h4></div>');
+			});
+			
+			$(document).on('click','.fa-chevron-down',function(e){
+				
+				if($(".widget-body").css("display") == "block"){
+					$('body,html').animate({scrollTop:document.body.clientWidth},0);
+					$(".widget-body").css("display","none");
+					return false;
+				}else{
+					$('body,html').animate({scrollTop:document.body.clientWidth},1500);
+					$(".widget-body").css("display","block");
+					return false;
+				}
+			});
+			jQuery(function($) {
+				$('#id-input-file-3').ace_file_input({
+					style:'well',
+					btn_choose:'广告位导入',
+					btn_change:null,
+					no_icon:'ace-icon fa fa-cloud-upload',
+					droppable:true,
+					thumbnail:'small'//large | fit
+					//,icon_remove:null//set null, to hide remove/reset button
+					,before_change:function(files, dropped) {
+						if(files["length"]>0){
+							$("#up_form").submit();
+						}
+						return true;
+					}
+					/**,before_remove : function() {
+						return true;
+					}*/
+					,
+					preview_error : function(filename, error_code) {
+						//name of the file that failed
+						//error_code values
+						//1 = 'FILE_LOAD_FAILED',
+						//2 = 'IMAGE_LOAD_FAILED',
+						//3 = 'THUMBNAIL_FAILED'
+						alert(error_code);
+					}
+			
+				}).on('change', function(){
+					//console.log($(this).data('ace_input_files'));
+					//console.log($(this).data('ace_input_method'));
+				});
+				
+				
+				
+			});
+			var place_mes = "{$_GET['place_mes']}";
+                       var suss = "{$_GET['suss']}";
+                       var failed = "{$_GET['failed']}";
+                       var chann = "{$_GET['chann']}";
+             
+			if(place_mes != "" || suss!="" || failed!="" ||chann!=""){
+				var mes = place_mes.split(",");
+				var str = "";
+				for (i=0;i<(mes.length-1) ;i++ )
+				{ 
+					str += "第"+mes[i]+"行数据有误，请确认规则!\r\n";
+				}
+                              str += "插入"+suss+"行成功!\r\n";
+                              str += "修改"+chann+"行成功!\r\n";
+                              str += "插入/修改"+failed+"行失败!\r\n"; 
+                              
+				alert(str);
+				location = "/seller.php/place/index";
+			}
+                        
+                        
+			
+			function sfsd(){
+// 				alert($("#grid-pager_left").html());
+// 				alert($("#grid-pager_left").find("table").find("tbody").find("tr").html());
+// 				var str = '<td><button class="btn btn-primary place_export" type="button" style="width: 70px;height: 38px;top:4px;border-radius: 5px;">'
+// 					+'<i class="glyphicon-plus"></i>'
+// 					+'导出'
+// 					+'</button></td>';
+					
+// 				var str ='<td><div class="row"><div class="col-sm-4">'
+// 					+'<div class="widget-box" style="border-radius: 5px;">'
+// 					+	'<div class="widget-header">'
+// 					+		'<h4 class="widget-title">导入</h4>'
+// 					+		'<div class="widget-toolbar">'
+// 					+			'<a href="#" data-action="collapse">'
+// 					+				'<i class="ace-icon fa fa-chevron-down"></i>'
+// 					+			'</a>'
+// 					+		'</div>'
+// 					+	'</div>'
+// 					+	'<div class="widget-body" style="display: none;">'
+// 					+		'<div class="widget-main">'
+// 					+			'<div class="form-group">'
+// 					+			'	<div class="col-xs-12">'
+// 					+			'		<form method="post" action="/seller.php/Place/placeImport" id="up_form" enctype="multipart/form-data">'
+// 					+			'			<input multiple="" type="file" name="file_stu" id="id-input-file-3" />'
+// 					+			'			<a class="up_a" href="/Public/uploads/import/广告位批量导入模板.xls">广告位导入模板下载</a>'
+// 					+			'		</form>'
+// 					+			'	</div>'
+// 					+			'</div>'
+// 					+			'<label>'
+// 					+			'	<input type="checkbox" name="file-format" id="id-file-format" class="ace" />'
+// 					+			'</label>'
+// 					+		'</div>'
+// 					+	'</div>'
+// 					+'</div>'
+// 				+'</div></td>';
+					
+// 					$("#grid-pager_left").find("table").find("tbody").find("tr").html(str);
+			}
+			window.setTimeout(sfsd,200);
+		</script>
+</body>
+</html>

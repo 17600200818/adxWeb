@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <title>媒体管理</title>
+
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+
+  <!-- page specific plugin styles -->
+
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-part2.min.css" />
+  <![endif]-->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-ie.min.css" />
+  <![endif]-->
+
+  <!-- inline styles related to this page -->
+
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+
+  <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+  <!--[if lte IE 8]>
+  <script src="__PUBLIC__/assets/js/html5shiv.min.js"></script>
+  <script src="__PUBLIC__/assets/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- /.navbar-container -->
+  <!-- 头部 -->
+  <include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- #section:basics/sidebar -->
+  <!-- 导航条 -->
+  <include file="Common/navigation"/>
+  <!-- /section:basics/sidebar -->
+
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- #section:basics/content.breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+      <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+      </script>
+
+      <ul class="breadcrumb">
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="#">账户管理</a>
+        </li>
+
+        <li>
+          <a href="#">卖方用户</a>
+        </li>
+
+        <li class="active">添加账户</li>
+      </ul><!-- /.breadcrumb -->
+
+      <!-- #section:basics/content.searchbox -->
+      <div class="nav-search" id="nav-search">
+
+      </div><!-- /.nav-search -->
+
+      <!-- /section:basics/content.searchbox -->
+    </div>
+
+    <!-- /section:basics/content.breadcrumbs -->
+    <div class="page-content">
+      <!-- #section:settings.box -->
+
+      <!-- /section:settings.box -->
+      <div class="page-content-area">
+        <include file="Common/settings.box"/>
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form class="form-horizontal" id="Form">
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 公司名称 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="company" value="{$seller.company}" placeholder="公司名称" id='Company' class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="CompanyMsg"></span>
+											</span>
+                </div>
+              </div>
+              <!-- #section:elements.form -->
+              <input type="hidden" name="id" value="{$seller.id}">
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 邮箱 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" id="Email" value="{$seller.email}" name="email" placeholder="邮箱" class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" id="EmailMessage" style="color:red;"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 联系人 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="linkman" value="{$seller.linkman}" placeholder="联系人" id='Linkman' class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="LinkmanMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 手机号码 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="mobileTel" value="{$seller.mobiletel}" placeholder="手机号码" id="MobileTel" class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="MobileTelMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group" style="{$gainTypeHiddenChild}">
+                <label class="col-sm-3 control-label no-padding-right" > 角色 </label>
+                <div class="col-sm-3">
+                  <select name="role" data-placeholder="请选择角色" style="width:100%">
+                    <!--<option value="">  </option>-->
+                    <foreach name="roles" item="v">
+                      <option value="{$v.id}" <?php echo $v['id']==$seller['idrole'] ? "selected" : ''; ?>> {$v.name} </option>
+                    </foreach>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"  style="{$gainTypeHidden}">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利模式 </label>
+                <div class="col-sm-3">
+                  <input type="radio" name="gainType" <?php echo $seller['gaintype']==1 ? 'checked=""' : '' ?> value="1" /> 底价上浮
+                  <input type="radio" name="gainType" <?php echo $seller['gaintype']==2 ? 'checked=""' : '' ?> value="2" /> 成交量扣量
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="gainTypeMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group"  style="{$gainTypeHidden}">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利比例 </label>
+                <div class="col-sm-9">
+                  <input type="text" name="gainRate" value="{$seller.gainrate}" placeholder="盈利比例" id="GainRate" class="col-xs-10 col-sm-5" />
+                  <span class="help-inline col-xs-11 col-sm-6" style="padding: 0;">
+                  <span style="font-size: 16px;display:block;margin-top:4px">%</span>
+												<span class="middle" style="color: red;" id="GainRateMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group"  style="{$gainTypeHiddenChild}">
+                <label class="col-sm-3 control-label no-padding-right" > 是否为ssp </label>
+                <div class="col-sm-9">
+                  <input type="radio" name="isSsp" <?php echo $seller['isssp']==1 ? 'checked=""' : '' ?> value="1"> 是
+                  <input type="radio" name="isSsp" <?php echo $seller['isssp']==2 ? 'checked=""' : '' ?> value="2"> 否
+                </div>
+              </div>
+
+              <div class="form-group"  style="{$gainTypeHiddenChild}">
+                <label class="col-sm-3 control-label no-padding-right" > 是否审核素材 </label>
+                <div class="col-sm-9">
+                  <input type="radio" class="isAuditCreative" name="isAuditCreative" <?php echo $seller['isauditcreative']==1 ? 'checked=""' : '' ?> value="1"> 审核
+                  <input type="radio" class="isAuditCreative" name="isAuditCreative" <?php echo $seller['isauditcreative']==2 ? 'checked=""' : '' ?> value="2"> 不审核
+                </div>
+              </div>
+
+              <div class="form-group"  style="{$auditTypeHidden}" id="CreativeAuditType">
+                <label class="col-sm-3 control-label no-padding-right" > 审核方式 </label>
+                <div class="col-sm-9">
+                  <input type="radio" name="creativeAuditType" <?php echo $seller['creativeaudittype']==1 ? 'checked=""' : '' ?> value="1"> 先审后投
+                  <input type="radio" name="creativeAuditType" <?php echo $seller['creativeaudittype']==2 ? 'checked=""' : '' ?> value="2"> 先投后审
+                </div>
+              </div>
+
+              <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                  <button class="btn btn-info" id="Submit" type="button">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    确定
+                  </button>
+
+                  &nbsp; &nbsp; &nbsp;
+                  <button class="btn" type="reset" onclick="history.go(-1)">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    返回
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div><!-- /.col -->
+        </div>
+
+      </div><!-- /.page-content-area -->
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+
+  <!-- 尾部 -->
+  <include file="Common/footer"/>
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+  if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.dataTables.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+  jQuery(function($) {
+    var oTable1 =
+        $('#sample-table-2')
+        //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+            .dataTable( {
+              bAutoWidth: false,
+              "aoColumns": [
+                { "bSortable": false },
+                null, null,null, null, null,
+                { "bSortable": false }
+              ],
+              "aaSorting": [],
+            } );
+
+    $(document).on('click', 'th input:checkbox' , function(){
+      var that = this;
+      $(this).closest('table').find('tr > td:first-child input:checkbox')
+          .each(function(){
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+          });
+    });
+
+
+    $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+    function tooltip_placement(context, source) {
+      var $source = $(source);
+      var $parent = $source.closest('table')
+      var off1 = $parent.offset();
+      var w1 = $parent.width();
+
+      var off2 = $source.offset();
+      //var w2 = $source.width();
+
+      if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+      return 'left';
+    }
+
+    //    表单验证
+
+    $('#Email').blur(function () {
+      var val = $(this).val();
+      if(val == "") {
+        $('#EmailMessage').html('不能为空');
+      }else if(!val.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)){
+        $('#EmailMessage').html('邮箱格式不正确');
+      }else{
+        $('#EmailMessage').html('');
+      }
+    });
+
+    $('#Linkman').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#LinkmanMsg').html('不能为空');
+      }else{
+        $('#LinkmanMsg').html('');
+      }
+    });
+
+    $('#GainRate').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#GainRateMsg').html('不能为空');
+      }else if(isNaN(val) || val < 0 || val > 100) {
+        $('#GainRateMsg').html('需填入0-100的数字');
+      }else{
+        $('#GainRateMsg').html('');
+      }
+    });
+
+    $('#Company').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#CompanyMsg').html('不能为空');
+      }else{
+        $('#CompanyMsg').html('');
+      }
+    });
+
+    $('#MobileTel').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#MobileTelMsg').html('不能为空');
+      }else if(!val.match(/^1\d{10}$/)){
+        $('#MobileTelMsg').html('手机格式不正确');
+      }else{
+        $('#MobileTelMsg').html('');
+      }
+    });
+
+    $('#Submit').click(function () {
+      if($('#Email').val() == '' || $('#Linkman').val() == '' || $('#MobileTel').val() == '' || $('#EmailMessage').val() != '' || $('#LinkmanMsg').val() != '' || $('#MobileTelMsg').val() != '') {
+        alert('邮箱 联系人 联系方式不能为空');
+        return false;
+      }
+      var formData = new FormData($( "#Form" )[0]);
+      $.ajax({
+        url: '/seller/edit',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+          if(result.status == 'ok'){
+            location.href = '/seller/index';
+          }else {
+            alert(result.msg);
+          }
+        },
+        error: function (returndata) {
+          alert(returndata);
+        }
+      });
+    });
+  });
+
+  $('.isAuditCreative').click(function () {
+    var val = $(this).val();
+    if (val == 2) {
+      $('#CreativeAuditType').hide();
+    }else {
+      $('#CreativeAuditType').show();
+    }
+  });
+</script>
+
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+</body>
+</html>

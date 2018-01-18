@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <title>私有交易</title>
+
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+
+  <!-- page specific plugin styles -->
+
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-part2.min.css" />
+  <![endif]-->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ui.jqgrid.css" />
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-ie.min.css" />
+  <![endif]-->
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+  </script>
+  <!-- inline styles related to this page -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/datepicker.css" />
+
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+
+  <link rel="stylesheet" href="__PUBLIC__/css/common/cityPicker.css">
+
+
+  <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+  <!--[if lte IE 8]>
+  <script src="__PUBLIC__/assets/js/html5shiv.min.js"></script>
+  <script src="__PUBLIC__/assets/js/respond.min.js"></script>
+
+  <![endif]-->
+</head>
+<style>
+  .check-true{
+    width:90px;height: 30px;color:white;background-color: #91b8d0;text-align: center;line-height: 30px;margin:0 10px 10px 10px;
+  }
+  .check-false{
+    width:90px;height: 30px;color:white;background-color: #e4e6e9;text-align: center;line-height: 30px;margin:0 10px 10px 10px;
+  }
+
+  .size-tag{
+    font-size: 13px;
+    font-weight: 400;
+    vertical-align: baseline;
+    white-space: nowrap;
+    background-color: #91b8d0;
+    color: #FFF;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.15);
+    padding: 4px 12px 5px 9px;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+  }
+
+  .size-close{
+    background-color: #91b8d0;
+    color:#FFF;
+    padding-left: 10px;
+    font-size: 15px;
+    line-height: 20px;
+    opacity: 1;
+    width: 18px;
+    text-align: center;
+  }
+</style>
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- /.navbar-container -->
+  <!-- 头部 -->
+  <include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- #section:basics/sidebar -->
+  <!-- 导航条 -->
+  <include file="Common/navigation"/>
+  <!-- /section:basics/sidebar -->
+
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- #section:basics/content.breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+      <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+      </script>
+
+      <ul class="breadcrumb">
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="#">私有交易</a>
+        </li>
+
+        <li>
+          <a href="#">PMP管理</a>
+        </li>
+
+        <li class="active">编辑PMP</li>
+      </ul><!-- /.breadcrumb -->
+
+      <!-- #section:basics/content.searchbox -->
+      <div class="nav-search" id="nav-search">
+
+      </div><!-- /.nav-search -->
+
+      <!-- /section:basics/content.searchbox -->
+    </div>
+
+    <!-- /section:basics/content.breadcrumbs -->
+    <div class="page-content">
+      <!-- #section:settings.box -->
+
+      <!-- /section:settings.box -->
+      <div class="page-content-area">
+
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form class="form-horizontal" id="Form">
+              <!-- #section:elements.form -->
+              <input type="hidden" name="hourDirect" value="" id="time" />
+              <input type="hidden" name="areaDirect" value="" id="city" />
+              <input type="hidden" name="mediaDirect" value="" id="deal" />
+              <input type="hidden" name="adplace" value="" id="adplace" />
+              <input type="hidden" name="id" id="id" value="{$id}" />
+              <input type="hidden" id="placeDirect" value="{$info.placedirect}" />
+              <input type="hidden" id="instDirect" name="instDirect" value="" />
+              <h3 class="header smaller lighter blue">
+                编辑DEAL
+              </h3>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > DEAL名称: </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="name"  value="{$info.name}" class="col-xs-10 col-sm-5" placeholder="请输入deal名称"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > PMP类型: </label>
+                <div class="radio">
+                  <label>
+                    <input name="pmpType" type="radio" <if condition="$info.pmptype eq 1"> checked='checked'</if>  value="1" class="ace" />
+                    <span class="lbl">保价保量</span>
+                  </label>
+                  <label>
+                    <input name="pmpType" type="radio" <if condition="$info.pmptype eq 2"> checked='checked'</if>   value="2" class="ace" />
+                    <span class="lbl"> 保价不保量</span>
+                  </label>
+                  <label>
+                    <input name="pmpType" type="radio" <if condition="$info.pmptype eq 3"> checked='checked'</if>   value="3" class="ace" />
+                    <span class="lbl"> 不保价保量</span>
+                  </label>
+                  <label>
+                    <input name="pmpType" type="radio" <if condition="$info.pmptype eq 4"> checked='checked'</if>   value="4" class="ace" />
+                    <span class="lbl"> 不保价不保量</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 价格: </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="price"  value="{$info.price}" class="col-xs-10 col-sm-5" placeholder="请输入价格"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 优先级: </label>
+
+                <div class="col-sm-9">
+                  <select class="form-text" style="width:160px" name="level">
+                    <option value="">优先级</option>
+                    <?php for($i=1;$i<=10;$i++){  ?>
+                        <if condition="$info.level eq $i">
+                          <option value="{$i}" selected="selected">{$i}</option>
+                        <else/>
+                          <option value="{$i}">{$i}</option>
+                        </if>
+                    <?php } ?>
+                  </select>                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 售卖类型: </label>
+                <div class="radio">
+                 <!-- <label>
+                    <input name="saleType" type="radio"  <if condition="$info.saletype eq 1"> checked='checked'</if>  value="1" class="ace" />
+                    <span class="lbl">最高价</span>
+                  </label>
+                  <label>
+                    <input name="saleType"  type="radio" <if condition="$info.saletype eq 2"> checked='checked'</if> value="2" class="ace" />
+                    <span class="lbl"> 第二出价</span>
+                  </label>-->
+                  <label>
+                    <input name="saleType"  type="radio" <if condition="$info.saletype eq 3"> checked='checked'</if> value="3" class="ace" />
+                    <span class="lbl"> 固定价格</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 开始日期: </label>
+
+                <div class="col-sm-9">
+                  <input class="date-picker" style="width:200px;" type="text" name="startDate"  value="{$info.startdate}" placeholder="开始日期" data-date-format="dd-mm-yyyy"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 结束日期: </label>
+
+                <div class="col-sm-9">
+                  <input class="date-picker" style="width:200px;" name="endDate" value="{$info.enddate}" type="text" placeholder="结束日期" data-date-format="dd-mm-yyyy" />
+                </div>
+              </div>
+              <h3 class="header smaller lighter blue">
+                定向选择
+              </h3>
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 时段: </label>
+                <div class="checkbox" style="width: 1000px">
+                  <?php for($i=0;$i<=11;$i++){ ?>
+                  <label style="margin-right: 7px">
+                    <input name="time" type="checkbox" <?php if(in_array($i,$hourDirect)){  ?>checked='checked' <?php }?> value="{$i}" class="ace" />
+                    <span class="lbl">{$i}</span>
+                  </label>
+                  <?php } ?>
+                  <br>
+                  <?php for($i=12;$i<=23;$i++){ ?>
+                  <label>
+                    <input name="time" type="checkbox" <?php if(in_array($i,$hourDirect)){  ?>checked='checked' <?php }?> value="{$i}" class="ace" />
+                    <span class="lbl">{$i}</span>
+                  </label>
+                  <?php } ?>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 设备类型: </label>
+
+                <div class="col-sm-9">
+                  <select class="form-text" style="width:160px" name="deviceDirect">
+                    <option value="">设备类型</option>
+                    <?php foreach($deviceType as $k=>$v){ ?>
+                    <option value="{$k}" <if condition="$info.devicedirect eq $k"> selected='selected'</if> >{$v}</option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 展现形式: </label>
+                <div class="checkbox" style="width: 1000px">
+                  <?php foreach($inst as $k=>$v){ ?>
+                  <label>
+                    <input name="inst" type="checkbox" <?php if(in_array($k,$instDirect)){  ?>checked='checked' <?php }?> value="{$k}" class="ace" />
+                    <span class="lbl">{$v}</span>
+                  </label>
+                  <?php } ?>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 地域定向: </label>
+                <div class="col-sm-9">
+                  <div class="tab-content" style="height: auto;width: 650px">
+                    <div class="widget-main padding-8">
+                      <button type="button" style="font-size: 14px;color:#169BD5;margin-left: 20px;width:80px;margin-bottom: 10px" id="cityChoice">选择地域</button>
+                      <div id="direct_area" class="tree">
+                        <?php foreach($areaDirect as $k => $v ){
+                            $name = mb_substr($v,0,4,'utf-8').'...';
+                        ?>
+                          <span class='check check-true col-sm-1' title='{$v}' >{$name}</span>
+                        <?php } ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > DSP定向: </label>
+
+                <div class="col-sm-9">
+                    <div class="tools_box">
+                    <div class="tools_box_left">
+                      <div class="tools_search">
+                        <div class="input_list">
+                          <input type="text" />
+                        </div>
+                        <a class="input_button" href="javascript:void(0);" id="searchcategory"></a> </div>
+                      <div class="tools_content">
+                        <ul id="categoryTree" class="ztree0">
+
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="tools_box_center">
+
+                      <a class="rs_left_btn" href="javascript:void(0);" id="checkall_category"></a> <a class="rs_right_btn" href="javascript:void(0);" id="uncheckall_category"></a> </div>
+                    <ul class="tools_box_right clearfix" id="categorytreebox">
+                      <?php foreach($buyerDirect as $k => $v ){  ?>
+                        <li id="{$v.id}" nid="{$v.id}" nname="{$v.company}" flag="dsp" class="rs_box"><input name="dsp[]" type="hidden" value="{$v.id}"><span  class="size-tag">{$v.company}<span class="size-close" onclick="rmSize(this)">×</span></span></li>
+                     <?php  } ?>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 尺寸定向: </label>
+                <div class="col-sm-9">
+                  <div class="tools_box">
+                    <div class="tools_box_left">
+
+                      <div class="tools_search">
+                        <div class="input_list">
+                          <input type="text" />
+                        </div>
+                        <a class="input_button" href="javascript:void(0);" id="searchsize"></a>
+                      </div>
+                      <!--<div class="tools_search">
+                        <a href="javascript:;" class="btn btn-danger btn-block" style="background-color: #4f99c6!important;border-color: #6fb3e0" data-target="#modal-form" data-toggle="modal">自定义尺寸</a>
+                      </div>-->
+                      <div class="tools_content">
+                        <ul id="sizeTree" class="ztree0">
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="tools_box_center">
+
+                      <a class="rs_left_btn" href="javascript:void(0);" id="checkall_size"></a> <a class="rs_right_btn" href="javascript:void(0);" id="uncheckall_size"></a> </div>
+                    <ul class="tools_box_right clearfix" id="sizeTreebox">
+                      <?php foreach($sizeDirect as $k => $v ){  ?>
+                      <li nname="{$v}" flag="size"  nid="{$v}" class="rs_box"><input name="size[]" type="hidden" value="{$v}"><span class="size-tag">{$v}<span class="size-close" onclick="rmSize(this)">×</span></span></li>
+                      <?php  } ?>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 媒体DEAL定向: </label>
+
+                <div class="col-sm-9">
+                  <div class="tab-content" style="height:auto;width: 650px;margin-bottom:20px;position: relative">
+                    <div id="home" class="tab-pane fade in active">
+                      <div style="float: right;">
+                        <button class="btn btn-primary addNative" type="button" style="width: 80px;border-radius: 5px;margin-bottom: 10px" data-target="#modalDeal" data-toggle="modal">
+                          <i class="glyphicon-plus"></i>
+                          新增
+                        </button>
+                      </div>
+                      <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                          <th>编号</th>
+                          <th>媒体名称</th>
+                          <th>DealId</th>
+                          <th class="hidden-480">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sellerDeal">
+                        <?php  $i=1;  foreach($sellerDealDirect as $k => $v){  ?>
+                        <tr><td>{$k}</td><td class="mediaName_{$k}">{$v.company}</td><td class="hidden-480 dealId_{$k}">{$v.dealId}</td><td><a href="javascript:;" onclick="deleteCurrentRow(this)" class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i></a>&nbsp;<a href="javascript:;" onclick="editCurrentRow(this)" class="btn btn-xs btn-success"> <i class="ace-icon fa fa-pencil-square-o bigger-120"></i></i></a></td></tr>
+                        <?php $i++; } ?>
+                        </tbody>
+                      </table>
+
+                    </div>
+
+                    <!-- 媒体deal修改 -->
+                    <div class="" style="display: none;" id="mediaDealEdit">
+                      <div class="widget-box widget-color-orange collapsed">
+                        <!-- #section:custom/widget-box.options.collapsed -->
+                        <div class="widget-header widget-header-small">
+                          <h6 class="widget-title">
+                            媒体Deal定向修改
+                          </h6>
+                          <input type="hidden" id="dealNum" value="" />
+                          <div class="widget-toolbar">
+                            <a href="javascript:;" id="DealClose">
+                              <i class="ace-icon fa fa-times"></i>
+                            </a>
+                          </div>
+                        </div>
+
+                        <!-- /section:custom/widget-box.options.collapsed -->
+                        <div class="widget-body" style="display: block;">
+                          <div class="widget-main">
+                            <div class="form-group" >
+                              <label class="col-sm-4 control-label no-padding-right">媒体账户<font style="color:red;">*</font></label>
+                              <div class="col-sm-3">
+                                <select class="form-text" style="width:160px;margin-bottom: 40px" id="editMediaAccount">
+                                  <option value="">媒体账户</option>
+                                  <?php foreach($mediaList as $k=>$v){ ?>
+                                  <?php if($v['parentid'] == 0){ ?>
+                                  <option value="{$v.company}">{$v.company}</option>
+                                  <?php } ?>
+                                  <?php } ?>
+                                </select>
+                              </div>
+                            </div>
+                            <!-- 原生：标题 start -->
+                            <div class="native_assets_title">
+                              <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right">DealId<font style="color:red;">*</font></label>
+                                <div class="col-sm-5">
+                                  <input type="text" id="editDeal" value="0"  placeholder="文字内容的长度" class="nativeLen col-xs-10 col-sm-9" />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- 原生：标题  end -->
+                            <div class="clearfix" style="margin-top:30px;">
+                              <div class="col-md-offset-3 col-md-9">
+                                <button class="btn btn-info native_button" type="button" onclick="modify_deal()">
+                                  <i class="ace-icon fa fa-check bigger-110"></i>
+                                  修改
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                <!--  <div id="grid-pager"></div>-->
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 媒体广告位定向: </label>
+
+                <div class="col-sm-9">
+                  <div class="tab-content" style="height: auto;width: 650px;margin-left: 5px">
+                    <div class="widget-main padding-8">
+                      <div id="tree1" class="tree"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                  <button class="btn btn-info" id="Submit" type="button">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    确定
+                  </button>
+
+                  &nbsp; &nbsp; &nbsp;
+                  <button class="btn" type="reset" id="return">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    返回
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div><!-- /.col -->
+        </div>
+
+      </div><!-- /.page-content-area -->
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+  <!-- 模态框（Modal） -->
+  <div class="modal fade" id="modalDeal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width: 400px;height: 370px;">
+      <div class="modal-content" style="height: 370px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+                  aria-hidden="true">×
+          </button>
+          <h4 class="modal-title">
+            添加媒体DEAL定向
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" >
+            <label class="col-sm-3 control-label no-padding-right" > 媒体账户: </label>
+
+            <div class="col-sm-9">
+              <select class="form-text" style="width:160px;margin-bottom: 40px" id="mediaAccount">
+                <option value="">媒体账户</option>
+                <?php foreach($mediaList as $k=>$v){ ?>
+                  <?php if($v['parentid'] == 0){ ?>
+                  <option value="{$v.company}">{$v.company}</option>
+                  <?php } ?>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" > DealId: </label>
+
+            <div class="col-sm-9">
+              <input type="text" style="width: 200px;margin-bottom: 60px" id="dealId"  value="" class="col-xs-10 col-sm-5" placeholder="请输入DealId"/>
+            </div>
+          </div>
+
+          <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" id="addDeal" type="button" style="border-radius: 5px">
+              <i class="ace-icon fa fa-check bigger-110"></i>
+              确定
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button style="width: 85px;border-radius: 5px" type="button" class="btn btn-default"
+                    data-dismiss="modal">关闭
+            </button>
+          </div>
+          <!-- /section:pages/profile.info -->
+          <div class="space-20"></div>
+
+        </div>
+        <!--<div class="modal-footer" style="position: relative;bottom: 0px;left: 0px;">
+            <button type="button" class="btn btn-default"
+                    data-dismiss="modal">关闭
+            </button>
+        </div>-->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <!-- 模态框（Modal） -->
+  <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width: 400px;height: 370px;">
+      <div class="modal-content" style="height: 370px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+                  aria-hidden="true">×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            添加广告位尺寸
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" >
+            <label class="col-sm-3 control-label no-padding-right" > 宽: </label>
+
+            <div class="col-sm-9">
+              <input type="text" style="width: 200px;margin-bottom: 40px" id="width"  value="" class="col-xs-10 col-sm-5" placeholder="请输入广告位宽"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" > 高: </label>
+
+            <div class="col-sm-9">
+              <input type="text" style="width: 200px;margin-bottom: 60px" id="height"  value="" class="col-xs-10 col-sm-5" placeholder="请输入广告位高"/>
+            </div>
+          </div>
+
+          <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" id="add" type="button" style="border-radius: 5px">
+              <i class="ace-icon fa fa-check bigger-110"></i>
+              确定
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button style="width: 85px;border-radius: 5px" type="button" class="btn btn-default"
+                    data-dismiss="modal">关闭
+            </button>
+          </div>
+          <!-- /section:pages/profile.info -->
+          <div class="space-20"></div>
+
+        </div>
+        <!--<div class="modal-footer" style="position: relative;bottom: 0px;left: 0px;">
+            <button type="button" class="btn btn-default"
+                    data-dismiss="modal">关闭
+            </button>
+        </div>-->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <!-- 媒体deal修改 -->
+  <div class="col-xs-12 col-sm-12 widget-container-col nativeFrame" style="display: none;">
+    <div class="widget-box widget-color-orange collapsed">
+      <!-- #section:custom/widget-box.options.collapsed -->
+      <div class="widget-header widget-header-small">
+        <h6 class="widget-title">
+          原生添加
+        </h6>
+
+        <div class="widget-toolbar">
+          <a href="javascript:;" class="nativeClose">
+            <i class="ace-icon fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- /section:custom/widget-box.options.collapsed -->
+      <div class="widget-body" style="display: block;">
+        <div class="widget-main">
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right" for="form-field-2">必填<font style="color:red;">*</font></label>
+            <div class="col-sm-5" style="top:5px;">
+              <input name="auditCreative2" value="true" type="radio" checked="checked" class="ace auditCreative" />
+              <span class="lbl">是</span>
+              <input name="auditCreative2" value="false" type="radio"  class="ace auditCreative" />
+              <span class="lbl">否</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right" for="form-field-5">类型<font style="color:red;">*</font></label>
+            <div class="col-sm-3">
+              <select class="form-text mediaType nativeType" name="nativeType" style="width: 110px;">
+                <option value="title" >title</option>
+                <option value="img" >img</option>
+                <option value="video" >video</option>
+                <option value="data" >data</option>
+              </select>
+            </div>
+          </div>
+          <!-- 原生：标题 start -->
+          <div class="native_assets_title">
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">长度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="nativeLen" value="0"  placeholder="文字内容的长度" class="nativeLen col-xs-10 col-sm-9" />
+              </div>
+            </div>
+          </div>
+          <!-- 原生：标题  end -->
+          <!-- 原生：图片 start -->
+          <div class="native_assets_img" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">宽度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_img_width" value="0"  placeholder="宽度" class="native_assets_img_width col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">高度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_img_height" value="0"  placeholder="高度" class="native_assets_img_height col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许创意类型</label>
+              <div class="checkbox">
+                <label>
+                  <input name="native_img_checkbox" value="2" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">图片</span>
+                </label>
+                <label>
+                  <input name="native_img_checkbox" value="7" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">flv</span>
+                </label>
+                <label>
+                  <input name="native_img_checkbox" value="5" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">html</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许文件类型</label>
+              <div class="checkbox">
+                <label>
+                  <input name="native_img_checkbox" value="4" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">jpg</span>
+                </label>
+                <label>
+                  <input name="native_img_checkbox" value="3" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">gif</span>
+                </label>
+                <label>
+                  <input name="native_img_checkbox" value="1" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">png</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-2">图片类型</label>
+              <div class="col-sm-5" style="top:5px;">
+                <input name="native-img-type" value="1" type="radio" checked="checked" class="native-img-type ace auditCreative" />
+                <span class="lbl">icon</span>
+                <input name="native-img-type" value="2" type="radio"  class="native-img-type ace auditCreative" />
+                <span class="lbl">logo</span>
+                <input name="native-img-type" value="3" type="radio"  class="native-img-type ace auditCreative" />
+                <span class="lbl">主图</span>
+              </div>
+            </div>
+          </div>
+          <!-- 原生：图片 end -->
+          <!-- 原生：视频  start -->
+          <div class="native_assets_video" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">宽度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_video_width" value="0"  placeholder="宽度" class="native_assets_video_width col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">高度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_video_height" value="0"  placeholder="高度" class="native_assets_video_height col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">最大时长<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_video_maxduration" value="0"  placeholder="播放最大时长" class="native_assets_video_maxduration col-xs-10 col-sm-9" /><span style="line-height: 35px;">s</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">最小时长<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_video_minduration" value="0"  placeholder="播放最小时长" class="native_assets_video_minduration col-xs-10 col-sm-9" /><span style="line-height: 35px;">s</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许创意类型</label>
+              <div class="checkbox">
+                <label>
+                  <input name="native_video_checkbox" value="2" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">图片</span>
+                </label>
+                <label>
+                  <input name="native_video_checkbox" value="7" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">flv</span>
+                </label>
+                <label>
+                  <input name="native_video_checkbox" value="5" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">html</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许文件类型</label>
+              <div class="checkbox">
+                <label>
+                  <input name="native_video_checkbox" value="4" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">jpg</span>
+                </label>
+                <label>
+                  <input name="native_video_checkbox" value="3" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">gif</span>
+                </label>
+                <label>
+                  <input name="native_video_checkbox" value="1" class="ace ace-checkbox-2" type="checkbox">
+                  <span class="lbl">png</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- 原生：视频 end -->
+          <!-- 原生：数据 start -->
+          <div class="native_assets_data" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">长度<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <input type="text" id="form-field-2" name="native_assets_data_len" value="0"  placeholder="文字内容的长度" class="native_assets_data_len col-xs-10 col-sm-9" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label no-padding-right" for="form-field-5">数据类型<font style="color:red;">*</font></label>
+              <div class="col-sm-5">
+                <select class="form-text mediaType native_assets_data_type" name="native_assets_data_type" style="width: 110px;">
+                  <volist name="native_assets_data_type" id="native_type">
+                    <option value="{$key}">{$native_type}</option>
+                  </volist>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- 原生：数据 end -->
+          <div class="clearfix" style="margin-top:50px;">
+            <div class="col-md-offset-3 col-md-9">
+              <button class="btn btn-info native_button" type="button" onclick="addNativeJson()">
+                <i class="ace-icon fa fa-check bigger-110"></i>
+                添加
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 尾部 -->
+  <!-- 尾部 -->
+  <include file="Common/footer"/>
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/js/common/jquery-1.4.2.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+  if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="__PUBLIC__/js/common/jquery-1.4.2.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.dataTables.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+
+<script src="__PUBLIC__/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__/js/common/cityData.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common/cityPicker.js"></script>
+
+
+<link href="__PUBLIC__/css/common/ztree.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/js/common/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common/getDspTree.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common/getSizeTree.js"></script>
+
+<script src="__PUBLIC__/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="__PUBLIC__/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/fuelux/data/fuelux.tree-sample-demo-data.js"></script>
+<script src="__PUBLIC__/assets/js/fuelux/fuelux.tree.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+  jQuery(function($) {
+    directArea = [];
+    mediaDirect = [];
+
+
+    getMediaAdplace();
+
+    //console.log(tree_data);
+
+    $.fn.getcategory();
+
+    $.fn.getsize();
+
+    var cityPicker = new IIInsomniaCityPicker({
+      data: cityData,
+      target: '#cityChoice',
+      valType: 'k-v',
+      hideCityInput: '#city',
+      hideProvinceInput: '#province',
+      callback: function(city_id) {
+        if(city_id == 0){
+          $('#direct_area span').remove();
+          directArea = [];
+        }else if(contains(directArea, city_id)) {
+          alert("已存在列表中！");
+        } else {
+          directArea.push(city_id);
+          var city = cutString(city_id,8);
+          tianjaneir = "<span class='check check-true col-sm-1' title='"+ city_id +"' >" + city + "</span>";
+          $("#direct_area").append(tianjaneir);
+        }
+      }
+    });
+
+    cityPicker.init();
+
+
+    $('#direct_area .check-true').each(function() {
+      directArea.push($(this).attr('title'));
+    });
+
+    $('#sellerDeal tr').each(function(i) {
+      i = i+1;
+      //alert(i);
+      var mediaAccount = $(".mediaName_"+i).html();
+      var dealId = $(".dealId_"+i).html();
+      if(!mediaDirect[mediaAccount]){
+        mediaDirect[mediaAccount] = [] ;
+      }
+      mediaDirect[mediaAccount].push(dealId);
+      console.log(mediaDirect);
+
+    });
+    var oTable1 =
+        $('#sample-table-2')
+        //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+            .dataTable({
+              bAutoWidth: false,
+              "aoColumns": [
+                {"bSortable": false},
+                null, null, null, null, null,
+                {"bSortable": false}
+              ],
+              "aaSorting": [],
+            });
+
+    $(document).on('click', 'th input:checkbox', function () {
+      var that = this;
+      $(this).closest('table').find('tr > td:first-child input:checkbox')
+          .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+          });
+    });
+
+
+    $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+    function tooltip_placement(context, source) {
+      var $source = $(source);
+      var $parent = $source.closest('table')
+      var off1 = $parent.offset();
+      var w1 = $parent.width();
+
+      var off2 = $source.offset();
+      //var w2 = $source.width();
+
+      if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
+      return 'left';
+    }
+
+    $('#Submit').click(function () {
+      var directArea = [];
+      var directHour = [];
+      var directAdplace = [];
+      var directInst = [];
+      $('#direct_area .check-true').each(function() {
+        directArea.push($(this).attr('title'));
+      });
+      $('input[name="time"]:checked').each(function(item){
+        directHour.push($(this).val());
+      });
+      $('input[name="inst"]:checked').each(function(item){
+        directInst.push($(this).val());
+      });
+      var directHour_str = directHour.join(",");
+      var directArea_str = directArea.join(",");
+      var directInst_str = directInst.join(",");
+      var directMedia = [];
+      var i = 0;
+      for( var key in mediaDirect)
+      {
+
+        var mediadeal = mediaDirect[key].join(",");
+        directMedia[i] = key+'-'+mediadeal;
+        i++;
+      }
+
+      var directMedia_str = directMedia.join("|");
+      console.log(directMedia_str);
+      $('#tree1 .tree-selected').each(function() {
+        //alert($(this).children().next().text());
+        directAdplace.push($(this).children().next().text());
+      });
+      var directAdplace_str = directAdplace.join(",");
+      $("#time").val(directHour_str);
+      $("#city").val(directArea_str);
+      $("#deal").val(directMedia_str);
+      $("#adplace").val(directAdplace_str);
+      $("#instDirect").val(directInst_str);
+
+      var formData = new FormData($( "#Form" )[0]);
+      $.ajax({
+        url: '/Pmp/edit',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+          if(result.status == 'ok'){
+            window.location.href='/Pmp/index';
+          }else {
+            alert(result.msg);
+          }
+        },
+        error: function (returndata) {
+          alert(returndata);
+        }
+      });
+    });
+
+    $('.date-picker').datepicker({
+      autoclose: true,
+      todayHighlight: true
+    })
+
+    $('#modal-form input[type=file]').ace_file_input({
+      style:'well',
+      btn_choose:'Drop files here or click to choose',
+      btn_change:null,
+      no_icon:'ace-icon fa fa-cloud-upload',
+      droppable:true,
+      thumbnail:'large'
+    })
+
+    //chosen plugin inside a modal will have a zero width because the select element is originally hidden
+    //and its width cannot be determined.
+    //so we set the width after modal is show
+    $('#modal-form').on('shown.bs.modal', function () {
+      $(this).find('.chosen-container').each(function(){
+        $(this).find('a:first-child').css('width' , '210px');
+        $(this).find('.chosen-drop').css('width' , '210px');
+        $(this).find('.chosen-search input').css('width' , '200px');
+      });
+    });
+  });
+  $('#return').click(function () {
+    location.href = '/Pmp/index';
+  });
+
+  $("#addDeal").click(function(){
+    var num = 0;
+    $('#sellerDeal tr').each(function(i) {
+      var num1 = $(this).children().html();
+      if(num1 > num){
+        num = num1;
+      }
+
+    });
+    var id = parseInt(num) + 1;
+    var mediaAccount = $("#mediaAccount").val();
+    var dealId = $("#dealId").val();
+    if(mediaAccount == '' || dealId == ''){
+      alert('请完善信息！');
+      exit();
+    }
+    if(!mediaDirect[mediaAccount]){
+      mediaDirect[mediaAccount] = [];
+    }
+    if(!contains(mediaDirect[mediaAccount],dealId)){
+      var tr = document.createElement("tr");
+      var obj = $(tr);
+      obj.append("<td >"+id+"</td>");
+      obj.append("<td class='mediaName_"+ id +"'>"+mediaAccount+"</td>");
+      obj.append("<td class='hidden-480 dealId_"+ id +"'>"+ dealId+"</td>");
+      obj.append("<td><a href=\"javascript:;\" onclick=\"deleteCurrentRow(this)\" class=\"btn btn-xs btn-danger\"> <i class=\"ace-icon fa fa-trash-o bigger-120\"></i></a>&nbsp;<a href=\"javascript:;\" onclick=\"editCurrentRow(this)\" class=\"btn btn-xs btn-success\"> <i class=\"ace-icon fa fa-pencil-square-o bigger-120\"></i></i></a></td>");
+      $("#sample-table-1").append(tr);
+      mediaDirect[mediaAccount].push(dealId);
+      $('#modalDeal').modal('hide');
+      $("#mediaAccount").val('');
+      $("#dealId").val('');
+      console.log(mediaDirect);
+    }else{
+      console.log(mediaDirect);
+      alert("添加信息已存在！");
+    }
+
+  });
+
+  $('.check').live('click',function(){
+    var check = $(this).is('.check-true');
+    if (check) {
+      $(this).removeClass('check-true').addClass('check-false');
+    } else {
+      $(this).removeClass('check-false').addClass('check-true');
+    }
+  })
+
+
+  function cutString(str, len) {
+    //length属性读出来的汉字长度为1
+    if(str.length*2 <= len) {
+      return str;
+    }
+    var strlen = 0;
+    var s = "";
+    for(var i = 0;i < str.length; i++) {
+      s = s + str.charAt(i);
+      if (str.charCodeAt(i) > 128) {
+        strlen = strlen + 2;
+        if(strlen >= len){
+          return s.substring(0,s.length-1) + "...";
+        }
+      } else {
+        strlen = strlen + 1;
+        if(strlen >= len){
+          return s.substring(0,s.length-2) + "...";
+        }
+      }
+    }
+    return s;
+  }
+
+  function getMediaAdplace(){
+    var id = $("#id").val();
+    $.ajax({
+      type: "POST",
+      url: '/Common/getMediaTree',
+      dataType: "json",
+      data: {'id': id},
+      success: function (a) {
+        var obj = eval('(' + a + ')');
+        treeDataSource = new DataSourceTree({data: obj});
+        $('#tree1').ace_tree({
+          dataSource: treeDataSource ,
+          multiSelect:true,
+          loadingHTML:'<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+          'open-icon' : 'ace-icon tree-minus',
+          'close-icon' : 'ace-icon tree-plus',
+          'selectable' : true,
+          'selected-icon' : 'ace-icon fa fa-check',
+          'unselected-icon' : 'ace-icon fa fa-times',
+          'cacheItems': true,
+          'folderSelect': true
+        });
+        $('#tree1')
+                .on('updated', function(e, result) {
+                  //result.info  >> an array containing selected items
+                  //result.item
+                  //result.eventType >> (selected or unselected)
+                })
+                .on('selected', function(e) {
+                })
+                .on('unselected', function(e) {
+                })
+                .on('opened', function(e) {
+
+                })
+                .on('closed', function(e) {
+                });
+      },
+      error: function (a, b, c) {
+
+      }
+    });
+  }
+
+  $("#DealClose").click(function(){
+    $("#mediaDealEdit").css("display",'none');
+  })
+
+  function deleteCurrentRow(obj){
+
+    var tr=obj.parentNode.parentNode;
+    var mediaName=obj.parentNode.previousSibling.previousSibling.innerHTML;
+    var dealId=obj.parentNode.previousSibling.innerHTML;
+    var tbody = tr.parentNode;
+    tbody.removeChild(tr);
+    //alert(dealId);
+    removeByValue(mediaDirect[mediaName],dealId);
+    console.log(mediaDirect[mediaName]);
+  }
+
+  function editCurrentRow(obj){
+    var id = obj.parentNode.previousSibling.previousSibling.previousSibling.innerHTML;
+    var mediaName=obj.parentNode.previousSibling.previousSibling.innerHTML;
+    var dealId =obj.parentNode.previousSibling.innerHTML;
+    $("#editMediaAccount").val(mediaName);
+    $("#editDeal").val(dealId);
+    $("#dealNum").val(id);
+    //delete mediaDirect[mediaName];
+    $("#mediaDealEdit").css("display",'block');
+  }
+
+
+  function rmSize(obj){
+    var li =obj.parentNode.parentNode;
+    var ul = li.parentNode;
+    ul.removeChild(li);
+  }
+
+  function contains(arr, obj) {
+    var i = arr.length;
+    while (i--) {
+      if (arr[i] === obj) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function removeByValue(arr, val) {
+    for(var i=0; i<arr.length; i++) {
+      if(arr[i] == val) {
+        arr.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+
+
+
+  function modify_deal(){
+    var dealNum = $("#dealNum").val();
+    var tempMediaClass = ".mediaName_"+dealNum;
+    var tempDealClass = ".dealId_"+dealNum;
+    var oldMediaName = $(tempMediaClass).html();
+    var oldDealId =  $(tempDealClass).html();
+    var editMediaAccount = $("#editMediaAccount").val();
+    var editDeal = $("#editDeal").val();
+    if(editMediaAccount == '' || editDeal == ''){
+      alert('请完善信息！');
+      exit();
+    }
+    if(!mediaDirect[editMediaAccount]){
+      mediaDirect[editMediaAccount] = [];
+    }
+   if(!contains(mediaDirect[editMediaAccount],editDeal)) {
+     removeByValue(mediaDirect[oldMediaName],oldDealId);
+     mediaDirect[editMediaAccount].push(editDeal);
+     $(tempMediaClass).html(editMediaAccount);
+     $(tempDealClass).html(editDeal);
+   }else{
+     alert('添加信息已存在！');
+   }
+    console.log(mediaDirect);
+
+  }
+
+</script>
+
+</body>
+</html>

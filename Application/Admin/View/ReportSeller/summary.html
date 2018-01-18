@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+  <!-- page specific plugin styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/chosen.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/jquery-ui.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/datepicker.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ui.jqgrid.css" />
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+  </script>
+  <script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+  <!-- page specific plugin scripts -->
+  <script src="__PUBLIC__/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+  <script src="__PUBLIC__/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+  <script src="__PUBLIC__/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+  <!-- ace scripts -->
+  <script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+  <script src="__PUBLIC__/assets/js/ace.min.js"></script>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+  <script src="__PUBLIC__/js/common/echarts.min.js"></script>
+</head>
+
+<body class="no-skin">
+
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- /section:settings.box -->
+    <div class="page-content-area">
+      <div class="row" style="height:30px;">
+        <div class="col-xs-2">
+          <select name="seller" id="Seller" class="chosen-select" data-placeholder="全部卖方" style="width: 100%;">
+            <option value="">全部卖方</option>
+            <foreach name="seller" item="v">
+              <option value="{$v.id}">{$v.company}</option>
+            </foreach>
+          </select>
+        </div>
+        <!--<div class="col-xs-2">-->
+          <!--<select name="sellerSon" id="SellerSon" style="width: 100%;">-->
+            <!--<option value="">全部</option>-->
+            <!--<foreach name="sellerSon" item="v">-->
+              <!--<option value="{$v.id}">{$v.company}</option>-->
+            <!--</foreach>-->
+          <!--</select>-->
+        <!--</div>-->
+        <div class="col-xs-2">
+          <select name="groupBy" id="GroupBy" style="width: 100%;">
+            <option value="id">维度统计</option>
+            <option value="reportDate">按时间</option>
+            <option value="sellerId">按卖方</option>
+          </select>
+        </div>
+        <div class="col-xs-3">
+          <input style="width: 108px;" class="date-picker" id="start_time" type="text" value="{$startTime}" data-date-format="yyyy-mm-dd"/>
+          <span class="" style="width: 18px;">
+                      <i class="fa fa-exchange"></i>
+                  </span>
+          <input style="width: 108px;" class="date-picker" id="end_time" type="text" value="{$endTime}" data-date-format="yyyy-mm-dd"/>
+        </div>
+        <div class="col-xs-3" style="text-align:left;">
+          <a href="#" id="Search">
+            <button type="button" class="btn btn-sm btn-success">
+              查询
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12" style="margin-top: 5px">
+          <!-- PAGE CONTENT BEGINS -->
+
+          <table id="grid-table"></table>
+
+          <div id="grid-pager"></div>
+
+          <script type="text/javascript">
+            var $path_base = "..";//in Ace demo this will be used for editurl parameter
+          </script>
+
+          <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.page-content-area -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+  <!-- 尾部 -->
+</div><!-- /.main-container -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+<script src="__PUBLIC__/assets/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+  jQuery(function($) {
+
+    $('.chosen-select').chosen({allow_single_deselect:true});
+    //resize the chosen on window resize
+
+    $(window)
+            .off('resize.chosen')
+            .on('resize.chosen', function() {
+              $('.chosen-select').each(function() {
+                var $this = $(this);
+                $this.next().css({'width': $this.parent().width()});
+              })
+            }).trigger('resize.chosen');
+  });
+</script>
+
+
+<script type="text/javascript">
+  jQuery(function($) {
+    var grid_selector = "#grid-table";
+    var pager_selector = "#grid-pager";
+
+    //resize to fit page size
+    $(window).on('resize.jqGrid', function () {
+      $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+    });
+    //resize on sidebar collapse/expand
+    var parent_column = $(grid_selector).closest('[class*="col-"]');
+    $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
+      if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+        //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+        setTimeout(function() {
+          $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+        }, 0);
+      }
+    });
+
+    var colNames = {$colNames};
+    var colModel = {$colModel};
+
+    jQuery(grid_selector).jqGrid({
+
+      //direction: "rtl",
+      //subgrid options
+      subGrid : false,
+//      subGridModel: [{ name : ['No','Item Name','Qty'], width : [5500,20000,8000] }],
+      //datatype: "xml",
+      subGridOptions : {
+        plusicon : "ace-icon fa fa-plus center bigger-110 blue",
+        minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
+        openicon : "ace-icon fa fa-chevron-right center orange"
+      },
+      url:"/reportSeller/summary",
+      datatype: 'json',
+      mtype: 'POST',
+      height: 320,
+      colNames:colNames,
+      colModel:colModel,
+
+      viewrecords : true,
+      rowNum:10,
+      rowList:[10,30,50],
+      pager : pager_selector,
+      altRows: true,
+      //toppager: true,
+
+      shrinkToFit:false,
+      autoScroll: true,
+
+      multiselect: false,
+      //multikey: "ctrlKey",
+      multiboxonly: true,
+
+      loadComplete : function() {
+        var table = this;
+        setTimeout(function(){
+          styleCheckbox(table);
+
+          updateActionIcons(table);
+          updatePagerIcons(table);
+          enableTooltips(table);
+        }, 0);
+      },
+
+      editurl: "",//nothing is saved
+      caption: "",
+      autowidth: true,
+      jsonReader: {
+        repeatitems : false,
+        root:"data"
+      }
+      /**
+       ,
+       grouping:true,
+       groupingView : {
+						 groupField : ['name'],
+						 groupDataSorted : true,
+						 plusicon : 'fa fa-chevron-down bigger-110',
+						 minusicon : 'fa fa-chevron-up bigger-110'
+					},
+       caption: "Grouping"
+       */
+
+    });
+    $(window).triggerHandler('resize.jqGrid');
+
+    function aceSwitch( cellvalue, options, cell ) {
+      setTimeout(function(){
+        $(cell) .find('input[type=checkbox]')
+            .addClass('ace ace-switch ace-switch-5')
+            .after('<span class="lbl"></span>');
+      }, 0);
+    }
+
+    function pickDate( cellvalue, options, cell ) {
+      setTimeout(function(){
+        $(cell) .find('input[type=text]')
+            .datepicker({format:'yyyy-mm-dd' , autoclose:true});
+      }, 0);
+    }
+
+    //navButtons
+    jqnav = jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+        { 	//navbar options
+          edit: false,
+          editicon : 'ace-icon fa fa-pencil blue',
+          add: false,
+          addicon : 'ace-icon fa fa-plus-circle purple',
+          del: false,
+          delicon : 'ace-icon fa fa-trash-o red',
+          search: false,
+          searchicon : 'ace-icon fa fa-search orange',
+          refresh: false,
+          refreshicon : 'ace-icon fa fa-refresh green',
+          view: false,
+          viewicon : 'ace-icon fa fa-search-plus grey',
+        },
+        {
+          //edit record form
+          //closeAfterEdit: true,
+          //width: 700,
+          recreateForm: false,
+          beforeShowForm : function(e) {
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
+            style_edit_form(form);
+          }
+        },
+        {
+          //new record form
+          //width: 700,
+          closeAfterAdd: true,
+          recreateForm: true,
+          viewPagerButtons: false,
+          beforeShowForm : function(e) {
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+                .wrapInner('<div class="widget-header" />');
+            style_edit_form(form);
+          }
+        },
+        {
+          //delete record form
+          recreateForm: true,
+          beforeShowForm : function(e) {
+            var form = $(e[0]);
+            if(form.data('styled')) return false;
+
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
+            style_delete_form(form);
+
+            form.data('styled', true);
+          },
+          onClick : function(e) {
+            alert(1);
+          }
+        },
+        {
+          //search form
+          recreateForm: true,
+          afterShowSearch: function(e){
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
+            style_search_form(form);
+          },
+          afterRedraw: function(){
+            style_search_filters($(this));
+          }
+          ,
+          multipleSearch: true,
+          /**
+           multipleGroup:true,
+           showQuery: true
+           */
+        },
+        {
+          //view record form
+          recreateForm: true,
+          beforeShowForm: function(e){
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+          }
+        }
+    );
+
+    jqnav.navButtonAdd(pager_selector, {
+      caption: "",
+      title:"导出报表",
+      buttonicon: "ace-icon fa fa-download blue",
+      onClickButton: function () {
+        var startTime = $('#start_time').val();
+        var endTime = $('#end_time').val();
+        var sellerId = $('#Seller').val() ? $('#Seller').val() : 0;
+        var groupBy = $('#GroupBy').val() ? $('#GroupBy').val() : 'id';
+
+        if (!compareDate(endTime, startTime)){
+          return false;
+        }
+
+        window.location.href = '/reportSeller/exportSummaryReport/startTime/'+startTime+'/endTime/'+endTime+'/sellerId/'+sellerId+'/groupBy/'+groupBy;
+      },
+      position: "last"
+    });
+
+    function search() {
+      var startTime = $('#start_time').val();
+      var endTime = $('#end_time').val();
+      var sellerId = $('#Seller').val();
+//      var sellerSonId = $('#SellerSon').val();
+      var groupBy = $('#GroupBy').val();
+      var hideCol = '';
+      var showCol = '';
+      if (groupBy == 'id') {
+        hideCol = '';
+        showCol = 'reportdate, sellerid';
+        showCol = ['reportdate', 'sellerid'];
+      }else if(groupBy == 'reportDate') {
+        hideCol = 'sellerid';
+        showCol = 'reportdate';
+      }else if(groupBy == 'sellerId') {
+        hideCol = 'reportdate';
+        showCol = 'sellerid';
+      }
+
+      if (!compareDate(endTime, startTime)){
+        return false;
+      }
+
+      //刷新表格
+      jQuery(grid_selector).jqGrid('setGridParam',{
+        datatype:'json',
+        postData: {
+          'startTime' : startTime,
+          'endTime' : endTime,
+          'sellerId' : sellerId,
+          'groupBy' : groupBy
+//          'sellerSonId':sellerSonId
+        }, //发送数据
+        page:1
+      }).hideCol(hideCol).showCol(showCol).trigger("reloadGrid"); //重新载入
+
+    }
+
+    $('#Search').click(function () {
+      search();
+    });
+
+    function styleCheckbox(table) {}
+    function updateActionIcons(table) {}
+
+    function updatePagerIcons(table) {
+      var replacement =
+      {
+        'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+        'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+        'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+        'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+      };
+      $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+        var icon = $(this);
+        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+        if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+      })
+    }
+
+    function enableTooltips(table) {
+      $('.navtable .ui-pg-button').tooltip({container:'body'});
+      $(table).find('.ui-pg-div').tooltip({container:'body'});
+    }
+
+    $(document).on('ajaxloadstart', function(e) {
+      $(grid_selector).jqGrid('GridUnload');
+      $('.ui-jqdialog').remove();
+    });
+
+    $('.date-picker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+    });
+
+//    $('#Seller').change(function () {
+//      var parentId = $(this).val();
+//      $.post('/reportSeller/getSellerSon', {parentId: parentId}, function (result) {
+//        var options = '<option value="">全部</option>';
+//        $.each(result, function (idx, obj) {
+//          options += '<option value="'+obj.id+'">'+obj.company+'</option>'
+//        })
+//        $('#SellerSon').empty();
+//        $('#SellerSon').append(options);
+//      });
+//    });
+
+  });
+</script>
+<script>
+  //比较dateone是否大于datetwo 两个日期的差距是否小于等于90天  dd-mm-yy格式日期
+  function compareDate(DateOne,DateTwo)
+  {
+    var str="-";
+
+    var OneYear = DateOne.substring(0,DateOne.indexOf (str));
+    var OneMonth = DateOne.substring(DateOne.indexOf (str) + 1,DateOne.lastIndexOf (str));
+    var OneDay  = DateOne.substring(DateOne.lastIndexOf (str)+1,DateOne.length);
+
+    var TwoYear = DateTwo.substring(0,DateTwo.indexOf (str));
+    var TwoMonth = DateTwo.substring(DateTwo.indexOf (str) + 1,DateTwo.lastIndexOf (str));
+    var TwoDay = DateTwo.substring(DateTwo.lastIndexOf (str)+1,DateTwo.length);
+
+    myDate = new Date();
+    var month = myDate.getMonth() + 1;
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    var day = myDate.getDate();
+    if (day >= 1 && day <= 9) {
+      day = "0" + day;
+    }
+
+    if ( Date.parse(OneMonth+"/"+OneDay+"/"+OneYear) >= Date.parse(TwoMonth+"/"+TwoDay+"/"+TwoYear) ){
+      if( (Date.parse(OneMonth+"/"+OneDay+"/"+OneYear)/1000-Date.parse(TwoMonth+"/"+TwoDay+"/"+TwoYear)/1000) <= 90*24*3600 ) {
+        if(Date.parse(TwoMonth+"/"+TwoDay+"/"+TwoYear) < Date.parse(07+"/"+01+"/"+2017)) {
+          alert('暂不提供7月份之前的报表');
+          return false;
+        }else if(Date.parse(OneMonth+"/"+OneDay+"/"+OneYear) > Date.parse(month+"/"+day+"/"+myDate.getFullYear())) {
+          alert('不提供今天之后的报表');
+          return false;
+        }
+        return true;
+      }else{
+        alert('选中时间间隔天数不能大于90天');
+        return false;
+      }
+    }else {
+      alert('开始时间不能大于结束时间');
+      return false;
+    }
+
+  }
+
+  function getNowFormatDate(day) {
+    myDate = new Date();
+    var month = myDate.getMonth() + 1;
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (day == '') {
+      day = myDate.getDate();
+      if (day >= 1 && day <= 9) {
+        day = "0" + day;
+      }
+    }
+
+    var currentdate = day+'-'+month+'-'+myDate.getFullYear();
+    return currentdate;
+  }
+</script>
+</body>
+</html>

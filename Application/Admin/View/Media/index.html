@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>媒体管理</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+        <script src="__PUBLIC__/assets/js/jquery-ui.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+
+<div class="main-container" id="main-container">
+	<!-- #section:basics/sidebar -->
+	<!-- 导航条 -->
+        
+	<include file="Common/navigation"/>
+	<!-- /section:basics/sidebar -->
+
+	<!-- 正文 -->
+	<div class="main-content">
+		<!-- 内容块 -->
+			<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">媒体管理</a>
+						</li>
+						<li class="active">媒体信息</li>
+					</ul>
+				</div>
+				
+				<!-- 				搜索区域 start-->
+				
+				<div class="page-content">
+						<input type="text"  class="form-text" style="height: 33px;"name="name_seller" id="name_seller" placeholder="媒体帐户">
+						<input type="text"  class="form-text"style="height: 33px;" name="name_media"  id="name_media" placeholder="媒体名称">	
+                                                <input type="text"  class="form-text"style="height: 33px;" name="do_main"  id="do_main" placeholder="域名/包名">
+						<select class="form-text" style="width: 168px;height: 33px;" name="status" id="status">
+						  <option value="">全部状态</option>
+						  <option value="1">正常</option>
+						  <option value="2">停用</option>
+						</select>
+                                                <input type="text"  class="form-text"style="height: 33px;" name="sellerid"  id="sellerid" placeholder="账户ID">
+                                                <a href="/media/add">
+                                                    <!--						<button class="btn btn-primary" type="button" type="button" style="width: 100px;margin-left: 6px;height:30px;border-radius: 5px;float:right;padding-top: 1px;">
+                                                                                                                                    <i class="glyphicon-plus"></i>
+                                                                                                                                    新增
+                                                                                                    </button>-->
+                                                    <button type="button" class="btn btn-sm btn-success" id="addallow" style="width: 100px;margin-left: 6px;height:30px;border-radius: 5px;float:right;padding-top: 1px;">
+                                                        新增
+                                                        <i class="glyphicon glyphicon-plus"></i>
+                                                    </button>
+                                                </a>
+                                                <script>
+                         var addallow=document.getElementById("addallow");
+                                             
+
+                                              if({$isAddAllow} == 0){
+                                                     addallow.style.display="none"
+                                           }else{
+                                                          addallow.style.display="block"
+                                                             }
+
+
+                                                </script>
+					<button class="btn btn-info" type="button" style="width: 100px;height:30px;border-radius: 5px;padding-top: 1px;float:right;" id="search">
+									<i class="ace-icon glyphicon glyphicon-search"></i>
+									查询
+					</button>
+
+				</div>
+				
+				<!-- 				搜索区域 end-->
+					
+				<!-- 				搜索区域 end-->
+				
+				<!-- 				表格/列表 -->
+				<div class="page-content">
+					<div class="page-content-area">
+						<div class="row">
+							<div class="col-xs-12">
+								<table id="grid-table"></table>
+								<div id="grid-pager"></div>
+								<script type="text/javascript">
+									var $path_base = "..";//in Ace demo this will be used for editurl parameter
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+<!-- 			<button class="btn btn-primary" type="button" style="width: 70px;left:30px;height: 40px;"> -->
+<!-- 							<i class="glyphicon-plus"></i> -->
+<!-- 							导入 -->
+<!-- 			</button> -->
+<!--			<div class="row" style="width: 600px;margin-left: 10px;margin-top: -72px;">-->
+                            <div class="row" style="width: 390px;margin-left: 10px;/* margin-top: -72px; */position: absolute;top: 536px;left: -98;">
+			<div class="col-sm-4">
+				<div class="widget-box" style="border-radius: 5px;" id="ismediaImport">
+                                    <div class="widget-header" >
+						<h4 class="widget-title">导入</h4>
+						<div class="widget-toolbar">
+							<a href="#" data-action="collapse">
+								<i class="ace-icon fa fa-chevron-down"></i>
+							</a>
+<!-- 							<a href="#" data-action="close"> -->
+<!-- 								<i class="ace-icon fa fa-times"></i> -->
+<!-- 							</a> -->
+						</div>
+					</div>
+                                    <script>
+                         var ismediaImport=document.getElementById("ismediaImport");
+                                             
+
+                                              if({$ismediaImport} == 0){
+                                                     ismediaImport.style.display="none"
+                                           }
+
+
+                                                </script>
+					<div class="widget-body" style="display: none;">
+						<div class="widget-main">
+							<div class="form-group">
+								<div class="col-xs-12">
+									<form method="post" action="/Media/mediaImport" id="up_form" enctype="multipart/form-data">
+										<input multiple="" type="file" name="file_stu" id="id-input-file-3" />
+										<a class="up_a" href="/Public/uploads/media/媒体批量导入模板.xls">媒体导入模板下载</a> 
+									</form>
+								</div>
+							</div>
+							<label>
+								<input type="checkbox" name="file-format" id="id-file-format" class="ace" />
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button id='ismediaExport' class="btn btn-primary place_export" type="button" style="width: 70px;height: 38px;top:4px;border-radius: 5px;">
+								<i class="glyphicon-plus"></i>
+								导出
+			</button>
+			</div>
+			
+	</div>
+         <script>
+                         var ismediaExport=document.getElementById("ismediaExport");
+                                             
+
+                                              if({$ismediaExport} == 0){
+                                                     ismediaExport.style.display="none"
+                                           }
+
+
+                                                </script>
+	<include file="Common/footer"/>
+</div><!-- /.main-container -->
+<!-- basic scripts -->
+<script type="text/javascript">
+			var subgrid_data =""; 
+			[
+			 {id:"1", name:"sub grid item 1", qty: 11},
+			 {id:"2", name:"sub grid item 2", qty: 3},
+			 {id:"3", name:"sub grid item 3", qty: 12},
+			 {id:"4", name:"sub grid item 4", qty: 5},
+			 {id:"5", name:"sub grid item 5", qty: 2},
+			 {id:"6", name:"sub grid item 6", qty: 9},
+			 {id:"7", name:"sub grid item 7", qty: 3},
+			 {id:"8", name:"sub grid item 8", qty: 8}
+			];
+			
+			jQuery(function($) {
+				var grid_selector = "#grid-table";
+				var pager_selector = "#grid-pager";
+				
+				//resize to fit page size
+				$(window).on('resize.jqGrid', function () {
+					$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+			    })
+				//resize on sidebar collapse/expand
+				var parent_column = $(grid_selector).closest('[class*="col-"]');
+				$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
+					if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+						//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+						setTimeout(function() {
+							$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+						}, 0);
+					}
+			    })
+			
+			    
+			    //操作自定义操作a标签
+//			    function cLink(cellvalue, options, rowObject){
+//					var id=rowObject.id;
+//					var edit = '<a style="text-decoration: none;" class="btn btn-xs btn-success" href="/Media/edit?id='+id+'" id="edit_'+id+'"  >修改</a>&nbsp;&nbsp;&nbsp;';
+//					var directional = '<a style="text-decoration: none;" href="/Media/setDirect?id='+id+'" class="btn btn-xs" id="directional_'+id+'">定向设置</a>&nbsp;&nbsp;&nbsp;';
+//// 					var route = '<a style="text-decoration: none;" href="/Route/index?id='+id+'" id="route_'+id+'"  onclick="route('+id+')">路由管理</a>&nbsp;&nbsp;&nbsp;';
+//					return edit+directional;
+//				}
+				
+				//操作状态效果
+			    function statusButton(cellvalue, options, rowObject){
+					var id=rowObject.id;
+					var statusButton="";
+                                        if({$isSetStatus} == 1) {
+        var edit = '';
+      }else {
+        var edit = 'onclick="return false;"';
+    }
+					if(rowObject.status == 1){
+        statusButton = '<div class="col-xs-3" style="top: 5px;"><label style="margin-left: -15px;"><input checked name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" '+edit+' onchange="set_status('+id+')" type="checkbox"><span class="lbl"></span></label></div>';
+      }else{
+        statusButton = '<div class="col-xs-3" style="top: 5px;"><label style="margin-left: -15px;"><input name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" '+edit+' onchange="set_status('+id+')" type="checkbox"><span class="lbl"></span></label></div>';
+      }
+					
+					return statusButton;
+				}
+				jQuery(grid_selector).jqGrid({
+					subGridRowExpanded: function (subgridDivId, rowId) {
+						var subgridTableId = subgridDivId + "_t";
+						$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+						$("#" + subgridTableId).jqGrid({
+							datatype: 'local',
+							data: subgrid_data,
+							colNames: ['No','Item Name','Qty'],
+							colModel: [
+								{ name: 'id', width: 50 },
+								{ name: 'name', width: 150 },
+								{ name: 'qty', width: 50 }
+							]
+						});
+					},
+// 					data: grid_data,
+					url:"/Media/index",
+					mtype: 'POST',
+					datatype: "json",
+					height: 330,
+					colNames:['序号','媒体账户','账户ID','媒体名称',  '媒体ID', '媒体类型','域名/包名','一级分类','二级分类','状态','操作'],
+					colModel:[
+						{name:'num',index:'num',width:50, sortable:false,edittype:"textarea"},
+						{name:'sellername',index:'sellername', width:150,sortable:false,edittype:"textarea"},
+						{name:'sellerid',index:'sellerid', width:150, sortable:false,edittype:"textarea"},
+                                                {name:'name',index:'name', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
+						{name:'id',index:'id',width:80, editable:true, sorttype:"date",unformat: pickDate},
+						
+						{name:'mediatype',index:'mediatype', width:100, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
+						{name:'domain',index:'domain', width:180, sortable:false,edittype:"textarea"},
+//                                                {name:'storeurl',index:'storeurl', width:100, sortable:false,edittype:"textarea"},
+						{name:'category1',index:'category1',width:70, sortable:false,edittype:"textarea"},
+						{name:'category2',index:'category2',width:70, sortable:false,edittype:"textarea"},
+						{name:'status', width : 90, index : 'id',  align: 'center',sortable:false,edittype:"textarea",formatter:statusButton},
+//						{name:'saf', width : 180, index : 'id',  align: 'center',sortable:false,edittype:"textarea",formatter:cLink}
+//                                                {name: 'saf', index: '', width:200, fixed: true, sortable: false, resize: false,formatter: 
+                                                {name:'saf', width : 150, index : 'saf',  align: 'center', sortable:false,edittype:"textarea",formatter:
+                  function (value, grid, rows, state) {
+                                       if({$isDirect} == 1){
+                                           var directional = '<a style="text-decoration: none;" href="/Media/setDirect?id='+rows.id+'" class="btn btn-xs" id="directional_'+rows.id+'">定向设置</a>&nbsp;&nbsp;&nbsp;';
+                                       }else{
+                                            var directional = '';
+                                       }
+					
+					
+            if({$isAllow} == 1) {
+             var edit = '<a style="text-decoration: none;" class="btn btn-xs btn-success" href="/Media/edit?id='+rows.id+'" id="edit_'+rows.id+'"  >修改</a>&nbsp;&nbsp;&nbsp;';
+            }else {
+              var edit = '';
+            }
+           return edit+directional;}
+        }
+					], 
+//					rowNum:10,
+//					rowList:[10,20,30],
+//					pager : pager_selector,
+//// 					rownumbers:true,
+//					altRows: true,
+//			        multiboxonly: true,
+      viewrecords : true,
+      rowNum:10,
+      rowList:[10,20,30],
+      pager : pager_selector,
+      altRows: true,
+      //toppager: true,
+
+      multiselect: false,
+      //multikey: "ctrlKey",
+      multiboxonly: true,
+
+					loadComplete : function() {
+						var table = this;
+						setTimeout(function(){
+							styleCheckbox(table);
+							
+							updateActionIcons(table);
+							updatePagerIcons(table);
+							enableTooltips(table);
+						}, 0);
+					},
+					editurl: "/dummy.html",//nothing is saved
+					caption: "",
+					jsonReader: {
+						repeatitems : false,
+						root:"data"
+					}
+				});
+				$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+				//switch element when editing inline
+				function aceSwitch( cellvalue, options, cell ) {
+					setTimeout(function(){
+						$(cell) .find('input[type=checkbox]')
+							.addClass('ace ace-switch ace-switch-5')
+							.after('<span class="lbl"></span>');
+					}, 0);
+				}
+				//enable datepicker
+				function pickDate( cellvalue, options, cell ) {
+					setTimeout(function(){
+						$(cell) .find('input[type=text]')
+								.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
+					}, 0);
+				}
+				//navButtons
+				jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+					{ 	//navbar options
+						edit: false,
+						editicon : 'ace-icon fa fa-pencil blue',
+						add: false,
+						addicon : 'ace-icon fa fa-plus-circle purple',
+						del: false,
+						delicon : 'ace-icon fa fa-trash-o red',
+						search: false,
+						searchicon : 'ace-icon fa fa-search orange',
+						refresh: false,
+						refreshicon : 'ace-icon fa fa-refresh green',
+						view: false,
+						viewicon : 'ace-icon fa fa-search-plus grey',
+					},
+					{
+						//edit record form
+						//closeAfterEdit: true,
+						//width: 700,
+						recreateForm: true,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							style_edit_form(form);
+						}
+					},
+					{
+						//new record form
+						//width: 700,
+						closeAfterAdd: true,
+						recreateForm: true,
+						viewPagerButtons: false,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+							.wrapInner('<div class="widget-header" />')
+							style_edit_form(form);
+						}
+					},
+					{
+						//delete record form
+						recreateForm: true,
+						beforeShowForm : function(e) {
+							var form = $(e[0]);
+							if(form.data('styled')) return false;
+							
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							style_delete_form(form);
+							
+							form.data('styled', true);
+						},
+						onClick : function(e) {
+							alert(1);
+						}
+					},
+					{
+						//search form
+						recreateForm: true,
+						afterShowSearch: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							style_search_form(form);
+						},
+						afterRedraw: function(){
+							style_search_filters($(this));
+						}
+						,
+						multipleSearch: true,
+						/**
+						multipleGroup:true,
+						showQuery: true
+						*/
+					},
+					{
+						//view record form
+						recreateForm: true,
+						beforeShowForm: function(e){
+							var form = $(e[0]);
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+						}
+					}
+				)
+				function style_edit_form(form) {
+					//enable datepicker on "sdate" field and switches for "stock" field
+					form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+						.end().find('input[name=stock]')
+							.addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+							   //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+							  //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+			
+					//update buttons classes
+					var buttons = form.next().find('.EditButton .fm-button');
+					buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+					buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+					buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+					
+					buttons = form.next().find('.navButton a');
+					buttons.find('.ui-icon').hide();
+					buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+					buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');		
+				}
+			
+				function style_delete_form(form) {
+					var buttons = form.next().find('.EditButton .fm-button');
+					buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+					buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+					buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+				}
+				
+				function style_search_filters(form) {
+					form.find('.delete-rule').val('X');
+					form.find('.add-rule').addClass('btn btn-xs btn-primary');
+					form.find('.add-group').addClass('btn btn-xs btn-success');
+					form.find('.delete-group').addClass('btn btn-xs btn-danger');
+				}
+				function style_search_form(form) {
+					var dialog = form.closest('.ui-jqdialog');
+					var buttons = dialog.find('.EditTable')
+					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+				}
+				
+				function beforeDeleteCallback(e) {
+					var form = $(e[0]);
+					if(form.data('styled')) return false;
+					
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					style_delete_form(form);
+					
+					form.data('styled', true);
+				}
+				
+				function beforeEditCallback(e) {
+					var form = $(e[0]);
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					style_edit_form(form);
+				}
+			
+			
+			
+				//it causes some flicker when reloading or navigating grid
+				//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+				//or go back to default browser checkbox styles for the grid
+				function styleCheckbox(table) {
+				/**
+					$(table).find('input:checkbox').addClass('ace')
+					.wrap('<label />')
+					.after('<span class="lbl align-top" />')
+			
+			
+					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+					.find('input.cbox[type=checkbox]').addClass('ace')
+					.wrap('<label />').after('<span class="lbl align-top" />');
+				*/
+				}
+				
+			
+				//unlike navButtons icons, action icons in rows seem to be hard-coded
+				//you can change them like this in here if you want
+				function updateActionIcons(table) {
+					/**
+					var replacement = 
+					{
+						'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+						'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+						'ui-icon-disk' : 'ace-icon fa fa-check green',
+						'ui-icon-cancel' : 'ace-icon fa fa-times red'
+					};
+					$(table).find('.ui-pg-div span.ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+					*/
+				}
+				
+				//replace icons with FontAwesome icons like above
+				function updatePagerIcons(table) {
+					var replacement = 
+					{
+						'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+						'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+						'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+						'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+					};
+					$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+				}
+			
+				function enableTooltips(table) {
+					$('.navtable .ui-pg-button').tooltip({container:'body'});
+					$(table).find('.ui-pg-div').tooltip({container:'body'});
+				}
+			
+				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+			
+				$(document).on('ajaxloadstart', function(e) {
+					$(grid_selector).jqGrid('GridUnload');
+					$('.ui-jqdialog').remove();
+				});
+				
+				
+				$("#search").click(function(){
+					var name_seller = $("#name_seller").val();
+					var name_media = $("#name_media").val();
+					var status = $("#status").val();
+                                        var do_main = $("#do_main").val();
+					var sellerid = $("#sellerid").val();
+					jQuery(grid_selector).jqGrid('setGridParam',{
+						datatype:'json',
+						postData: {
+							'name_seller': name_seller,
+							'name_media':name_media,
+							'status':status,
+                                                         'do_main':do_main,
+                                                         'sellerid':sellerid
+						}, //发送数据
+						page:1
+					}).trigger("reloadGrid"); //重新载入
+				});
+			});
+                        $(document).on('click','.place_export',function(e){
+				var name_seller = $("#name_seller").val();
+				var name_media = $("#name_media").val();
+				var status = $("#status").val();
+				var do_main = $("#do_main").val();
+				
+				
+				window.location.href = "/Media/mediaExport?name_seller="+name_seller+"&name_media="+name_media+"&status="+status+"&do_main="+do_main;
+			});
+			$(document).on('click','.fa-chevron-down',function(e){
+				
+				if($(".widget-body").css("display") == "block"){
+					$('body,html').animate({scrollTop:document.body.clientWidth},0);
+					$(".widget-body").css("display","none");
+					return false;
+				}else{
+					$('body,html').animate({scrollTop:document.body.clientWidth},1500);
+					$(".widget-body").css("display","block");
+					return false;
+				}
+			});
+			jQuery(function($) {
+				$('#id-input-file-3').ace_file_input({
+					style:'well',
+					btn_choose:'点击此处导入',
+					btn_change:null,
+					no_icon:'',
+					droppable:true,
+					thumbnail:'small'//large | fit
+					//,icon_remove:null//set null, to hide remove/reset button
+					,before_change:function(files, dropped) {
+						if(files["length"]>0){
+							$("#up_form").submit();
+						}
+						return true;
+					}
+					/**,before_remove : function() {
+						return true;
+					}*/
+					,
+					preview_error : function(filename, error_code) {
+						//name of the file that failed
+						//error_code values
+						//1 = 'FILE_LOAD_FAILED',
+						//2 = 'IMAGE_LOAD_FAILED',
+						//3 = 'THUMBNAIL_FAILED'
+						alert(error_code);
+					}
+			
+				}).on('change', function(){
+					//console.log($(this).data('ace_input_files'));
+					//console.log($(this).data('ace_input_method'));
+				});
+				
+				
+				
+			});
+			var media_mes = "{$_GET['media_mes']}";
+                       var suss = "{$_GET['suss']}";
+                       var failed = "{$_GET['failed']}";
+                       var chann = "{$_GET['chann']}";
+             
+			if(media_mes != "" || suss!="" || failed!="" ||chann!=""){
+				var mes = media_mes.split(",");
+				var str = "";
+				for (i=0;i<(mes.length-1) ;i++ )
+				{ 
+					str += "第"+mes[i]+"行数据有误，请确认规则!\r\n";
+				}
+                              str += "插入"+suss+"行成功!\r\n";
+                              str += "修改"+chann+"行成功!\r\n";
+                              str += "插入/修改"+failed+"行失败!\r\n"; 
+                              
+				alert(str);
+				location = "/Media/index";
+			}
+			//修改跳转
+			function editor(id){
+				window.location.href = "/Media/edit?id="+id;
+			}
+			
+			//定向跳转
+			function directional(id){
+				window.location.href = "/Media/setDirect?id="+id;
+			}
+			
+			//修改状态
+			function set_status(id){
+				$.ajax( {    
+			   		url:"/Media/setStatus?type=2&id="+id,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   			if(data.status != "200"){
+			   				alert("网络异常!");
+			   			}
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！");    
+			   		}
+			   	});
+			}
+			function search(){
+				$(".search").submit();
+			}
+		</script>
+</body>
+</html>

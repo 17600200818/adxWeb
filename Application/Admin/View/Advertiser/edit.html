@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <title>编辑广告主</title>
+
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+
+  <!-- page specific plugin styles -->
+
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-part2.min.css" />
+  <![endif]-->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+
+  <!--[if lte IE 9]>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-ie.min.css" />
+  <![endif]-->
+
+  <!-- inline styles related to this page -->
+
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+
+  <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+  <!--[if lte IE 8]>
+  <script src="__PUBLIC__/assets/js/html5shiv.min.js"></script>
+  <script src="__PUBLIC__/assets/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- /.navbar-container -->
+  <!-- 头部 -->
+  <include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- #section:basics/sidebar -->
+  <!-- 导航条 -->
+  <include file="Common/navigation"/>
+  <!-- /section:basics/sidebar -->
+
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- #section:basics/content.breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+      <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+      </script>
+
+      <ul class="breadcrumb">
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="#">广告主信息</a>
+        </li>
+
+        <li class="active">编辑广告主</li>
+      </ul><!-- /.breadcrumb -->
+
+      <!-- #section:basics/content.searchbox -->
+      <div class="nav-search" id="nav-search">
+        <form class="form-search">
+							<span class="input-icon">
+								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
+        </form>
+      </div><!-- /.nav-search -->
+
+      <!-- /section:basics/content.searchbox -->
+    </div>
+
+    <!-- /section:basics/content.breadcrumbs -->
+    <div class="page-content">
+      <!-- #section:settings.box -->
+      <div class="ace-settings-container" id="ace-settings-container">
+        <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+          <i class="ace-icon fa fa-cog bigger-150"></i>
+        </div>
+
+        <div class="ace-settings-box clearfix" id="ace-settings-box">
+          <div class="pull-left width-50">
+            <!-- #section:settings.skins -->
+            <div class="ace-settings-item">
+              <div class="pull-left">
+                <select id="skin-colorpicker" class="hide">
+                  <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                  <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                  <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                  <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                </select>
+              </div>
+              <span>&nbsp; Choose Skin</span>
+            </div>
+
+            <!-- /section:settings.skins -->
+
+            <!-- #section:settings.navbar -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+              <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+            </div>
+
+            <!-- /section:settings.navbar -->
+
+            <!-- #section:settings.sidebar -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+              <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+            </div>
+
+            <!-- /section:settings.sidebar -->
+
+            <!-- #section:settings.breadcrumbs -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+              <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+            </div>
+
+            <!-- /section:settings.breadcrumbs -->
+
+            <!-- #section:settings.rtl -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+              <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+            </div>
+
+            <!-- /section:settings.rtl -->
+
+            <!-- #section:settings.container -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+              <label class="lbl" for="ace-settings-add-container">
+                Inside
+                <b>.container</b>
+              </label>
+            </div>
+
+            <!-- /section:settings.container -->
+          </div><!-- /.pull-left -->
+
+          <div class="pull-left width-50">
+            <!-- #section:basics/sidebar.options -->
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+              <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+            </div>
+
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+              <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+            </div>
+
+            <div class="ace-settings-item">
+              <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+              <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+            </div>
+
+            <!-- /section:basics/sidebar.options -->
+          </div><!-- /.pull-left -->
+        </div><!-- /.ace-settings-box -->
+      </div><!-- /.ace-settings-container -->
+
+      <!-- /section:settings.box -->
+      <div class="page-content-area">
+
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form class="form-horizontal" id="Form" role="form" action="/Advertiser/edit" method="post">
+              <!-- #section:elements.form -->
+              <input type="hidden" name="id" value="{$info.id}">
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 买方名称 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" id="buyer" name="buyer" placeholder="买方名称" class="col-xs-10 col-sm-5" readonly="readonly" value="{$info.idbuyer}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" id="buyerMessage" style="color:red;"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 买方广告主ID </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="idBuyerAdvertiser" placeholder="买方广告主ID" id='idBuyerAdvertiser'  readonly="readonly" class="col-xs-10 col-sm-5" value="{$info.idbuyeradvertiser}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="idBuyerAdvertiserMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 广告主名名称 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="AdvertiserName" placeholder="广告主名名称" id='AdvertiserName' class="col-xs-10 col-sm-5"  value="{$info.name}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="AdvertiserNameMsg"></span>
+											</span>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 网站名称 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="SiteName" placeholder="网站名称" id='SiteName' class="col-xs-10 col-sm-5" value="{$info.sitename}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="SiteNameMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 网址 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="domain" placeholder="网址" id="domain" class="col-xs-10 col-sm-5" value="{$info.domain}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="domainMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 通信地址 </label>
+
+                <div class="col-sm-9">
+                  <input type="text" name="address" placeholder="通信地址" id="address" class="col-xs-10 col-sm-5" value="{$info.address}" />
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="addressMsg"></span>
+											</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" > 行业分类 </label>
+                <div class="col-sm-3">
+                  <select style="width: 47%" name="category1" id="category1" data-placeholder="请选择行业分类">
+                    <!--<option value="">行业分类</option>-->
+                    <volist name="category.c1" id="vo">
+                      <if condition="$vo.c1 eq $info['category1']">
+                          <option value="{$vo.c1}" selected="selected">{$vo.n1}</option>
+                        <else/>
+                          <option value="{$vo.c1}">{$vo.n1}</option>
+                      </if>
+                    </volist>
+
+                  </select>
+
+                  <select style="width: 47%;float: right;padding-left: 20px" name="category2" id="category2" data-placeholder="请选择行业分类">
+                    <!--<option value="">行业子分类</option>-->
+                  </select>
+                </div>
+              </div>
+
+              <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                  <button class="btn btn-info" id="Submit" type="button">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    确定
+                  </button>
+
+                  &nbsp; &nbsp; &nbsp;
+                  <button class="btn" type="reset" id="back">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    返回
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div><!-- /.col -->
+        </div>
+
+      </div><!-- /.page-content-area -->
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+
+  <!-- 尾部 -->
+  <include file="Common/footer"/>
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+<input type="hidden" id="subcategory" value="{$info.category2}" />
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+  window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+  if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.dataTables.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+  jQuery(function($) {
+    getSubcategory();
+    $("#category1").change(function(){
+      getSubcategory();
+    });
+
+    function getSubcategory(){
+      var category1 = $("#category1").val();
+      $.ajax({
+        type: "POST",
+        url: '/Common/getIndustryCategory2',
+        dataType: "json",
+        data: {
+          category1:category1
+        },
+        success: function (a) {
+          if (a.status == "ok") {
+            var str = "";
+            var data = eval(a.data);
+            var subcategory = $("#subcategory").val();
+            $.each(data, function (i, items) {
+              if(items.c2 == subcategory){
+                str +=	"<option value="+ items.c2 +" selected='selected'>"+ items.n2 +"</option>";
+              }else{
+                str +=	"<option value="+ items.c2 +">"+ items.n2 +"</option>";
+              }
+            });
+            $("#category2").html();
+            $("#category2").html(str);
+          } else {
+
+          }
+        },
+        error: function (a, b, c) {
+
+        }
+      });
+    }
+//    表单验证
+
+    $('#SiteName').blur(function () {
+      var val = $(this).val();
+      if(val == "") {
+        $('#SiteNameMsg').html('不能为空');
+      }else{
+        $('#SiteNameMsg').html('');
+      }
+    });
+
+    $('#AdvertiserName').blur(function () {
+      var val = $(this).val();
+      if(val == "") {
+        $('#AdvertiserNameMsg').html('不能为空');
+      }else{
+        $('#AdvertiserNameMsg').html('');
+      }
+    });
+
+    $('#domain').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#domainMsg').html('两次输入密码不同');
+      }else if(!val.match(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/)){
+        $('#domainMsg').html('网址格式错误，请以http|ftp|https为开头');
+      }else{
+        $('#domainMsg').html('');
+      }
+    });
+
+    $('#address').blur(function () {
+      var val = $(this).val();
+      if(val == '') {
+        $('#addressMsg').html('不能为空');
+      }else{
+        $('#addressMsg').html('');
+      }
+    });
+
+    $('#Submit').click(function () {
+      if($('#SiteName').val() == '' || $('#AdvertiserName').val() == '' || $('#domain').val() == '' || $('#address').val() == '' || $('#SiteNameMsg').val() != '' || $('#AdvertiserNameMsg').val() != '' || $('#domainMsg').val() != '' || $('#addressMsg').val() != '') {
+        return false;
+      }
+      var formData = new FormData($( "#Form" )[0]);
+      $.ajax({
+        url: '/Advertiser/edit' ,
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (a) {
+          if(a.status == 'ok'){
+            window.location.href = '/Advertiser/index';
+          }else if(a.status == 'error'){
+            alert(a.error_info);
+          }
+        },
+        error: function (returndata) {
+          alert(returndata);
+        }
+      });
+
+    });
+
+    $("#back").click(function(){
+        window.location.href = '/Advertiser/index';
+    })
+  })
+
+</script>
+
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+<link rel="stylesheet" href="__PUBLIC__/assets/js/themes/sunburst.css" />
+
+<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+<script src="__PUBLIC__/assets/js/ace/elements.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/ace/ace.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/rainbow.js"></script>
+<script src="__PUBLIC__/assets/js/language/generic.js"></script>
+<script src="__PUBLIC__/assets/js/language/html.js"></script>
+<script src="__PUBLIC__/assets/js/language/css.js"></script>
+<script src="__PUBLIC__/assets/js/language/javascript.js"></script>
+</body>
+</html>

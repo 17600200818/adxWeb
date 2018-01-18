@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>媒体管理</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+	<script src="__PUBLIC__/js/common/mediaCategory.js"></script>
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+<!-- 内容区域 -->
+		<div class="main-container" id="main-container">
+			<!-- 				导航条 -->
+			<include file="Common/navigation"/>
+			<!-- 				导航条 -->	
+			
+			
+			<div class="main-content">
+				<!-- #section:basics/content.breadcrumbs -->
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">媒体管理</a>
+						</li>
+						<li class="active">媒体信息</li>
+						<li class="active">修改媒体</li>
+					</ul>
+				</div>
+				
+				<!-- 		           内容块 -->
+				<div class="page-content" style="margin-left: 180px;margin-top: 20px;">
+					<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" onsubmit="return validate_form(this)" action="/Media/edit" role="form" method="post">
+									<input type="hidden" value="{$edit_media['id']}" name="mid">
+									<!-- #section:elements.form -->
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1">媒体账户<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+											<if condition="$edit_media['parent_parent_id'] neq ''">
+												<input type="text" id="form-field-2" style="margin-right:10px;" disabled="disabled" value="{$edit_media['parent_company']}" class="col-xs-10 col-sm-3" />
+													<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</if>
+											
+											<if condition="$agent_seller['id'] neq ''">
+												<input type="text" id="form-field-2" disabled="disabled"  value="{$agent_seller['company']}" class="col-xs-10 col-sm-3" />
+													<span class="help-inline col-xs-12 col-sm-7">
+												</span>
+											</if>
+											<input type="hidden" value='{$sellersJson}' class="sellersJson"/>
+										</div>
+									</div>
+
+									<!-- /section:elements.form -->
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">媒体名称<font style="color:red;">*</font></label>
+
+										<div class="col-sm-9">
+											<input type="text" name="name" id="form-field-2" value="{$edit_media['name']}" placeholder="媒体名称" class="col-xs-10 col-sm-5" />
+											<span class="help-inline col-xs-12 col-sm-7">
+											</span>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">媒体类型<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+											<select class="form-text mediaType" name="mediaType" style="width: 168px;">
+											  <option value="1" <if condition="$edit_media['mediatype'] eq '1'">selected="selected"</if>>web</option>
+											  <option value="2" <if condition="$edit_media['mediatype'] eq '2'">selected="selected"</if>>app</option>
+                                                                                         <option value="3" <if condition="$edit_media['mediatype'] eq '3'">selected="selected"</if>>web+app</option>
+											</select>
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-4">媒体分类<font style="color:red;">*</font></label>
+
+										<div class="col-sm-9">
+											<select name="category1" id="mcategory" vclass="dropdown" name="category1"  vscroll="1" vheight="200" vsearch='true' class="form-text category1" style="width: 168px;">
+											</select>
+											<select name="category2" id="msubCategory" vclass="dropdown" name="category2"  vscroll="1"  vheight="200" class="form-text category2" style="width: 168px;">
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-5">域名/包名</label>
+
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" name="domain" value="{$edit_media['domain']}"  placeholder="域名/包名" class="domain col-xs-10 col-sm-5" />
+										</div>
+									</div>
+                                                                        <div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-6">下载地址</label>
+
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" name="storeurl" value="{$edit_media['storeurl']}"  placeholder="下载地址" class="domain col-xs-10 col-sm-5" />
+										</div>
+									</div>
+
+									<div class="clearfix" style="margin-top:50px;">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info media_sub" type="submit">
+												<i class="ace-icon fa fa-check bigger-110"></i>
+												确定
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button class="btn" type="reset" onclick="history.back(-1)">
+												<i class="ace-icon fa fa-undo bigger-110"></i>
+												取消
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>			
+				</div>
+			</div>
+			
+			<!-- 正文结束 -->
+				<include file="Common/footer"/>
+			<!-- 尾部 -->
+		</div>
+<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			mediaCategory('no');
+			
+			
+			$(".media_sub").click(function () {
+				$(".name").val();
+			});
+			
+			$(".onchangSeller").change(function () {
+				//清空二级菜单 
+				$(".agentSelect").empty();
+				
+				//获取全部媒体信息  避免加载二级请求后台
+				var sellerJson = eval('(' + $(".sellersJson").val() + ')');
+				//获取当前媒体账号对应的ID
+				var sellerId = $(this).val();
+				
+				//标记媒体是否有代理账号 默认0  
+				var count = 0;
+				$.each( sellerJson, function(index, content)
+				{ 
+					if(content.parentid == sellerId){
+						$('.agentSelect').show(); 
+						$(".agentSelect").append("<option value='"+content.id+"'>"+content.company+"</option>");
+						count++;
+					}
+				});
+				
+				//标记为0  隐藏代理下拉框
+				if(count==0){
+// 					alert($(".agentSelect").attr("disabled"));
+					$(".agentSelect").hide(100);
+				}
+			});
+			
+			function validate_required(field,alerttxt)
+			{
+				with (field)
+			    {
+					  if (value==null||value=="")
+					  {
+						  alert(alerttxt);return false
+					  }
+					  else {
+						  return true
+					  }
+			    }
+			}
+
+			function validate_form(thisform)
+			{
+ 				with (thisform)
+ 			    {
+// 					  if ($(".onchangSeller").val() == "")
+// 					  {
+// 						  alert("请选择媒体账户!");
+// 						  return false
+// 					  }
+ 					  if (validate_required(name,"请输入媒体名称!")==false)
+ 					  {
+ 						  name.focus();
+ 						  return false
+ 					  }
+                                          if(validate_required(category1,"请选择分类!")==false)
+                                               {
+ 						  category1.focus();
+ 						  return false
+ 					  }
+ 			    }
+			}
+			
+			function category(){
+				var category1 = "{$edit_media['category1']}";
+				var category2 = "{$edit_media['category2']}";
+				if(category1){
+						$("#mcategory").val(category1);
+						$.ajax({
+			                type: "POST",
+			                url: "/Common/get_category",
+			                data: {"c1": category1},
+			                dataType: "json",
+			                success: function (data) {
+			                    $("#msubCategory").empty();
+			                    $.each(data.data, function (i, item) {
+			                        if (item.c2 == $.trim($("#defaultSubCategory").val())) {
+			                            $("#msubCategory").append("<option value='" + item.c2 + "' selected>" + item.n2 + "</option>");
+			                        } else {
+			                            $("#msubCategory").append("<option value='" + item.c2 + "'>" + item.n2 + "</option>");
+			                        }
+			                    });
+			                }
+			            });
+				}
+			}
+			
+			
+			
+			
+			
+			window.setTimeout(category,100);
+		</script>
+</body>
+</html>

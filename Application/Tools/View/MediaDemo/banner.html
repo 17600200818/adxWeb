@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+        <include file="Common/js"/>
+        <script src="__PUBLIC__/assets/js/jquery-ui.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+	<style> 
+body{ text-align:center} 
+.div{ margin:0 auto; width:100%; height:100%; border:1px /*solid #F00*/} 
+
+</style> 
+
+        </head>
+        <body>
+            <div class="div">
+                <a href="/tools.php/mediaDemo/banner"><h1>Banner</h1></a><br>
+                <a href=""id="click"  target="_Blank"  onclick="clickurl()">     <img id="img" src="" width="" height="" border="0"></a>  <br><br><br><br>	
+            		
+            
+                广告位ID<input type="text" id="p_id"  placeholder="请输入广告位ID"  /><br><br><br><br>
+            
+           
+                预期次数<input type="text" id="count"  value="1"  placeholder="请输入次数"  /><br><br><br><br>
+
+               <span id="prespan"> <input type="button" id="start"width="67px" height="35px" onclick="return start()" value="开始"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+               <span id="break"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="break"width="67px" height="35px" onclick="return stop(2)" value="暂停"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                
+                已访问 <span id="times">0</span>次
+        </body>
+
+        <script >
+           
+                   
+            function start(){
+               
+                $('#prespan').empty(); 
+                $('#prespan').append("<input id=\"start\" type=\"button\" width=\"67px\" value=\"结束\" onclick=\"stop(1)\"/>"); 
+                   num =count.value;
+                  times=0;
+                  p_id=document.getElementById("p_id");
+                  count=document.getElementById("count");
+          $.ajax({
+			                type: "POST",
+			                url: "/tools.php/MediaDemo/banner",
+			                data: {"p_id": p_id.value},
+			                dataType: "json",
+			                success: function (data) {
+                                            
+                                       
+                                            if(data.status!=1){
+                                                alert(data.msg);
+                                                $('#prespan').empty(); 
+                $('#prespan').append("<input id=\"start\" type=\"button\" width=\"67px\" value=\"开始\" onclick=\"start()\"/>"); 
+                                                return false;
+                                            }
+			                     
+                                           
+                                             $("#img").attr('height',data.h);
+                                             $("#img").attr('width',data.w);
+                                             $("#img").attr('src',data.src); 
+                                             $("#click").attr("href",data.clkurl);
+                                             clickdata=data.clktrackers;
+                                             
+                                              startround(2,data); 
+			                }
+			            });
+                                   
+//                                          
+
+                                    
+                                    
+                                    
+                                  
+                                   
+                               
+                                }
+
+        
+                          function   startround(valu,data)    {
+                              console.log(2333);
+                              clktrackers =data.clktrackers;
+                              imptrackers =data.imptrackers;
+                              console.log(imptrackers);
+                              if(valu==1){
+                               $('#break').empty(); 
+                $('#break').append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=\"break\" type=\"button\" width=\"67px\" value=\"暂停\" onclick=\"stop(2)\"/>");
+                              }
+                              timer=setInterval(function () {
+                                  
+            //访问百度
+                           if(times<num){
+                                   for (var i = 0; i < imptrackers.length; i++) {
+                                    console.log(imptrackers[i]);
+                                          $.ajax({
+			                type: "GET",
+			                url: imptrackers[i],
+			                data: {},
+			                dataType: "jsonp",
+                                        jsonpCallback:"",
+			                success: function (data) {   
+			                }
+			            });
+                                        
+                                     }      
+                                      
+                                     
+                                     times++;
+                                     $('#times').empty(); 
+                $('#times').append(times); 
+                                   
+                                    console.log(times);
+                          }else{
+                                clearInterval(timer);
+                                    times=0;
+                        }
+                        }, 1000)
+                           
+                          }
+                             function stop(val) {                            
+                             clearInterval(timer);
+                                if(val==1){
+                                    $('#prespan').empty(); 
+                $('#prespan').append("<input id=\"start\" type=\"button\" width=\"67px\" value=\"开始\" onclick=\"start()\"/>"); 
+                                    times=0;
+                                    $('#times').empty(); 
+                $('#times').append(times);
+                                }else{
+                                     $('#break').empty(); 
+                $('#break').append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=\"break\" type=\"button\" width=\"67px\" value=\"继续\" onclick=\"startround(1)\"/>"); 
+                                }
+                                }
+                                function clickurl(){
+                                                                  for (var i = 0; i < clickdata.length; i++) {
+                                                                      
+                                            
+                                          $.ajax({
+			                type: "GET",
+			                url: clickdata[i],
+			                data: {},
+			                dataType: "jsonp",
+                                        jsonpCallback:"",
+			                success: function (data) {   
+			                }
+			            });
+                                console.log(clickdata[i]);}
+                                   
+                                }
+        </script>
+            </html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta charset="utf-8" />
+  <title>卖方报表</title>
+
+  <meta name="description" content="Static &amp; Dynamic Tables" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+  <!-- bootstrap & fontawesome -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+  <!-- page specific plugin styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/chosen.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/jquery-ui.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/datepicker.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ui.jqgrid.css" />
+  <!-- text fonts -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+  <!-- ace styles -->
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+  <!-- ace settings handler -->
+  <script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+  </script>
+  <script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+  <!-- page specific plugin scripts -->
+  <script src="__PUBLIC__/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+  <script src="__PUBLIC__/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+  <script src="__PUBLIC__/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+  <!-- ace scripts -->
+  <script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+  <script src="__PUBLIC__/assets/js/ace.min.js"></script>
+  <link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+  <script src="__PUBLIC__/js/common/echarts.min.js"></script>
+  <style>
+    #myTab{
+      height: 35px;
+    }
+  </style>
+</head>
+
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+  <script type="text/javascript">
+    try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- /.navbar-container -->
+  <!-- 头部 -->
+  <include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+  <script type="text/javascript">
+    try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+  </script>
+
+  <!-- #section:basics/sidebar -->
+  <!-- 导航条 -->
+  <include file="Common/navigation"/>
+  <!-- /section:basics/sidebar -->
+
+  <!-- 正文 -->
+  <div class="main-content">
+    <!-- #section:basics/content.breadcrumbs -->
+    <div class="breadcrumbs" id="breadcrumbs">
+      <script type="text/javascript">
+        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+      </script>
+
+      <ul class="breadcrumb">
+        <li>
+          <i class="ace-icon fa fa-home home-icon"></i>
+          <a href="#">数据报表</a>
+        </li>
+
+        <li class="active">卖方报表</li>
+      </ul><!-- /.breadcrumb -->
+
+      <!-- #section:basics/content.searchbox -->
+      <div class="nav-search" id="nav-search">
+
+      </div><!-- /.nav-search -->
+
+      <!-- /section:basics/content.searchbox -->
+    </div>
+
+    <!-- /section:basics/content.breadcrumbs -->
+    <div class="page-content">
+      <!-- /section:settings.box -->
+      <div class="page-content-area">
+
+        <div class="tabbable">
+          <div class="row" style="height: 35px;">
+            <ul class="nav nav-tabs" id="myTab">
+              <li class="active">
+                <a data-toggle="tab" href="#" id="Summary">
+                  <!--<i class="green ace-icon fa fa-home bigger-120"></i>-->
+                  卖方总表
+                </a>
+      
+            </ul>
+          </div>
+          <div class="row">
+            <div class="tab-content">
+              <iframe src="/seller.php/reportSeller/summary" frameborder="0" scrolling="no" id="Iframe" style="height: 450px; width: 100%"></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.page-content-area -->
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+  <!-- 正文结束 -->
+
+  <!-- 尾部 -->
+  <include file="Common/footer"/>
+
+  <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+  </a>
+</div><!-- /.main-container -->
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+  jQuery(function($) {
+    function aceSwitch( cellvalue, options, cell ) {
+      setTimeout(function(){
+        $(cell) .find('input[type=checkbox]')
+            .addClass('ace ace-switch ace-switch-5')
+            .after('<span class="lbl"></span>');
+      }, 0);
+    }
+
+    $('#Summary').click(function () {
+      $('#Iframe').attr('src', '/seller.php/reportSeller/summary');
+    });
+
+   
+    });
+  });
+</script>
+</body>
+</html>

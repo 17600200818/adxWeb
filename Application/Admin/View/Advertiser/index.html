@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>广告审核</title>
+
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/font-awesome.min.css" />
+	<!-- page specific plugin styles -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/chosen.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/jquery-ui.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/datepicker.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ui.jqgrid.css" />
+	<!-- text fonts -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-fonts.css" />
+	<!-- ace styles -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/page.css" />
+	<!-- ace settings handler -->
+	<script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery.min.js'>"+"<"+"/script>");
+	</script>
+	<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+	<!-- page specific plugin scripts -->
+	<script src="__PUBLIC__/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+	<!-- ace scripts -->
+	<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+	<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+	<script src="__PUBLIC__/assets/js/jquery.page.js"></script>
+
+
+
+
+</head>
+
+<body class="no-skin">
+<!-- #section:basics/navbar.layout -->
+<div id="navbar" class="navbar navbar-default">
+	<script type="text/javascript">
+		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+	</script>
+
+	<!-- /.navbar-container -->
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+	<script type="text/javascript">
+		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+	</script>
+
+	<!-- #section:basics/sidebar -->
+	<!-- 导航条 -->
+	<include file="Common/navigation"/>
+	<!-- /section:basics/sidebar -->
+
+	<!-- 正文 -->
+	<div class="main-content">
+		<!-- #section:basics/content.breadcrumbs -->
+		<div class="breadcrumbs" id="breadcrumbs">
+			<script type="text/javascript">
+				try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+			</script>
+
+			<ul class="breadcrumb">
+				<li>
+					<i class="ace-icon fa fa-home home-icon"></i>
+					<a href="#">广告审核</a>
+				</li>
+
+				<li>
+					<a href="#">广告主信息</a>
+				</li>
+			</ul><!-- /.breadcrumb -->
+
+			<!-- #section:basics/content.searchbox -->
+			<!--<div class="nav-search" id="nav-search">
+				<form class="form-search">
+							<span class="input-icon">
+								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
+				</form>
+			</div>--><!-- /.nav-search -->
+
+			<!-- /section:basics/content.searchbox -->
+		</div>
+
+		<!-- 				搜索区域 start-->
+		<div class="page-content">
+			<input type="text"  class="form-text" id="buyerName" placeholder="买方名称">
+			<input type="text"  class="form-text" id="buyerAdvertiserId" placeholder="买方广告主id">
+			<input type="text"  class="form-text" id="advertiserName" placeholder="广告主名称">
+			<input type="text"  class="form-text" id="idbuyeradvertiser" style="width:100px" placeholder="广告主id">
+			<select class="form-text" style="width: 120px;" id="status">
+				<option value="">全部审核状态</option>
+				<option value="1">待审核</option>
+				<option value="2">审核通过</option>
+				<option value="3">审核不通过</option>
+			</select>
+
+			<input style="width: 128px;" class="date-picker" id="start_time" type="text" placeholder="起始时间" data-date-format="dd-mm-yyyy" />
+					<span class="" style="width: 18px;">
+						<i class="fa fa-exchange"></i>
+					</span>
+			<input style="width: 128px;" class="date-picker" id="end_time" type="text" placeholder="结束时间" data-date-format="dd-mm-yyyy" />
+			<button class="btn btn-info" style="width: 100px;height:40px;border-radius: 5px" id="search">
+				<i class="ace-icon glyphicon glyphicon-search"></i>
+				查询
+			</button>
+
+
+
+		</div>
+
+		<!-- 				搜索区域 end-->
+		<!-- /section:basics/content.breadcrumbs -->
+		<div class="page-content">
+			<!-- #section:settings.box -->
+			<div class="ace-settings-container" id="ace-settings-container">
+				<div class="ace-settings-box clearfix" id="ace-settings-box">
+					<div class="pull-left width-50">
+						<!-- #section:settings.skins -->
+						<div class="ace-settings-item">
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">
+									<option data-skin="no-skin" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>&nbsp; Choose Skin</span>
+						</div>
+
+						<!-- /section:settings.skins -->
+
+						<!-- #section:settings.navbar -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+							<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+						</div>
+
+						<!-- /section:settings.navbar -->
+
+						<!-- #section:settings.sidebar -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+							<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+						</div>
+
+						<!-- /section:settings.sidebar -->
+
+						<!-- #section:settings.breadcrumbs -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+							<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+						</div>
+
+						<!-- /section:settings.breadcrumbs -->
+
+						<!-- #section:settings.rtl -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+						</div>
+
+						<!-- /section:settings.rtl -->
+
+						<!-- #section:settings.container -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+							<label class="lbl" for="ace-settings-add-container">
+								Inside
+								<b>.container</b>
+							</label>
+						</div>
+
+						<!-- /section:settings.container -->
+					</div><!-- /.pull-left -->
+
+					<div class="pull-left width-50">
+						<!-- #section:basics/sidebar.options -->
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+							<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+						</div>
+
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+							<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+						</div>
+
+						<div class="ace-settings-item">
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+							<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+						</div>
+
+						<!-- /section:basics/sidebar.options -->
+					</div><!-- /.pull-left -->
+				</div><!-- /.ace-settings-box -->
+			</div><!-- /.ace-settings-container -->
+
+			<!-- /section:settings.box -->
+			<div class="page-content-area">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+
+						<table id="grid-table"></table>
+
+						<div id="grid-pager"></div>
+
+						<script type="text/javascript">
+							var $path_base = "..";//in Ace demo this will be used for editurl parameter
+						</script>
+
+						<!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.page-content-area -->
+		</div><!-- /.page-content -->
+	</div><!-- /.main-content -->
+	<!-- 正文结束 -->
+	<!-- 模态框（Modal） -->
+	<div id="modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<form id="uploadForm" >
+				<input type="hidden" name="id" id="advertiserId" value="" />
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="blue bigger">上传广告主资质</h4>
+					</div>
+
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12 col-sm-5">
+								<div class="space"></div>
+
+								<input type="file" name="file" />
+							</div>
+
+							<div class="col-xs-12 col-sm-7">
+								<div class="form-group">
+									<label>资质文件编号/登记号:</label>
+
+									<div>
+										<input class="input-large" type="text" name="code" placeholder="长度200字符" value="" />
+									</div>
+								</div>
+
+								<div class="space-4"></div>
+
+								<div class="form-group">
+									<label>资质主体名称:</label>
+
+									<div>
+										<input class="input-large" type="text" name="name" placeholder="长度200字符" value="" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-sm" data-dismiss="modal">
+							<i class="ace-icon fa fa-times"></i>
+							取消
+						</button>
+
+						<input type="button" class="btn btn-sm btn-primary" id="add_audit" value="添加" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div><!-- PAGE CONTENT ENDS -->
+	<!-- 尾部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" style="width: 470px;height: 370px;">
+			<div class="modal-content" style="height: 370px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						广告主审核状态-<span id="advertiser" class="id"></span>
+					</h4>
+				</div>
+				<div class="modal-body" style="height: 300px;overflow: scroll;overflow-x:hidden">
+						<table id="sample-table-1" class="table table-striped table-bordered table-hover" style="height: auto">
+							<thead>
+							<tr>
+								<th>媒体账户名称</th>
+								<th>媒体审核状态</th>
+								<th>汇选审核状态</th>
+								<th class="hidden-480">操作</th>
+							</tr>
+							</thead>
+							<tbody id="advertiser_upload">
+
+							</tbody>
+						</table>
+					<!-- /section:pages/profile.info -->
+					<div class="space-20"></div>
+
+				</div>
+				<!--<div class="modal-footer" style="position: relative;bottom: 0px;left: 0px;">
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal">关闭
+					</button>
+				</div>-->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- PAGE CONTENT ENDS -->
+	<!-- 尾部 -->
+	<include file="Common/footer"/>
+	<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+		<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+	</a>
+</div><!-- /.main-container -->
+<!-- basic scripts -->
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+
+<script src="__PUBLIC__/assets/js/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="__PUBLIC__/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+<!--[if lte IE 8]>
+<script src="__PUBLIC__/assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="__PUBLIC__/assets/js/jquery-ui.custom.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.ui.touch-punch.min.js"></script>
+<script src="__PUBLIC__/assets/js/chosen.jquery.min.js"></script>
+<script src="__PUBLIC__/assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="__PUBLIC__/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+<script src="__PUBLIC__/assets/js/date-time/moment.min.js"></script>
+<script src="__PUBLIC__/assets/js/date-time/daterangepicker.min.js"></script>
+<script src="__PUBLIC__/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootstrap-colorpicker.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.knob.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.autosize.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+<script src="__PUBLIC__/assets/js/jquery.maskedinput.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootstrap-tag.min.js"></script>
+<script src="__PUBLIC__/assets/js/typeahead.jquery.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootbox.min.js"></script>
+
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/jquery.colorbox-min.js"></script>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+	function getid(id){
+		$("#advertiserId").val(id);
+	}
+
+	function getStatus(id){
+		$("#advertiser").text(id);
+		$.ajax({
+			type: "POST",
+			url: '/Advertiser/statusInfo',
+			dataType: "json",
+			data: {"id": id},
+			success: function (a) {
+				if (a.status == "ok") {
+					var str = '';
+					if(a.data != ''){
+						$.each(a.data, function (i, items) {
+							str +=	"<tr><td>"+ items.company +"</td><td class=\"hidden-480\">"+ items.status +"</td><td>"+items.allow +"</td><td class=\"hidden-480\"><button type=\"button\" class=\"btn btn-success btn-xs\" onclick='setHuiXuan("+ items.id +",1)'>通过</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick='setHuiXuan("+ items.id +",2)'>拒绝</button></td></tr>";
+
+//							str +=	"<div class=\"profile-info-row\"><div class=\"profile-info-name\"> "+ items.company +" </div> <div class=\"profile-info-value\"> <span class=\"editable\" >"+ items.status +"</span> </div><div class=\"profile-info-name\"> 未审核 </div> <div class=\"profile-info-value\"> <span class=\"editable\" >"+ items.status +"</span> </div> </div>";
+						});
+					}else{
+						str +=	"<tr><td>无数据</td><td></td><td></td><td></td></tr>";
+					}
+
+					$("#advertiser_upload").html();
+					$("#advertiser_upload").html(str);
+				} else {
+
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	}
+
+	function setHuiXuan(id,status){
+		//alert(id);
+		var advertiserId = $("#advertiser").text();
+		$.ajax({
+			type: "POST",
+			url: '/Advertiser/setAuditStatus',
+			dataType: "json",
+			data: {"id": id,"status":status},
+			success: function (a) {
+				if (a.status == "ok") {
+					alert("成功!");
+					getStatus(advertiserId);
+				} else {
+					alert("修改失败!");
+				}
+			},
+			error: function (a, b, c) {
+
+			}
+		});
+	}
+
+
+	function setStatus(id){
+		//alert(1);
+		bootbox.dialog({
+			message: "<span class='bigger-110'>确认执行此操作？</span>",
+			buttons:
+			{
+				"success" :
+				{
+					"label" : "<i class='ace-icon fa fa-check'></i> 通过",
+					"className" : "btn-sm btn-success",
+					"callback": function() {
+						setAdvertiser(id,2);
+						//Example.show("great success");
+					}
+				},
+				"danger" :
+				{
+					"label" : "拒绝",
+					"className" : "btn-sm btn-danger",
+					"callback": function() {
+						setAdvertiser(id,3);
+						//Example.show("uh oh, look out!");
+					}
+				}
+			}
+		});
+
+	}
+
+
+	function setAdvertiser(id,status){
+		$.ajax({
+			url: '/Advertiser/setStatus' ,
+			type: 'POST',
+			dataType: "json",
+			data: {'id':id,'status':status},
+			success: function (a) {
+				if(a.status == 'ok'){
+					//alert("success!");
+					jQuery('#grid-table').trigger("reloadGrid");
+				}
+			},
+			error: function (returndata) {
+				alert(returndata);
+			}
+		});
+	}
+	jQuery(function($) {
+		var grid_selector = "#grid-table";
+		var pager_selector = "#grid-pager";
+
+		//resize to fit page size
+		$(window).on('resize.jqGrid', function () {
+			$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+		})
+		//resize on sidebar collapse/expand
+		var parent_column = $(grid_selector).closest('[class*="col-"]');
+		$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
+			if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+				//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+				setTimeout(function() {
+					$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+				}, 0);
+			}
+		})
+
+
+
+		jQuery(grid_selector).jqGrid({
+
+			//direction: "rtl",
+			//subgrid options
+			subGrid : true,
+			//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
+			//datatype: "xml",
+			subGridOptions : {
+				plusicon : "ace-icon fa fa-plus center bigger-110 blue",
+				minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
+				openicon : "ace-icon fa fa-chevron-right center orange",
+			},
+			//for this example we are using local data
+			//获取资质列表
+			subGridRowExpanded: function (subgridDivId, rowId) {
+				var subgridTableId = subgridDivId + "_t";
+				$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+				$("#" + subgridTableId).jqGrid({
+					url:"/Advertiser/advertiserFile",
+					datatype: 'json',
+					mtype: 'POST',
+					postData: {
+						'advertiserId': rowId
+					},
+					colNames: ['ID','资质编号','资质名称','资质图片','审核状态','审核'],
+					colModel: [
+						{ name: 'id', width: 50 },
+						{ name: 'code', width: 150,sortable: false},
+						{ name: 'name', width: 200, editable:false,sortable: false },
+						{ name: 'filePath', width: 400, editable:false,sortable: false,formatter:function(cellvalue, options, rowObject){ return "<a href='"+ cellvalue +"' target='_blank' >"+ cellvalue +"</a>"; } },
+						{name:'status',index:'status', width:90, editable: true,edittype:"checkbox",editoptions: {value:"通过:未通过"},unformat: aceSwitch},
+						{ name: 'edit',index:'', width:80, fixed:true, sortable:false, resize:false,
+							formatter:'actions',
+							formatoptions:{
+								keys:true,
+								delbutton: false,//disable delete button
+								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								//editformbutton:true, editOptions:{recreateForm: false, beforeShowForm:beforeEditCallback}
+							}
+						}
+					],
+
+					loadComplete: function (data) {
+						/*var rowIds = jQuery(grid_selector).getDataIDs();
+						$.each(rowIds, function (index, rowId) {
+							alert(rowId);
+							jQuery(grid_selector).expandSubGridRow(rowId);
+						});*/
+						console.log(data);
+						console.log(data.data);//为所有数据行，具体取决于reader配置的root或者服务器返回的内容
+					},
+					editurl: "/Advertiser/audit",//nothing is saved
+					jsonReader: {
+						repeatitems : false,
+						root:"data"
+					}
+				});
+			},
+
+
+			url:"/Advertiser/index",
+			datatype: 'json',
+			mtype: 'POST',
+			height: 310,
+			colNames:['ID', '买方名称','买方广告主ID','广告主名称', '网站名称', '网址','提交日期','审核状态','操作'],
+			colModel:[
+				{name:'id',index:'id', width:60, sorttype:"int", editable: false},
+				{name:'idbuyer',index:'idbuyer', width:150,editable: false,editoptions:{size:"20",maxlength:"30"}},
+				{name:'idbuyeradvertiser',index:'idbuyeradvertiser', width:120, sorttype:"int", editable: false},
+				{name:'name',index:'name',sortable: false, width:150,editable: false,editoptions:{size:"20",maxlength:"30"}},
+				{name:'sitename',index:'sitename', sortable: false,width:100,editable: false,editoptions:{size:"20",maxlength:"30"}},
+				{name:'domain',index:'domain',sortable: false, width:150,editable: false,editoptions:{size:"20",maxlength:"30"}},
+				{name:'ctime',index:'ctime',width:190, editable:false, sorttype:"date",unformat: pickDate},
+//				{name:'status',index:'status', width:90, editable: true,edittype:"checkbox",editoptions: {value:"通过:未通过"},unformat: aceSwitch},
+				{name: 'status', index: 'status',width:110, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"},formatter: statusButton},
+				{
+					name: 'myac', index: '', width: 220, fixed: true, sortable: false, resize: false,
+					formatter: function (value, grid, rows, state) {
+						if (rows.issetauditstatus) {
+							return "<a href=\"javascript:;\" data-target=\"#modal-form\" data-toggle=\"modal\" onclick=\"getid("+rows.id+")\" ><button type=\"button\" class=\"btn btn-xs btn-info\">上传资质</button></a>&nbsp;<a href=\"/Advertiser/edit?id="+rows.id+"\" ><button type=\"button\" class=\"btn btn-xs btn-default\">编辑</button></a>&nbsp;<a href=\"javascript:;\" data-target=\"#modalStatus\" data-toggle=\"modal\" onclick=\"getStatus("+rows.id+")\" ><button type=\"button\" class=\"btn btn-xs btn-warning\">媒体审核状态</button></a>"
+						}else{
+							return "<a href=\"javascript:;\" data-target=\"#modal-form\" data-toggle=\"modal\" onclick=\"getid("+rows.id+")\" ><button type=\"button\" class=\"btn btn-xs btn-info\">上传资质</button></a>&nbsp;<a href=\"/Advertiser/edit?id="+rows.id+"\" ><button type=\"button\" class=\"btn btn-xs btn-default\">编辑</button></a>&nbsp;<a href=\"javascript:;\" data-target=\"#modalStatus\" data-toggle=\"modal\" onclick=\"getStatus("+rows.id+")\" >"
+						}
+						 }
+				}
+				/*{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+				 {name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
+				 {name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}},
+				 {name:'id',index:'id', width:60, sorttype:"int", editable: true},
+				 {name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
+				 {name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+				 {name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+				 {name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},*/
+			],
+			viewrecords : true,
+			rowNum:10,
+			rowList:[10,20,30],
+			pager : pager_selector,
+			altRows: true,
+			//toppager: true,
+
+			multiselect: true,
+			//multikey: "ctrlKey",
+			multiboxonly: true,
+
+			loadComplete : function() {
+				var table = this;
+				setTimeout(function(){
+					var ID = $("#advertiserId").val();
+					jQuery(grid_selector).expandSubGridRow(ID);
+					styleCheckbox(table);
+
+					updateActionIcons(table);
+					updatePagerIcons(table);
+					enableTooltips(table);
+				}, 0);
+			},
+
+			editurl: "/Advertiser/setStatus",//nothing is saved
+			caption: "",
+			autowidth: true,
+			jsonReader: {
+				repeatitems : false,
+				root:"data"
+			}
+			/**
+			 ,
+			 grouping:true,
+			 groupingView : {
+						 groupField : ['name'],
+						 groupDataSorted : true,
+						 plusicon : 'fa fa-chevron-down bigger-110',
+						 minusicon : 'fa fa-chevron-up bigger-110'
+					},
+			 caption: "Grouping"
+			 */
+
+		});
+		$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+
+		//enable search/filter toolbar
+		//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+		//jQuery(grid_selector).filterToolbar({});
+
+
+		//switch element when editing inline
+		function aceSwitch( cellvalue, options, cell ) {
+			setTimeout(function(){
+				$(cell) .find('input[type=checkbox]')
+						.addClass('ace ace-switch ace-switch-5')
+						.after('<span class="lbl"></span>');
+			}, 0);
+		}
+
+		function addCellAttr(rowId, val, rawObject, cm, rdata) {
+			return "style='overflow: visible;'";
+		}
+		//enable datepicker
+		function pickDate( cellvalue, options, cell ) {
+			setTimeout(function(){
+				$(cell) .find('input[type=text]')
+						.datepicker({format:'yyyy-mm-dd' , autoclose:true});
+			}, 0);
+		}
+
+		function statusButton(cellvalue, options, rowObject){
+			var id=rowObject.id;
+			var statusButton="";
+			if(rowObject.status == '通过'){
+				statusButton = '<button class="btn btn-xs btn-success" onclick="setStatus('+ id +')" style="width:55px">通过 </button>';
+			}else if(rowObject.status == '未通过'){
+				statusButton = '<button class="btn btn-xs btn-danger" onclick="setStatus('+ id +')">未通过 </button>';
+			}else if(rowObject.status == '待审核'){
+				statusButton = '<button class="btn btn-xs btn-warning" style="width:55px" onclick="setStatus('+ id +')">待审核 </button>';
+			}
+
+			return statusButton;
+		}
+
+		//navButtons
+		jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+				{ 	//navbar options
+					edit: false,
+					editicon : 'ace-icon fa fa-pencil blue',
+					add: false,
+					addicon : 'ace-icon fa fa-plus-circle purple',
+					del: false,
+					delicon : 'ace-icon fa fa-trash-o red',
+					search: false,
+					searchicon : 'ace-icon fa fa-search orange',
+					refresh: false,
+					refreshicon : 'ace-icon fa fa-refresh green',
+					view: false,
+					viewicon : 'ace-icon fa fa-search-plus grey',
+				},
+				{
+					//edit record form
+					//closeAfterEdit: true,
+					//width: 700,
+					recreateForm: false,
+					beforeShowForm : function(e) {
+						var form = $(e[0]);
+						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+						style_edit_form(form);
+					}
+				},
+				{
+					//new record form
+					//width: 700,
+					closeAfterAdd: true,
+					recreateForm: true,
+					viewPagerButtons: false,
+					beforeShowForm : function(e) {
+						var form = $(e[0]);
+						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+								.wrapInner('<div class="widget-header" />')
+						style_edit_form(form);
+					}
+				},
+				{
+					//delete record form
+					recreateForm: true,
+					beforeShowForm : function(e) {
+						var form = $(e[0]);
+						if(form.data('styled')) return false;
+
+						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+						style_delete_form(form);
+
+						form.data('styled', true);
+					},
+					onClick : function(e) {
+						alert(1);
+					}
+				},
+				{
+					//search form
+					recreateForm: true,
+					afterShowSearch: function(e){
+						var form = $(e[0]);
+						form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+						style_search_form(form);
+					},
+					afterRedraw: function(){
+						style_search_filters($(this));
+					}
+					,
+					multipleSearch: true,
+					/**
+					 multipleGroup:true,
+					 showQuery: true
+					 */
+				},
+				{
+					//view record form
+					recreateForm: true,
+					beforeShowForm: function(e){
+						var form = $(e[0]);
+						form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+					}
+				}
+		)
+
+		function style_edit_form(form) {
+			//enable datepicker on "sdate" field and switches for "stock" field
+			form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
+					.end().find('input[name=stock]')
+					.addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+			//don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+			//.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+			//update buttons classes
+			var buttons = form.next().find('.EditButton .fm-button');
+			buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+			buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+			buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+			buttons = form.next().find('.navButton a');
+			buttons.find('.ui-icon').hide();
+			buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+			buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+		}
+
+		function style_delete_form(form) {
+			var buttons = form.next().find('.EditButton .fm-button');
+			buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+			buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+			buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>');
+		}
+
+		function style_search_filters(form) {
+			form.find('.delete-rule').val('X');
+			form.find('.add-rule').addClass('btn btn-xs btn-primary');
+			form.find('.add-group').addClass('btn btn-xs btn-success');
+			form.find('.delete-group').addClass('btn btn-xs btn-danger');
+		}
+		function style_search_form(form) {
+			var dialog = form.closest('.ui-jqdialog');
+			var buttons = dialog.find('.EditTable')
+			buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+			buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+			buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+		}
+
+		function beforeDeleteCallback(e) {
+			var form = $(e[0]);
+			if(form.data('styled')) return false;
+
+			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+			style_delete_form(form);
+
+			form.data('styled', true);
+		}
+
+		function beforeEditCallback(e) {
+			console.log(e);
+			var form = $(e[0]);
+			form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+			style_edit_form(form);
+		}
+
+		$("#search").click(function(){
+			var id = $("#idbuyeradvertiser").val();
+			var buyerAdvertiserId = $("#buyerAdvertiserId").val();
+			var name = $("#advertiserName").val();
+			var status = $("#status").val();
+			var start_time = $("#start_time").val();
+			var end_time = $("#end_time").val();
+			var buyerName = $("#buyerName").val();
+
+			jQuery(grid_selector).jqGrid('setGridParam',{
+				datatype:'json',
+				postData: {
+					'id': id,
+					'buyerAdvertiserId': buyerAdvertiserId,
+					'name':name,
+					'status':status,
+					'start_time':start_time,
+					'end_time':end_time,
+					'buyerName':buyerName
+				}, //发送数据
+				page:1
+			}).trigger("reloadGrid"); //重新载入
+		});
+		//it causes some flicker when reloading or navigating grid
+		//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+		//or go back to default browser checkbox styles for the grid
+		function styleCheckbox(table) {
+			/**
+			 $(table).find('input:checkbox').addClass('ace')
+			 .wrap('<label />')
+			 .after('<span class="lbl align-top" />')
+
+
+			 $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+			 .find('input.cbox[type=checkbox]').addClass('ace')
+			 .wrap('<label />').after('<span class="lbl align-top" />');
+			 */
+		}
+
+
+		//unlike navButtons icons, action icons in rows seem to be hard-coded
+		//you can change them like this in here if you want
+		function updateActionIcons(table) {
+			/**
+			 var replacement =
+			 {
+                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+                 'ui-icon-disk' : 'ace-icon fa fa-check green',
+                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
+             };
+			 $(table).find('.ui-pg-div span.ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+			 */
+		}
+
+		//replace icons with FontAwesome icons like above
+		function updatePagerIcons(table) {
+			var replacement =
+			{
+				'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
+				'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+				'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
+				'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+			};
+			$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+				var icon = $(this);
+				var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+				if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+			})
+		}
+
+		function enableTooltips(table) {
+			$('.navtable .ui-pg-button').tooltip({container:'body'});
+			$(table).find('.ui-pg-div').tooltip({container:'body'});
+		}
+
+		//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+		$(document).on('ajaxloadstart', function(e) {
+			$(grid_selector).jqGrid('GridUnload');
+			$('.ui-jqdialog').remove();
+		});
+
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+
+		$("#add_audit").click(function(){
+			var formData = new FormData($( "#uploadForm" )[0]);
+			$.ajax({
+				url: '/advertiser/upload' ,
+				type: 'POST',
+				data: formData,
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (a) {
+					if(a.status == 'ok'){
+						$('#modal-form').modal('hide');
+						var rowid = $("#advertiserId").val();
+						jQuery("#gview_grid-table_"+ rowid +"_t").trigger("reloadGrid");
+						alert("success!");
+					}
+				},
+				error: function (returndata) {
+					alert(returndata);
+				}
+			});
+		})
+
+		$('#modal-form input[type=file]').ace_file_input({
+			style:'well',
+			btn_choose:'Drop files here or click to choose',
+			btn_change:null,
+			no_icon:'ace-icon fa fa-cloud-upload',
+			droppable:true,
+			thumbnail:'large'
+		})
+
+		//chosen plugin inside a modal will have a zero width because the select element is originally hidden
+		//and its width cannot be determined.
+		//so we set the width after modal is show
+		$('#modal-form').on('shown.bs.modal', function () {
+			$(this).find('.chosen-container').each(function(){
+				$(this).find('a:first-child').css('width' , '210px');
+				$(this).find('.chosen-drop').css('width' , '210px');
+				$(this).find('.chosen-search input').css('width' , '200px');
+			});
+		});
+
+
+
+	});
+
+</script>
+
+<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.onpage-help.css" />
+<link rel="stylesheet" href="__PUBLIC__/assets/js/themes/sunburst.css" />
+
+<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+<!-- page specific plugin scripts -->
+<script src="__PUBLIC__/assets/js/ace/elements.onpage-help.js"></script>
+<script src="__PUBLIC__/assets/js/ace/ace.onpage-help.js"></script>
+<script src="__PUBLIC__/docs/assets/js/rainbow.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/generic.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/html.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/css.js"></script>
+<script src="__PUBLIC__/docs/assets/js/language/javascript.js"></script>
+</body>
+</html>

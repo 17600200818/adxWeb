@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>广告位管理</title>
+	<meta name="description" content="Static &amp; Dynamic Tables" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<include file="Common/js"/>
+	<link rel="stylesheet" href="__PUBLIC__/css/admin/place/cityPicker.css" />
+	<script src="__PUBLIC__/assets/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/admin/place/cityData.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/admin/place/cityPicker.js"></script>
+	<style>
+		.shaixuan-tj2{
+		    font-size: 14px;
+		}
+		.shaixuan-tj2 span , .shaixuan-tj2 i {
+		    margin: 10px 5px 10px 0;
+		    float: left;
+		    line-height: 28px;
+		    height: 28px;
+		}
+		.shaixuan-tj2 span.crumb-select-item2{
+		    position: relative;
+		    height: 26px;
+		    line-height: 26px;
+		    border: 1px solid #DDD;
+		    font-size: 12px;
+		    vertical-align: top;
+		    padding: 0 32px 0 4px;
+		    cursor: pointer;
+		    background: #f3f3f3;
+		}
+		.shaixuan-tj2 span.crumb-select-item2 i{
+		    float: none;
+		    margin: 0;
+		    display: block;
+		    position: absolute;
+		    width: 25px;
+		    text-align: center;
+		    height: 27px;
+		    line-height: 26px;
+		    right: -1px;
+		    top: 0;
+		}
+		.shaixuan-tj2 span.crumb-select-item2 em , .shaixuan-tj2 span.crumb-select-item2 i{
+		    color: #e4393c;
+		}
+		.shaixuan-tj2 span.crumb-select-itemon2{
+		    border-color: #e4393c;
+		}
+		.shaixuan-tj2 span.crumb-select-itemon2 i{
+		    background: #e4393c;
+		    color: #fff;
+		}.shaixuan-tj2 a:hover{
+		     color: inherit;
+		}
+	</style>
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<!-- 头部 -->
+	<include file="Common/head"/>
+</div>
+<!-- 内容区域 -->
+		<div class="main-container" id="main-container">
+			<!-- 				导航条 -->
+			<include file="Common/navigation"/>
+			<!-- 				导航条 -->	
+			<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<ul class="breadcrumb">
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a href="#">媒体管理</a>
+						</li>
+						<li class="active">广告位信息</li>
+						<li class="active">广告位修改</li>
+					</ul>
+				</div>
+				
+				<!-- 		           内容块 -->
+				<div class="page-content" style="margin-left: 180px;margin-top: 20px;">
+					<div class="row" style="">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" onsubmit="return validate_form(this)" action="/Place/edit" role="form" method="post">
+									<input type="hidden" value="" class="nativeAssets" name="nativeAssets">
+									<input type="hidden" value="" class="placeType" name="placeType">
+									<input type="hidden" value="{$edit_place['id']}" name="id">
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1">媒体账户<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+												<if condition="$edit_place['parent_parent_id'] neq ''">
+													<input type="text" id="form-field-2" style="margin-right:10px;" disabled="disabled" value="{$edit_place['parent_company']}" class="col-xs-10 col-sm-3" />
+														<span class="help-inline col-xs-12 col-sm-7">
+													</span>
+												</if>
+												<if condition="$agent_seller['id'] neq ''">
+													<input type="text" id="form-field-2" disabled="disabled"  value="{$agent_seller['company']}" class="col-xs-10 col-sm-3" />
+														<span class="help-inline col-xs-12 col-sm-7">
+													</span>
+												</if>
+												<input type="hidden" value='{$sellersJson}' class="sellersJson"/>
+												<input type="hidden" value='{$medias}' class="medias"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1">媒体名称<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+												<input type="text" id="form-field-2" value="{$media['name']}" disabled="disabled" class="col-xs-10 col-sm-5" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-1">广告位名称<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" name="name"  value="{$edit_place['name']}" class="col-xs-10 col-sm-3" />
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-2">素材审核类型<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+												<input name="auditType" value="1" type="radio" <if condition="$edit_place['audittype'] eq '1'">checked="checked"</if> class="ace auditCreative" />
+												<span class="lbl">先审后投</span>
+												<input name="auditType" value="2" type="radio" <if condition="$edit_place['audittype'] eq '2'">checked="checked"</if> class="ace auditCreative" />
+												<span class="lbl">先投后审</span>
+										</div>
+									</div>
+
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">底价</label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" name="bidfloor" value="{$edit_place['bidfloor']}"  placeholder="底价" class="domain col-xs-10 col-sm-3" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/><span style="line-height: 35px;">元</span>
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-4">设备类型<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+											<select class="form-text mediaType onchange_deviceType" name="deviceType" style="width: 168px;">
+											  <option value="1" <if condition="$edit_place['devicetype'] eq '1'">selected="selected"</if>>{$Think.config.DEVICE_TYPE.1}</option>
+											  <option value="2" <if condition="$edit_place['devicetype'] eq '2'">selected="selected"</if>>{$Think.config.DEVICE_TYPE.2}</option>
+											  <option value="3" <if condition="$edit_place['devicetype'] eq '3'">selected="selected"</if>>{$Think.config.DEVICE_TYPE.3}</option>
+											  <option value="4" <if condition="$edit_place['devicetype'] eq '4'">selected="selected"</if>>{$Think.config.DEVICE_TYPE.4}</option>
+											</select>
+											<select class="form-text mediaType osType" name="osType" style="width: 168px;">
+											  <option value="0" <if condition="$edit_place['ostype'] eq '0'">selected="selected"</if>>{$Think.config.OS_TYPE.0}</option>
+											  <option value="1" <if condition="$edit_place['ostype'] eq '1'">selected="selected"</if>>{$Think.config.OS_TYPE.1}</option>
+											  <option value="2" <if condition="$edit_place['ostype'] eq '2'">selected="selected"</if>>{$Think.config.OS_TYPE.2}</option>
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-5">屏幕位置<font style="color:red;">*</font></label>
+										<div class="col-sm-9">
+											<select class="form-text mediaType" name="screenLocation" style="width: 168px;">
+											  <option value="0" <if condition="$edit_place['screenlocation'] eq '0'">selected="selected"</if>>0</option>
+											  <option value="1" <if condition="$edit_place['screenlocation'] eq '1'">selected="selected"</if>>1</option>
+											  <option value="2" <if condition="$edit_place['screenlocation'] eq '2'">selected="selected"</if>>2</option>
+											  <option value="3" <if condition="$edit_place['screenlocation'] eq '3'">selected="selected"</if>>3</option>
+											  <option value="4" <if condition="$edit_place['screenlocation'] eq '4'">selected="selected"</if>>4</option>
+											  <option value="5" <if condition="$edit_place['screenlocation'] eq '5'">selected="selected"</if>>5</option>
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-5">媒体广告位ID</label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-2" name="mediaPlaceId" value="{$edit_place['mediaplaceid']}" placeholder="媒体广告位ID" class="domain col-xs-10 col-sm-4" onblur="checkpalceid()" /><span id="tishi"></span></input>
+										</div>
+									</div>
+                                                                          <div class="form-group"  style="">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利模式 </label>
+                <div class="col-sm-3">
+                  <input type="radio" id="dijia" name="gainType"   value="1" /> 底价上浮
+                  <input type="radio" id="chengjiao" name="gainType"   value="2" /> 成交量扣量
+                  
+                  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle" style="color: red;" id="gainTypeMsg"></span>
+											</span>
+                </div>
+              </div>
+                      <script type="text/javascript"> 
+                          
+                   if({$gaintype} == 1){
+                                                     document.getElementById("dijia").checked=true;
+                                                    
+                                                }
+                                          if({$gaintype} == 2)       {
+                                                     document.getElementById("chengjiao").checked=true;
+                                                    
+                                                    
+                                                }
+                      
+                      </script>
+                          
+              <div class="form-group"  style="">
+                <label class="col-sm-3 control-label no-padding-right" > 盈利比例 </label>
+                <div class="col-sm-9">
+                    <input type="text" id="yingli" name="gainRate" value="{$gainrate}" placeholder="盈利比例" id="GainRate" class="col-xs-10 col-sm-5" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" />
+                  <span class="help-inline col-xs-11 col-sm-6">
+                  <span style="font-size: 24px">%</span>
+												<span class="middle" style="color: red;" id="GainRateMsg"></span>
+											</span>
+                </div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-5">广告位类型</label>
+										<div class="col-sm-8">
+											<div id="tabs">
+												<ul>
+													<if condition='$edit_place["placetype"] == 1'>
+														<li class="type_select" onclick="editClass(1)">
+															<a href="#tabs-1">图片{$edit_place['placeType']}</a>
+														</li>
+													</if>
+													<if condition='$edit_place["placetype"] == 2'>
+														<li class="type_select"  onclick="editClass(2)">
+															<a href="#tabs-2">视频</a>
+														</li>
+													</if>
+													<if condition='$edit_place["placetype"] == 3'>
+														<li class="type_select"  onclick="editClass(3)">
+															<a href="#tabs-4">原生</a>
+														</li>
+													</if>
+												</ul>
+												<div id="tabs-1" class="type_select_div">
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-5">展现形式<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<select class="form-text mediaType" name="instl1" style="width: 168px;">
+																  <volist name="instls" id="instl">
+																  		<if condition='$key == "2" || $key == "9" || $key == "10"'>
+																  		<else/>
+																  			<if condition="$edit_place['instl'] eq $key">
+																				<option value="{$key}" selected="selected">{$instl}</option>
+																			<else/>
+																				<option value="{$key}">{$instl}</option>
+																	  		</if>
+																  		</if>
+																  </volist>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">宽度<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="width1" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['width']}" placeholder="宽度" class="width-class1 domain col-xs-10 col-sm-3" /><span style="line-height: 35px;">px</span>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">高度<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="height1" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['height']}" placeholder="高度" class="height-class1 domain col-xs-10 col-sm-3" /><span style="line-height: 35px;">px</span>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许创意类型<font style="color:red;">*</font></label>
+														<div class="checkbox">
+															<volist name="bannerTypes" id="bannerType" key="k">
+																<label>
+																		<input name="mimes1[]" value="{$key}" <in name="key" value="$edit_place['mimes']">checked="checked"</in> class="creative-types1 ace ace-checkbox-2" type="checkbox">
+																		<span class="lbl">{$bannerType}</span>
+																</label>
+															</volist>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许文件类型<font style="color:red;">*</font></label>
+														<div class="checkbox">
+															<label>           
+																	<input name="fileExt1[]" value="1" <in name="fileExtsnum['a']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.1}</span>
+																</label>
+                                                                                                                    <label>
+																	<input name="fileExt1[]" value="2"<in name="fileExtsnum['b']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.2}</span>
+																</label>
+                                                                                                                    <label>
+																	<input name="fileExt1[]" value="3" <in name="fileExtsnum['c']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.3}</span>
+																</label>
+														</div>
+													</div>
+<!-- 													<div class="form-group"> -->
+<!-- 														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许动态素材<font style="color:red;">*</font></label> -->
+														
+<!-- 														<div class="col-sm-9"> -->
+<!-- 															<input name="allowAdm1" value="2" type="radio" <if condition="$edit_place['allowadm'] eq '2'">checked="checked"</if> class="allowAdm1 ace auditCreative" /> -->
+<!-- 															<span class="lbl">否</span> -->
+<!-- 															<input name="allowAdm1" value="1" type="radio" <if condition="$edit_place['allowadm'] eq '1'">checked="checked"</if> class="allowAdm1 ace auditCreative" /> -->
+<!-- 															<span class="lbl">是</span> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+												</div>
+												<div id="tabs-2" class="type_select_div">
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-5">展现形式<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<select class="form-text mediaType" name="instl2" style="width: 168px;">
+																  <volist name="instls" id="instl">
+																  		<if condition='$key == "1" || $key == "9" || $key == "10"'>
+																  		<else/>
+																  			<if condition="$edit_place['instl'] eq $key">
+																				<option value="{$key}" selected="selected">{$instl}</option>
+																			<else/>
+																				<option value="{$key}">{$instl}</option>
+																	  		</if>
+																  		</if>
+																  </volist>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">宽度<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="width2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['width']}"  placeholder="宽度" class="width-class2 domain col-xs-10 col-sm-3" /><span style="line-height: 35px;">px</span>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">高度<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="height2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['height']}"  placeholder="底价" class="height-class2 domain col-xs-10 col-sm-3" /><span style="line-height: 35px;">px</span>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许创意类型<font style="color:red;">*</font></label>
+														<div class="checkbox">
+															<volist name="videoType" id="videot" key="k">
+																<label>
+																	<input name="mimes2[]" value="{$key}" <in name="key" value="$edit_place['mimes']">checked="checked"</in> class="creative-types2 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$videot}</span>
+																</label>
+															</volist>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许文件类型<font style="color:red;">*</font></label>
+														<div class="checkbox">
+															<label>
+																	<input name="fileExt2[]" value="4" <in name="fileExtsnum['d']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.4}</span>
+                                                                                                                                        
+																</label>
+                                                                                                                            <label>
+																	<input name="fileExt2[]" value="5" <in name="fileExtsnum['e']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.5}</span>
+                                                                                                                                        
+																</label>
+                                                                                                                            <label>
+																	<input name="fileExt2[]" value="6" <in name="fileExtsnum['f']" value="$edit_place['fileext']">checked="checked"</in> class="file-type1 ace ace-checkbox-2" type="checkbox">
+																	<span class="lbl">{$Think.config.FILE_EXT.6}</span>
+                                                                                                                                        
+																</label>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">最大时长<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="maxduration" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['maxduration']}" placeholder="最大时长" class="maxduration_class col-xs-10 col-sm-3" /><span style="line-height: 35px;">s</span>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">最小时长<font style="color:red;">*</font></label>
+														<div class="col-sm-9">
+															<input type="text" id="form-field-2" name="minduration" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{$edit_place['minduration']}"  placeholder="最小时长" class="minduration_class col-xs-10 col-sm-3" /><span style="line-height: 35px;">s</span>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-5">贴片位置</label>
+														<div class="col-sm-9">
+															<select class="form-text mediaType" name="pos" style="width: 168px;">
+																  <volist name="pos" id="p">
+																	  <option value="{$key}" <if condition="$edit_place['pos'] eq $key">selected</if>>{$p}</option>
+																  </volist>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-2">播放类型<font style="color:red;">*</font></label>
+														<div class="col-sm-9" style="top:4px;">
+															<input name="linearity" value="1" type="radio" <if condition="$edit_place['linearity'] eq '1'">checked="checked"</if> class="ace auditCreative" />
+															<span class="lbl">线性</span>
+															<input name="linearity" value="2" type="radio" <if condition="$edit_place['linearity'] eq '2'">checked="checked"</if> class="ace auditCreative" />
+															<span class="lbl">非线性</span>
+														</div>
+													</div>
+<!-- 													<div class="form-group"> -->
+<!-- 														<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">允许动态素材<font style="color:red;">*</font></label> -->
+<!-- 														<div class="col-sm-9"> -->
+<!-- 															<input name="allowAdm2" value="2" type="radio" <if condition="$edit_place['allowadm'] eq '2'">checked="checked"</if> class="allowAdm2 ace auditCreative" /> -->
+<!-- 															<span class="lbl">否</span> -->
+<!-- 															<input name="allowAdm2" value="1" type="radio" <if condition="$edit_place['allowadm'] eq '1'">checked="checked"</if> class="allowAdm2 ace auditCreative" /> -->
+<!-- 															<span class="lbl">是</span> -->
+<!-- 														</div> -->
+<!-- 													</div> -->
+												</div>
+												<div id="tabs-4" class="type_select_div">
+													布局样式:
+													<select class="form-text mediaType layout" name="layout" id="layouts" style="width: 168px;">
+														  <volist name="layouts" id="layou">
+														  		<option value="{$key}">{$layou}</option>
+														  </volist>
+													</select>
+                                                                                                             <script type="text/javascript">
+                                                                                                                    onload = function() {
+                                                                                                                 document.getElementById("layouts").selectedIndex = {$layout}-1;
+                                                                                                                          }
+                                                                                                               </script>
+													<div style="float: right;">
+														<button class="btn btn-primary addNative" type="button" style="width: 80px;">
+																		<i class="glyphicon-plus"></i>
+																		新增
+														</button>
+													</div>
+													<!-- PAGE CONTENT BEGINS -->
+													<div class="row">
+														<div class="col-xs-12">
+															<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+																<thead>
+																	<tr>
+																		<th>ID</th>
+																		<th>是否必填</th>
+																		<th class="hidden-480">类型</th>
+																		<th>参数</th>
+																		<th class="hidden-480">操作</th>
+																	</tr>
+																</thead>
+																<tbody class="nativeTableClass">
+																</tbody>
+															</table>
+														</div><!-- /.span -->
+														
+<!-- 														原生添加框 -->
+														<div class="col-xs-12 col-sm-12 widget-container-col nativeFrame" style="display: none;">
+															<div class="widget-box widget-color-orange collapsed">
+																<!-- #section:custom/widget-box.options.collapsed -->
+																<div class="widget-header widget-header-small">
+																	<h6 class="widget-title">
+																		元素
+																	</h6>
+					
+																	<div class="widget-toolbar">
+																		<a href="javascript:;" class="nativeClose">
+																			<i class="ace-icon fa fa-times"></i>
+																		</a>
+																	</div>
+																</div>
+					
+																<!-- /section:custom/widget-box.options.collapsed -->
+																<div class="widget-body" style="display: block;">
+																	<div class="widget-main">
+																		<div class="form-group">
+																			<label class="col-sm-4 control-label no-padding-right" for="form-field-2">必填<font style="color:red;">*</font></label>
+																			<div class="col-sm-5" style="top:5px;">
+																				<input name="auditCreative2" value="true" type="radio" checked="checked" class="ace auditCreative" />
+																				<span class="lbl">是</span>
+																				<input name="auditCreative2" value="false" type="radio"  class="ace auditCreative" />
+																				<span class="lbl">否</span>
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="col-sm-4 control-label no-padding-right" for="form-field-5">类型<font style="color:red;">*</font></label>
+																			<div class="col-sm-3">
+																				<select class="form-text mediaType nativeType" name="nativeType" style="width: 110px;">
+																					  <option value="title" >title</option>
+																					  <option value="img" >img</option>
+																					  <option value="video" >video</option>
+																					  <option value="data" >data</option>
+																				</select>
+																			</div>
+																		</div>
+																		<!-- 原生：标题 start -->
+																		<div class="native_assets_title">
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">长度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" name="nativeLen" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="0"  placeholder="文字内容的长度" class="nativeLen col-xs-10 col-sm-9" />
+																				</div>
+																			</div>
+																		</div>
+																		<!-- 原生：标题  end -->
+																		<!-- 原生：图片 start -->
+																		<div class="native_assets_img" style="display: none;">
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">宽度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_img_width" value="0"  placeholder="宽度" class="native_assets_img_width col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">高度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_img_height" value="0"  placeholder="高度" class="native_assets_img_height col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许创意类型</label>
+																				<div class="checkbox">
+																					<label>
+																						<input name="native_img_checkbox1" value="1" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.BANNER_MIME_TYPE.1}</span>
+																					</label>
+																					<label>
+																						<input name="native_img_checkbox1" value="2" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.BANNER_MIME_TYPE.2}</span>
+																					</label>
+																					<label>
+																						<input name="native_img_checkbox1" value="5" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.BANNER_MIME_TYPE.5}</span>
+																					</label>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许文件类型</label>
+																				<div class="checkbox">
+																					<label>
+																						<input name="native_img_checkbox2" value="1" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.1}</span>
+																					</label>
+																					<label>
+																						<input name="native_img_checkbox2" value="2" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.2}</span>
+																					</label>
+																					<label>
+																						<input name="native_img_checkbox2" value="3" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.3}</span>
+																					</label>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-2">图片类型</label>
+																				<div class="col-sm-5" style="top:5px;">
+																					<input name="native-img-type" value="1" type="radio" checked="checked" class="native-img-type ace auditCreative" />
+																					<span class="lbl">icon</span>
+																					<input name="native-img-type" value="2" type="radio"  class="native-img-type ace auditCreative" />
+																					<span class="lbl">logo</span>
+																					<input name="native-img-type" value="3" type="radio"  class="native-img-type ace auditCreative" />
+																					<span class="lbl">主图</span>
+																				</div>
+																			</div>
+																		</div>
+																		<!-- 原生：图片 end -->
+																		<!-- 原生：视频  start -->
+																		<div class="native_assets_video" style="display: none;">
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">宽度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_video_width" value="0"  placeholder="宽度" class="native_assets_video_width col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">高度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_video_height" value="0"  placeholder="高度" class="native_assets_video_height col-xs-10 col-sm-9" /><span style="line-height: 35px;">px</span>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">最大时长<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_video_maxduration" value="0"  placeholder="播放最大时长" class="native_assets_video_maxduration col-xs-10 col-sm-9" /><span style="line-height: 35px;">s</span>
+																				</div>
+																			</div>
+																			
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">最小时长<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_video_minduration" value="0"  placeholder="播放最小时长" class="native_assets_video_minduration col-xs-10 col-sm-9" /><span style="line-height: 35px;">s</span>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许创意类型</label>
+																				<div class="checkbox">
+																					<label>
+																						<input name="native_video_checkbox1" value="1" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.VIDEO_MIME_TYPE.1}</span>
+																					</label>
+																					<label>
+																						<input name="native_video_checkbox1" value="2" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.VIDEO_MIME_TYPE.2}</span>
+																					</label>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-input-readonly">允许文件类型</label>
+																				<div class="checkbox">
+																					<label>
+																						<input name="native_video_checkbox2" value="4" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.4}</span>
+																					</label>
+																					<label>
+																						<input name="native_video_checkbox2" value="5" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.5}</span>
+																					</label>
+																					<label>
+																						<input name="native_video_checkbox2" value="6" class="ace ace-checkbox-2" type="checkbox">
+																						<span class="lbl">{$Think.config.FILE_EXT.6}</span>
+																					</label>
+																				</div>
+																			</div>
+																		</div>
+																		<!-- 原生：视频 end -->
+																		<!-- 原生：数据 start -->
+																		<div class="native_assets_data" style="display: none;">
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">长度<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<input type="text" id="form-field-2" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" name="native_assets_data_len" value="0"  placeholder="文字内容的长度" class="native_assets_data_len col-xs-10 col-sm-9" />
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="col-sm-4 control-label no-padding-right" for="form-field-5">数据类型<font style="color:red;">*</font></label>
+																				<div class="col-sm-5">
+																					<select class="form-text mediaType native_assets_data_type" name="native_assets_data_type" style="width: 110px;">
+																					  	  <volist name="native_assets_data_type" id="native_type">
+																						  		<option value="{$key}">{$native_type}</option>
+																						  </volist>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																		<!-- 原生：数据 end -->
+																		<div class="clearfix" style="margin-top:50px;">
+																			<div class="col-md-offset-3 col-md-9">
+																				<button class="btn btn-info native_button" type="button" onclick="addNativeJson()">
+																					<i class="ace-icon fa fa-check bigger-110"></i>
+																					添加
+																				</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div><!-- /.row -->
+												</div>
+											</div>
+										</div>
+									</div>
+									
+<!--									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">区域底价</label>
+										<div class="col-sm-7"  style="">
+											<span><input type="text" id="form-field-2" name="regionFloorPrice" value=""  placeholder="区域底价" class="regionFloorPrice domain col-xs-8 col-sm-2" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}"/></span>
+											<span style="line-height: 35px;float: left;margin-right: 30px;">元</span>
+											<input type="text" style="" class="domain col-xs-10 col-sm-3" id="cityChoice" placeholder="请选择城市">
+											<div style="height:34px; width: 69px;left:20px;top:-1px;padding-bottom: 35px;"></div>
+											<p  class="shaixuan-tj2 floatLeft clearfix">
+                                                  <span><a href="javascript:;">选择结果:</a></span>
+                                                  <i class="icon-angle-right"></i>
+                                                  <i class="icon-angle-right"></i>
+                                            </p>
+										</div>
+ 										价格 
+										<input type="hidden" value="" name="areabidfloor1[]" id="areabidfloor1"/>
+ 										区域 
+										<input type="hidden" value="" name="areabidfloor2[]" id="areabidfloor2"/>
+									</div>-->
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">打底代码</label>
+										<div class="col-sm-9">
+											<textarea rows="10" cols="61" name="code">{$edit_place['code']}</textarea>
+										</div>
+									</div>
+									            
+									<div class="form-group">
+										<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly">备注</label>
+										<div class="col-sm-9">
+											<textarea rows="10" cols="61" name="remark">{$edit_place.remark}</textarea>
+										</div>
+									</div>
+									
+
+									<div class="clearfix" style="margin-top:50px;">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info media_sub" type="submit">
+												<i class="ace-icon fa fa-check bigger-110"></i>
+												确定
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button class="btn" type="reset" onclick="history.back(-1)">
+												<i class="ace-icon fa fa-undo bigger-110"></i>
+												取消
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>			
+				</div>
+			</div>
+			
+			<!-- 正文结束 -->
+			<include file="Common/footer"/>
+			<!-- 尾部 -->
+		</div>
+		<script type="text/javascript">
+
+                            function GetQueryString(name)
+                        {
+                         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                         var r = window.location.search.substr(1).match(reg);
+                         if(r!=null)return  unescape(r[2]); return null;
+                    }
+                    
+                     function checkpalceid(){
+                        var urlid ='';
+                            var myurl=GetQueryString("id");
+            if(myurl !=null && myurl.toString().length>1)
+                {
+              urlid= myurl;
+            }
+				var sellerId ={$sellerid};
+//                        var sellerId= {$sellerId};
+//                        var sellerId=$('[name="sellerId"]') .val();
+                       var MediaPlaceId= $('[name="mediaPlaceId"]').val();
+				$.ajax( {    
+			   		url:"/Common/checkMediaPlaceId?sellerId="+sellerId+"&MediaPlaceId="+MediaPlaceId+"&id="+urlid,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   				if(data.status != "1"){
+                                                     document.getElementById("tishi").innerHTML='<i class="ace-icon glyphicon glyphicon-remove">该ID已存在';
+                                                   document.getElementById("tishi").setAttribute("class","domain col-xs-10 col-sm-4");
+                                                     document.getElementById("tishi").setAttribute("style","color:red;line-height:30px;border:1px ;height:50px ");
+//			   				alert("该媒体广告位ID已存在");
+                                                         $('[name="mediaPlaceId"]').val("");
+			   			}else{
+                                                    document.getElementById("tishi").innerHTML='<i class="ace-icon fa fa-check green">';
+                                                   document.getElementById("tishi").setAttribute("class","domain col-xs-10 col-sm-4");
+                                                     document.getElementById("tishi").setAttribute("style","color:green;line-height:30px;border:1px;height:50px ");
+                                                }
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！"); 
+                                             $('[name="mediaPlaceId"]').val("");W
+			   		}
+			   	});
+			}
+			$( "#tabs" ).tabs();
+			$(".media_sub").click(function () {
+				$(".name").val();
+			});
+
+			$(".agentSelect").change(function () {
+				var sellerId = $(this).val();
+				$(".nameMedia").empty();
+				//查询媒体名字列表
+				$.ajax( {    
+			   		url:"/Common/getMediaLists?idSeller="+sellerId,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   			if(data.count>0){
+			   				//循环媒体信息
+			   				$.each( data.data, function(index, content)
+		   					{ 
+			   					$(".nameMedia").append("<option value='"+content.id+"'>"+content.name+"</option>");
+		   					});
+			   			}else{
+			   				alert("媒体账户下没有媒体信息,请前往媒体信息进行媒体添加！");
+			   				$(".nameMedia").append("<option value=''>请添加媒体信息</option>");
+			   				return false;
+			   			}
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！");    
+			   		}
+			   	});
+			});
+			
+			$(".osType").hide();
+			$(".onchange_deviceType").change(function () {
+				if($(this).val() == "2" || $(this).val() == "3"){
+					$(".osType").show();
+				}else{
+					$(".osType").hide();
+				}
+			});
+			
+			
+			$(".onchangSeller").change(function () {
+				//清空二级菜单 
+				$(".agentSelect").empty();
+				$(".nameMedia").empty();
+				
+				//获取全部媒体账号和媒体信息  避免加载二级请求后台
+				var sellerJson = eval('(' + $(".sellersJson").val() + ')');
+				//获取当前媒体账号对应的ID
+				var sellerId = $(this).val();
+				if(sellerId==""){
+					$(".agentSelect").hide(100);
+					return false;
+				}
+				
+				//标记媒体是否有代理账号 默认0  
+				var count = 0;
+				$.each( sellerJson, function(index, content)
+				{ 
+					if(content.parentid == sellerId){
+						$('.agentSelect').show(); 
+						$(".agentSelect").append("<option value='"+content.id+"'>"+content.company+"</option>");
+						count++;
+					}
+				});
+				//标记为0  隐藏代理下拉框
+				if(count==0){
+					//没有代理  直接查询媒体名字
+					$(".agentSelect").hide(100);
+				}else{
+					//第三级媒体名字
+				}
+				
+				
+				var this_sellerId ="";
+				var agentName = $(".agentName").val();
+				if(agentName == "" || agentName ==null){
+					this_sellerId = sellerId;
+				}else{
+					this_sellerId = agentName;
+				}
+				//查询媒体名字列表
+				$.ajax( {    
+			   		url:"/Common/getMediaLists?idSeller="+this_sellerId,// 跳转到 php后台
+			   		type:'get',    
+			   		dataType:'json',    
+			   		success:function(data) {
+			   			if(data.count>0){
+			   				//循环媒体信息
+			   				$.each( data.data, function(index, content)
+		   					{ 
+			   					$(".nameMedia").append("<option value='"+content.id+"'>"+content.name+"</option>");
+		   					});
+			   			}else{
+			   				alert("媒体账户下没有媒体信息,请前往媒体信息进行媒体添加！");
+			   				$(".nameMedia").append("<option value=''>请添加媒体信息</option>");
+			   				return false;
+			   			}
+			   		},    
+			   		error : function() {    
+			   		    alert("网络异常！");    
+			   		}
+			   	});
+			});
+			$(".agentSelect").hide();
+			function validate_required(field,alerttxt)
+			{
+				with (field)
+			    {
+					  if (value==null||value=="")
+					  {
+						  alert(alerttxt);return false
+					  }
+					  else {
+						  return true
+					  }
+			    }
+			}
+
+			function validate_form(thisform)
+			{
+				with (thisform)
+			    {
+					  if (validate_required(name,"请输入广告位名称!")==false)
+					  {
+						  name.focus();
+						  return false
+					  }
+					  
+					  //宽度
+					  var w = "";
+					  //高度
+					  var h = "";
+					  //创意类型
+					  var mimes="";
+					  //文件类型
+					  var fileExt ="";
+					  
+					  //临时变量
+					  var str=""; 
+					  var str2=""
+					  var tabs1 = $("#tabs-1").css("display");
+					  var tabs2 = $("#tabs-2").css("display");
+					  var tabs4 = $("#tabs-4").css("display");
+					  
+					  
+					  //判断那个选项卡显示
+					  if(tabs1 == "block"){
+						  h = $(".height-class1").val();
+						  w = $(".width-class1").val();
+						  mimes = document.getElementsByName("mimes1[]");
+						  fileExt= document.getElementsByName("fileExt1[]");
+						  $(".placeType").val("1");
+					  }
+					  if(tabs2 == "block"){
+						  h = $(".height-class2").val();
+						  w = $(".width-class2").val();
+						  mimes = document.getElementsByName("mimes2[]");
+						  fileExt= document.getElementsByName("fileExt2[]");
+						  $(".placeType").val("2");
+					  }
+					  if(tabs4 == "block"){
+						  $(".placeType").val("3");
+						  $(".nativeAssets").val(JSON.stringify(native_json));
+                                                     if ( native_json['native']['assets'] =="")
+						  {
+							  alert("请添加原生广告!");
+							  return false
+						  }
+					  }
+					  
+					  if(tabs2 == "block" || tabs1 == "block"){
+						  if (w=="")
+						  {
+							  alert("请输入宽度!");
+							  return false
+						  }
+						  if (h=="")
+						  {
+							  alert("请输入高度!");
+							  return false
+						  }
+						  
+						  for(var i=0;i<mimes.length;i++){
+							  if(mimes[i].checked)
+								  str+=mimes[i].value+","; 
+						  }
+						  for(var i=0;i<fileExt.length;i++){
+							  if(fileExt[i].checked)
+								  str2+=fileExt[i].value+","; 
+						  }
+						  
+						  if(str==""){
+							  alert("请选择允许创意类型");
+							  return false;
+						  }
+						  
+						  if(str2==""){
+							  alert("请选择允许文件类型");
+							  return false;
+						  }
+					  }
+					  if(tabs2 == "block"){
+						  if (validate_required(maxduration,"请输入最大时长!")==false)
+						  {
+							  maxduration.focus();
+							  return false
+						  }
+						  if (validate_required(minduration,"请输入最小时长!")==false)
+						  {
+							  minduration.focus();
+							  return false
+						  }
+					  }
+					  $("#areabidfloor1").val(city);
+					  $("#areabidfloor2").val(regionPrice);
+			    }
+			}
+			
+			function category(){
+				var category1 = "{$edit_media['category1']}";
+				var category2 = "{$edit_media['category2']}";
+				if(category1){
+						$("#mcategory").val(category1);
+						$("#msubCategory").val(category2);
+				}
+			}
+			
+			window.setTimeout(category,200);
+			
+			
+			$(".addNative").click(function () {
+				$(".layout").val();
+				$(".native_button").attr("onclick","addNativeJson()");
+				$(".native_button").html('<i class="ace-icon fa fa-check bigger-110"></i>添加');
+
+				//重置原生title的长度
+				$(".nativeLen").val(0);
+				//重置原生类型
+				$(".nativeType").val("title");
+				
+				$(".native_assets_title").css("display","none");
+				$(".native_assets_img").css("display","none");
+				$(".native_assets_video").css("display","none");
+				$(".native_assets_data").css("display","none");
+				
+				$(".nativeType").val("title");
+				$(".native_assets_title").css("display","block");
+				$(".nativeFrame").css("display","block");
+			});
+			$(".nativeClose").click(function () {
+				$(".nativeFrame").css("display","none");
+			});
+			
+			//类型:随着选择显示隐藏原生块div
+			$(".nativeType").change(function () {
+				var nType = $(this).val();
+				$(".native_assets_title").css("display","none");
+				$(".native_assets_img").css("display","none");
+				$(".native_assets_video").css("display","none");
+				$(".native_assets_data").css("display","none");
+				
+				if($(".native_button").attr("onclick").indexOf("addNativeJson") != -1){
+					//重置原生title的长度
+					$(".nativeLen").val(0);
+					//img
+					$(".native-img-type").attr("checked",false);
+		            $(".native-img-type").eq(0).prop("checked","checked");
+            		$(".native_assets_img_width").val(0);
+            		$(".native_assets_img_height").val(0);
+            		$(".native_img_checkbox1").attr("checked",false);
+            		$(".native_img_checkbox2").attr("checked",false);
+            		$("input[name='native_img_checkbox1']:checked").each(function(){ 
+            			$(this).prop("checked",false);
+            		}); 
+            		$("input[name='native_img_checkbox2']:checked").each(function(){ 
+            			$(this).prop("checked",false);
+            		});
+            		//video
+            		$(".native_assets_video_width").val(0);
+            		$(".native_assets_video_height").val(0);
+            		$(".native_assets_video_maxduration").val(0);
+            		$(".native_assets_video_minduration").val(0);
+            		$("input[name='native_video_checkbox1']:checked").each(function(){ 
+            			$(this).prop("checked",false);
+            		});
+            		$("input[name='native_video_checkbox2']:checked").each(function(){ 
+            			$(this).prop("checked",false);
+            		});
+            		//data
+            		$(".native_assets_data_len").val(0);
+            		$(".native_assets_data_type").val(1);
+				}else{
+					if(temp_type == "title"){
+						//img
+						$(".native-img-type").attr("checked",false);
+			            $(".native-img-type").eq(0).prop("checked","checked");
+	            		$(".native_assets_img_width").val(0);
+	            		$(".native_assets_img_height").val(0);
+	            		$(".native_img_checkbox1").attr("checked",false);
+	            		$(".native_img_checkbox2").attr("checked",false);
+	            		$("input[name='native_img_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		}); 
+	            		$("input[name='native_img_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		//video
+	            		$(".native_assets_video_width").val(0);
+	            		$(".native_assets_video_height").val(0);
+	            		$(".native_assets_video_maxduration").val(0);
+	            		$(".native_assets_video_minduration").val(0);
+	            		$("input[name='native_video_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		$("input[name='native_video_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		//data
+	            		$(".native_assets_data_len").val(0);
+	            		$(".native_assets_data_type").val(1);
+					}
+					if(temp_type == "img"){
+						//重置原生title的长度
+						$(".nativeLen").val(0);
+						//video
+	            		$(".native_assets_video_width").val(0);
+	            		$(".native_assets_video_height").val(0);
+	            		$(".native_assets_video_maxduration").val(0);
+	            		$(".native_assets_video_minduration").val(0);
+	            		$("input[name='native_video_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		$("input[name='native_video_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		//data
+	            		$(".native_assets_data_len").val(0);
+	            		$(".native_assets_data_type").val(1);
+					}
+					if(temp_type == "video"){
+						//重置原生title的长度
+						$(".nativeLen").val(0);
+						//img
+						$(".native-img-type").attr("checked",false);
+			            $(".native-img-type").eq(0).prop("checked","checked");
+	            		$(".native_assets_img_width").val(0);
+	            		$(".native_assets_img_height").val(0);
+	            		$(".native_img_checkbox1").attr("checked",false);
+	            		$(".native_img_checkbox2").attr("checked",false);
+	            		$("input[name='native_img_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		}); 
+	            		$("input[name='native_img_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+						//data
+	            		$(".native_assets_data_len").val(0);
+	            		$(".native_assets_data_type").val(1);
+					}
+					if(temp_type == "data"){
+						//video
+	            		$(".native_assets_video_width").val(0);
+	            		$(".native_assets_video_height").val(0);
+	            		$(".native_assets_video_maxduration").val(0);
+	            		$(".native_assets_video_minduration").val(0);
+	            		$("input[name='native_video_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+	            		$("input[name='native_video_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+						//img
+						$(".native-img-type").attr("checked",false);
+			            $(".native-img-type").eq(0).prop("checked","checked");
+	            		$(".native_assets_img_width").val(0);
+	            		$(".native_assets_img_height").val(0);
+	            		$(".native_img_checkbox1").attr("checked",false);
+	            		$(".native_img_checkbox2").attr("checked",false);
+	            		$("input[name='native_img_checkbox1']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		}); 
+	            		$("input[name='native_img_checkbox2']:checked").each(function(){ 
+	            			$(this).prop("checked",false);
+	            		});
+						//重置原生title的长度
+						$(".nativeLen").val(0);
+					}
+				}
+				
+				
+				
+				if(nType == "title"){
+					$(".native_assets_title").css("display","block");
+				}else if(nType == "img"){
+					$(".native_assets_img").css("display","block");
+				}else if(nType == "video"){
+					$(".native_assets_video").css("display","block");
+				}else{
+					$(".native_assets_data").css("display","block");
+				}
+			});
+			var city = [];
+			var regionPrice = [];
+			var temp_city_and_regionPrice_id = 0;
+			var cityPicker = new IIInsomniaCityPicker({
+                data: cityData,
+                target: '#cityChoice',
+                valType: 'k-v',
+                hideCityInput: '#city',
+                hideProvinceInput: '#province',
+                callback: function(city_id){
+                	var regionFloorPrice = $(".regionFloorPrice").val();
+                	if(regionFloorPrice == ""){
+                		$("#cityChoice").val("");
+                		alert("请输入区域底价!");
+                		return false;
+                	}
+                	
+                	if($.inArray(city_id, city) != -1){
+                		$("#cityChoice").val("");
+                		alert("区域已经存在,请确认！");
+                		return false;
+                	}
+                	
+                	
+                    var zhiclass = regionFloorPrice+"：";
+                    zhicon = city_id;
+                    city.push(city_id);
+                    
+                    regionPrice.push(regionFloorPrice);
+                    temp_city_and_regionPrice_id = city.length-1;
+                    tianjaneir="<span class='crumb-select-item2 city_remove' tempId='"+temp_city_and_regionPrice_id+"'><a href='javascript:;'><b>"+zhiclass+"</b><em>"+zhicon+"</em><i class=''>X</i></a></span>"
+                    $(".shaixuan-tj2").children().last().after(tianjaneir);
+                }
+            });
+
+            cityPicker.init();
+            
+            
+          	//原生json
+			var native_json = {"native":{"layout":1,"assets":[]}};
+          	//原生id
+          	var native_id = 0;
+            
+            //添加原生代码
+            function addNativeJson(){
+            	native_id++;
+            	
+            	//原生广告布局样式
+            	var layout = $(".layout").val();
+            	//原生类型
+            	var nativeType = $(".nativeType").val();
+            	//是否必填
+            	var auditCreative2 = $("input[name='auditCreative2']:checked").val();
+            	auditCreative2 = auditCreative2=="true"?true:false;
+            	var temp_json = {};
+            	
+            	var mimes = [];
+            	var fileExt = [];
+            	if(nativeType == "title"){
+            		//获取长度
+            		var len = $(".nativeLen").val();
+            		temp_json = {
+            			"id"		:	native_id,
+            			"required"  :   auditCreative2,
+            			"title"  	:   {
+            								"len"   :     parseInt(len)
+            							}
+            		};
+            	}else if(nativeType == "img"){
+            		//图片类型
+                	var native_img_type = $("input[name='native-img-type']:checked").val();
+            		var native_assets_img_width = $(".native_assets_img_width").val();
+            		var native_assets_img_height = $(".native_assets_img_height").val();
+            		
+            		
+            		$("input[name='native_img_checkbox1']:checked").each(function(){ 
+            			mimes.push(parseInt($(this).val()));
+            		}); 
+            		$("input[name='native_img_checkbox2']:checked").each(function(){ 
+            			fileExt.push(parseInt($(this).val()));
+            		});
+            		temp_json = {
+                            "id": native_id,
+                            "required": auditCreative2,
+                            "img": {
+                                "type"	: parseInt(native_img_type),
+                                "w"		: parseInt(native_assets_img_width),
+                                "h"		: parseInt(native_assets_img_height),
+                                "mimes" : mimes,
+                                "fileext" : fileExt
+                            }
+                        }
+            		
+            	}else if(nativeType == "video"){
+            		var native_assets_video_width = $(".native_assets_video_width").val();
+            		var native_assets_video_height = $(".native_assets_video_height").val();
+            		var native_assets_video_maxduration = $(".native_assets_video_maxduration").val();
+            		var native_assets_video_minduration = $(".native_assets_video_minduration").val();
+            		
+            		$("input[name='native_video_checkbox1']:checked").each(function(){ 
+            			mimes.push(parseInt($(this).val()));
+            		});
+            		$("input[name='native_video_checkbox2']:checked").each(function(){ 
+            			fileExt.push(parseInt($(this).val()));
+            		});
+            		temp_json = {
+                            "id": native_id,
+                            "required": auditCreative2,
+                            "video": {
+                                "w": parseInt(native_assets_video_width),
+                                "h": parseInt(native_assets_video_height),
+                                "maxduration":parseInt(native_assets_video_maxduration),
+                                "minduration":parseInt(native_assets_video_minduration),
+                                "mimes": mimes,
+                                "fileext" : fileExt
+                            }
+                        }
+            	}else{
+            		//data
+            		var native_assets_data_len = $(".native_assets_data_len").val();
+            		var native_assets_data_type = $(".native_assets_data_type").val();
+            		temp_json = {
+                            "id": native_id,
+                            "required": auditCreative2,
+                            "data": {
+                                "len": parseInt(native_assets_data_len),
+                                "type": parseInt(native_assets_data_type)
+                            }
+                        }
+            	}
+            	
+            	//添加到josn中
+            	native_json.native.assets.push(temp_json);
+            	console.log(JSON.stringify(temp_json));
+            	//渲染原生列表
+            	showNativeTable(temp_json,nativeType);
+            }
+            
+            //布局样式
+            $(".layout").change(function () {
+            	native_json.native.layout=$(this).val();
+            });
+            
+          	//原生删除
+          	function delNative(id){
+          		if (confirm("确认要删除？")) {
+					$(".native_button").attr("onclick","addNativeJson()");
+					$(".native_button").html('<i class="ace-icon fa fa-check bigger-110"></i>添加');
+	          		console.log(JSON.stringify(native_json)+"--id:"+id);
+					$.each( native_json['native']['assets'], function(index, content)
+					{ 
+						if(id == content.id){
+							native_json.native.assets.splice(index,1);
+							var temp = ".nativeTableTr"+id;
+			          		$(temp).empty();
+							return false;
+						}
+					});
+					console.log("del:"+JSON.stringify(native_json));
+          		}
+          	}
+          	
+          	
+          	var temp_type = "";
+          	//原生修改
+          	function editNative(id){
+          		var tempClass = ".editNative"+id;
+          		var nativeType = $(tempClass).attr("nativeType");
+          		temp_type = nativeType;
+          		console.log(JSON.stringify(native_json));
+          		$(".native_assets_title").css("display","none");
+				$(".native_assets_img").css("display","none");
+				$(".native_assets_video").css("display","none");
+				$(".native_assets_data").css("display","none");
+				$(".nativeFrame").css("display","block");
+				//把原生添加中 添加按钮改成修改按钮
+				$(".native_button").attr("onclick","SaveEditNative("+id+")");
+				$(".native_button").html('<i class="ace-icon fa fa-check bigger-110"></i>修改');
+				
+				$.each( native_json['native']['assets'], function(index, content)
+				{ 
+					if(id == content.id){
+						if(nativeType == "title"){
+		          			$(".native_assets_title").css("display","block");
+		          			$(".nativeType").val("title");
+		            		//获取长度
+		          			$(".nativeLen").val(native_json['native']['assets'][index]['title']['len']);
+		            	}else if(nativeType == "img"){
+		            		$(".native_assets_img").css("display","block");
+		            		$(".nativeType").val("img");
+		            		//图片类型
+		                	$("input[name='native-img-type']:checked").val();
+		            		$(".native-img-type").attr("checked",false);
+		            		$(".native-img-type").eq(native_json['native']['assets'][index]['img']['type']-1).prop("checked","checked");
+		            		$(".native_assets_img_width").val(native_json['native']['assets'][index]['img']['w']);
+		            		$(".native_assets_img_height").val(native_json['native']['assets'][index]['img']['h']);
+		            		var mimes = native_json['native']['assets'][index]['img']['mimes'];
+		            		var fileExt = native_json['native']['assets'][index]['img']['fileext'];
+		            		
+		            		for(var i=0;i<mimes.length;i++){
+		            			$("input[name='native_img_checkbox1']").each(function(){ 
+		                			if(parseInt(mimes[i]) == parseInt($(this).val())){
+		                				$(this).prop("checked","checked");
+		                			}
+		                		});
+		            		}
+		            		for(var i=0;i<fileExt.length;i++){
+		            			$("input[name='native_img_checkbox2']").each(function(){ 
+		                			if(parseInt(fileExt[i]) == parseInt($(this).val())){
+		                				$(this).prop("checked","checked");
+		                			}
+		                		});
+		            		}
+		            	}else if(nativeType == "video"){
+		            		$(".native_assets_video").css("display","block");
+		            		$(".nativeType").val("video");
+		            		$(".native_assets_video_width").val(native_json['native']['assets'][index]['video']['w']);
+		            		$(".native_assets_video_height").val(native_json['native']['assets'][index]['video']['h']);
+		            		$(".native_assets_video_maxduration").val(native_json['native']['assets'][index]['video']['maxduration']);
+		            		$(".native_assets_video_minduration").val(native_json['native']['assets'][index]['video']['minduration']);
+		            		
+		            		var mimes = native_json['native']['assets'][index]['video']['mimes'];
+		            		var fileExt = native_json['native']['assets'][index]['video']['fileext'];
+		            		for(var i=0;i<mimes.length;i++){
+		            			$("input[name='native_video_checkbox1']").each(function(){ 
+		                			if(parseInt(mimes[i]) == parseInt($(this).val())){
+		                				$(this).prop("checked","checked");
+		                			}
+		                		});
+		            		}
+		            		for(var i=0;i<fileExt.length;i++){
+		            			$("input[name='native_video_checkbox2']").each(function(){ 
+		                			if(parseInt(fileExt[i]) == parseInt($(this).val())){
+		                				$(this).prop("checked","checked");
+		                			}
+		                		});
+		            		}
+		            	}else{
+		            		//data
+		            		$(".nativeType").val("data");
+		            		$(".native_assets_data").css("display","block");
+		            		$(".native_assets_data_len").val(native_json['native']['assets'][index]['data']['len']);
+		            		$(".native_assets_data_type").val(native_json['native']['assets'][index]['data']['type']);
+		            	}
+						return false;
+					}
+				});
+          	}
+          	
+          	//保存原生修改信息
+          	function SaveEditNative(id){
+          		$.each( native_json['native']['assets'], function(index, content)
+        		{ 
+          			if(native_json['native']['assets'][index]["id"] == id){
+						//原生广告布局样式
+						var layout = $(".layout").val();
+						//原生类型
+						var nativeType = $(".nativeType").val();
+						
+						var tempClass = ".editNative"+id;
+						temp_type = nativeType;
+		          		$(tempClass).attr("nativeType",nativeType);
+						
+						//是否必填
+						var auditCreative2 = $("input[name='auditCreative2']:checked").val();
+						auditCreative2 = auditCreative2=="true"?true:false;
+						var temp_json = {};
+						
+						var mimes = [];
+						var fileExt = [];
+						if(nativeType == "title"){
+							//获取长度
+							var len = $(".nativeLen").val();
+							temp_json = {
+								"id"		:	id,
+								"required"  :   auditCreative2,
+								"title"  	:   {
+													"len"   :     parseInt(len)
+												}
+							};
+						}else if(nativeType == "img"){
+							//图片类型
+							var native_img_type = $("input[name='native-img-type']:checked").val();
+							var native_assets_img_width = $(".native_assets_img_width").val();
+							var native_assets_img_height = $(".native_assets_img_height").val();
+							
+							
+							$("input[name='native_img_checkbox1']:checked").each(function(){ 
+								mimes.push(parseInt($(this).val()));
+							}); 
+							$("input[name='native_img_checkbox2']:checked").each(function(){ 
+								fileExt.push(parseInt($(this).val()));
+							}); 
+							temp_json = {
+									"id": id,
+									"required": auditCreative2,
+									"img": {
+										"type"	: parseInt(native_img_type),
+										"w"		: parseInt(native_assets_img_width),
+										"h"		: parseInt(native_assets_img_height),
+										"mimes" : mimes,
+										"fileext" : fileExt
+									}
+								}
+							
+						}else if(nativeType == "video"){
+							var native_assets_video_width = $(".native_assets_video_width").val();
+							var native_assets_video_height = $(".native_assets_video_height").val();
+							var native_assets_video_maxduration = $(".native_assets_video_maxduration").val();
+							var native_assets_video_minduration = $(".native_assets_video_minduration").val();
+							
+							$("input[name='native_video_checkbox1']:checked").each(function(){ 
+								mimes.push(parseInt($(this).val()));
+							});
+							$("input[name='native_video_checkbox2']:checked").each(function(){ 
+								fileExt.push(parseInt($(this).val()));
+							});
+							temp_json = {
+									"id": id,
+									"required": auditCreative2,
+									"video": {
+										"w": parseInt(native_assets_video_width),
+										"h": parseInt(native_assets_video_height),
+										"maxduration":parseInt(native_assets_video_maxduration),
+										"minduration":parseInt(native_assets_video_minduration),
+										"mimes": mimes,
+										"fileext" : fileExt
+									}
+								}
+						}else{
+							//data
+							var native_assets_data_len = $(".native_assets_data_len").val();
+							var native_assets_data_type = $(".native_assets_data_type").val();
+							temp_json = {
+									"id": id,
+									"required": auditCreative2,
+									"data": {
+										"len": parseInt(native_assets_data_len),
+										"type": parseInt(native_assets_data_type)
+									}
+								}
+						}
+						
+						native_json['native']['assets'][index]= temp_json;
+						var required = temp_json.required==true?"是":"否";
+						var nativeTableTr = ".nativeTableTr"+id;
+						$(nativeTableTr).find("td").eq(1).html(required);
+						$(nativeTableTr).find("td").eq(2).html(nativeType);
+						$(nativeTableTr).find("td").eq(3).html(JSON.stringify(temp_json));
+						//添加到josn中
+						//native_json.native.assets.push(temp_json);
+                    	console.log(JSON.stringify(native_json['native']['assets'][index]));
+          			}
+        		});
+          	}
+          	
+          	//渲染原生列表
+            function showNativeTable(temp_json,nativeType){
+            	var required = temp_json.required==true?"是":"否";
+            	$(".nativeTableClass").append('<tr class="nativeTableTr'+temp_json.id+'">'
+					+	'<td>'
+					+	'<a href="#">'+temp_json.id+'</a>'
+					+'</td>'
+					+'<td>'+required+'</td>'
+					+'<td class="hidden-480">'+nativeType+'</td>'
+					+'<td style="width: 200px;word-break:break-all;">'+JSON.stringify(temp_json)+'</td>'
+					+'<td>'
+					+	'<div class="hidden-sm hidden-xs btn-group">'
+					+		'<button class="btn btn-xs btn-info editNative'+temp_json.id+'" type="button" nativeType="'+nativeType+'" onclick="editNative('+temp_json.id+')">'
+					+			'<i class="ace-icon fa fa-pencil bigger-120"></i>'
+					+		'</button>'
+					+		'<button class="btn btn-xs btn-danger" type="button" onclick="delNative('+temp_json.id+')">'
+					+			'<i class="ace-icon fa fa-trash-o bigger-120"></i>'
+					+		'</button>'
+					+	'</div>'
+					+	'<div class="hidden-md hidden-lg">'
+					+		'<div class="inline position-relative">'
+					+			'<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">'
+					+				'<i class="ace-icon fa fa-cog icon-only bigger-110"></i>'
+					+			'</button>'
+					+			'<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">'
+					+				'<li>'
+					+					'<a href="#" class="tooltip-info" data-rel="tooltip" title="View">'
+					+						'<span class="blue">'
+					+							'<i class="ace-icon fa fa-search-plus bigger-120"></i>'
+					+						'</span>'
+					+					'</a>'
+					+				'</li>'
+					+				'<li>'
+					+					'<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">'
+					+						'<span class="green">'
+					+							'<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>'
+					+						'</span>'
+					+					'</a>'
+					+				'</li>'
+					+				'<li>'
+					+					'<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">'
+					+						'<span class="red">'
+					+							'<i class="ace-icon fa fa-trash-o bigger-120"></i>'
+					+						'</span>'
+					+					'</a>'
+					+				'</li>'
+					+			'</ul>'
+					+		'</div>'
+					+	'</div>'
+					+'</td>'
+					+'</tr>'
+				);
+            }
+          	
+          	function rendering(){
+          		//获取当前广告类型   广告位类型（1：banner；2：video；3：native）
+          		var placeType = "{$edit_place['placetype']}";
+          		
+          		//显示设备类型
+          		var devicetype = "{$edit_place['devicetype']}";
+          		if(devicetype == "2" || devicetype=="3"){
+          			$(".osType").show();
+          		}
+          		
+          		//重置广告位类型选项卡
+          		$(".type_select").removeClass("ui-tabs-active ui-state-active");
+          		$(".type_select").attr("aria-selected",false);
+      			$(".type_select").attr("aria-expanded",false);
+      			
+          		//重置选项卡div
+          		$(".type_select_div").css("display","none");
+          		if(placeType == "1"){
+          			$(".type_select").eq(0).addClass("ui-tabs-active ui-state-active");
+          			$(".type_select").eq(0).attr("aria-selected",true);
+          			$(".type_select").eq(0).attr("aria-expanded",true);
+          			$(".type_select_div").eq(0).css("display","block");
+          			
+          			//清空视频内容
+          			$(".height-class2").val(0);
+            		$(".width-class2").val(0);
+            		$(".maxduration_class").val(0);
+            		$(".minduration_class").val(0);
+            		var mimes = document.getElementsByName("mimes2[]");
+					var fileExt= document.getElementsByName("fileExt2[]");
+					for(var i=0;i<mimes.length;i++){
+					    if(mimes[i].checked)
+					    	mimes[i].checked = false;
+					}
+					for(var i=0;i<fileExt.length;i++){
+						if(fileExt[i].checked)
+							fileExt[i].checked = false;
+					}
+          		}else if(placeType == "2"){
+          			$(".type_select").eq(1).addClass("ui-tabs-active ui-state-active");
+          			$(".type_select").eq(1).attr("aria-selected",true);
+          			$(".type_select").eq(1).attr("aria-expanded",true);
+          			$(".type_select_div").eq(1).css("display","block");
+          			//清空图片内容
+          			$(".height-class1").val(0);
+            		$(".width-class1").val(0);
+            		var mimes = document.getElementsByName("mimes1[]");
+					var fileExt= document.getElementsByName("fileExt1[]");
+					for(var i=0;i<mimes.length;i++){
+					    if(mimes[i].checked)
+					    	mimes[i].checked = false;
+					}
+					for(var i=0;i<fileExt.length;i++){
+						if(fileExt[i].checked)
+							fileExt[i].checked = false;
+					}
+          		}else{
+          			$(".type_select").eq(2).addClass("ui-tabs-active ui-state-active");
+          			$(".type_select").eq(2).attr("aria-selected",true);
+          			$(".type_select").eq(2).attr("aria-expanded",true);
+          			$(".type_select_div").eq(2).css("display","block");
+          			//渲染原生列表
+              		temp_json = eval('(' + '{$edit_place["nativeassets"]}' + ')');
+          			//重置布局样式
+//               	$(".layout").val(temp_json.native.layout);
+          			$(".layout").val();
+          			//记录temp_json.native.assets[index][id]中最后一个id  为了初始化原生id（native_id）
+          			var temp_id = 0;
+          			//循环后台传递的原生json串
+              		$.each( temp_json.native.assets, function(index, content)
+          			{
+              			//记录json动态的key 取值最后一次循环  方便渲染列表元素
+              			var nativeType ="";
+              			$.each( temp_json.native.assets[index], function(index2, content)
+                      	{ 
+              				nativeType = index2;
+                      	});
+              			//渲染列表
+              			showNativeTable(content,nativeType);
+              			
+              			//初始化原生id（native_id）
+              			if(index == temp_json.native.assets.length-1){
+              				native_id = temp_json['native']['assets'][index]['id'];
+              			}
+          			});
+              		native_json = temp_json;
+              		console.log(JSON.stringify(temp_json));
+          		}
+          	}
+            window.setTimeout(rendering(),100);
+            
+            function editClass(type){
+            	$(".type_select").removeClass("ui-tabs-active ui-state-active");
+          		$(".type_select").attr("aria-selected",false);
+      			$(".type_select").attr("aria-expanded",false);
+            	$(".type_select").eq(type-1).addClass("ui-tabs-active ui-state-active");
+            	$(".type_select").eq(type-1).attr("aria-selected",true);
+      			$(".type_select").eq(type-1).attr("aria-expanded",true);
+            	if(type == 1){
+          			$(".type_select_div").eq(0).css("display","block");
+          			$(".type_select_div").eq(1).css("display","none");
+          			$(".type_select_div").eq(2).css("display","none");
+            	}else if(type ==2){
+          			$(".type_select_div").eq(1).css("display","block");
+          			$(".type_select_div").eq(0).css("display","none");
+          			$(".type_select_div").eq(2).css("display","none");
+            	}else{
+          			$(".type_select_div").eq(2).css("display","block");
+            		$(".type_select_div").eq(0).css("display","none");
+          			$(".type_select_div").eq(1).css("display","none");
+            	}
+            }
+            
+            //渲染区域价格
+            if('{$edit_place["areabidfloor"]}'){
+       			var areabidfloorJson = eval('(' + '{$edit_place["areabidfloor"]}' + ')');
+          		$.each( areabidfloorJson, function(index, content)
+              	{
+          			city[index] = content.region;
+          			regionPrice[index] = content.price;
+          			var tianjaneir2="<span class='crumb-select-item2 city_remove' tempId='"+index+"'><a href='javascript:;'><b>"+content.price+":</b><em>"+content.region+"</em><i class=''>X</i></a></span>"
+          			$(".shaixuan-tj2").children().last().after(tianjaneir2);
+              	});
+       		}
+            
+            //区域价格删除
+            $(document).on('click','.city_remove',function(e){
+            	console.log(city+"--开始---"+regionPrice);
+				var tempId = $(this).attr("tempId");
+            	city.remove(tempId);
+            	regionPrice.remove(tempId);
+            	$(this).remove();
+            	console.log(city+"--结束---"+regionPrice);
+			});
+            
+            /**
+             *删除数组指定下标或指定对象
+             */
+             Array.prototype.remove=function(obj){
+ 	            for(var i =0;i <this.length;i++){
+ 		            var temp = this[i];
+ 		            if(!isNaN(obj)){
+ 		            	temp=i;
+ 		            }
+ 		            if(temp == obj){
+ 			            for(var j = i;j <this.length;j++){
+ 			            	this[j]=this[j+1];
+ 			            }
+ 			            this.length = this.length-1;
+ 	            	}
+             	}
+             } 
+		</script>
+</body>
+</html>
