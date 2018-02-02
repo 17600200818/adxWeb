@@ -46,7 +46,7 @@ class AdvertiserController extends CommonController {
             if($v['websiteName']!='')$data['siteName'] = $v['websiteName'];
             if($v['website']!='')$data['domain'] = $v['website'];
 //            if($v['file']!='')$data['file'] = $v['file'];
-            $data['status'] = '1';
+            $data['status'] = '2';
             $data['cuid'] = $this->dspId;
             $data['ctime'] = date("Y-m-d H:i:s", time());
 
@@ -246,6 +246,12 @@ class AdvertiserController extends CommonController {
             $this->stop();
         }
         $result = $Advertiser->where(" idBuyer='" . $this->dspId . "' and idBuyerAdvertiser in (" . $str_advertiserIds . ")")->select();
+        if (empty($result)) {
+            $this->response['status'] = '2';
+            $this->response['errors']['code'] = '1001';
+            $this->response['errors']['message'] = 'Non-existent';
+            $this->stop();
+        }
         foreach ($result as $k => $v) {
 
             $status = $this->getNewStatus($v['status']);
